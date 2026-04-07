@@ -16,6 +16,7 @@ import {
   type PriceEstimate,
   type RoofSegmentInput,
 } from "@/lib/pricingEngine";
+import { generateRoofReport } from "@/lib/generateReport";
 
 type PageState = "input" | "loading" | "results" | "error";
 
@@ -565,15 +566,29 @@ function ResultsFunnel({
             </div>
           </section>
 
-          {/* Download PDF (placeholder) */}
+          {/* Download PDF */}
           <section className="bg-white py-12 md:py-16">
             <div className="max-w-xl mx-auto px-4 text-center">
               <button
-                onClick={() =>
-                  alert(
-                    "PDF report generation coming soon! We'll email your report within 24 hours."
-                  )
-                }
+                onClick={() => {
+                  if (!analysis || !pricing) return;
+                  generateRoofReport({
+                    customerName: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    address,
+                    analysis,
+                    pricing,
+                    hasSolarPanels:
+                      solarAnswer === "yes"
+                        ? true
+                        : solarAnswer === "no"
+                          ? false
+                          : "unknown",
+                    solarPanelCount: activePanelCount,
+                    couponCode,
+                  });
+                }}
                 className="inline-flex items-center gap-3 bg-navy text-white font-bold text-base px-8 py-4 rounded-xl hover:bg-navy-dark transition-colors cta-press cursor-pointer shadow-lg"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
