@@ -102,6 +102,16 @@ const reviews = [
     name: "Robert & Linda K.",
     city: "Madera",
   },
+  {
+    text: "Home Energy replaced all our windows and the difference in our energy bill was immediate. From the estimate to install, everything was smooth and professional.",
+    name: "David R.",
+    city: "Madera",
+  },
+  {
+    text: "We needed a new patio cover and they delivered beyond expectations. The alumawood looks incredible and we basically live outside now. Great financing options too.",
+    name: "Angela M.",
+    city: "Clovis",
+  },
 ];
 
 /* ─── Google "G" icon ─── */
@@ -214,7 +224,7 @@ export default function HomePage() {
               alt="Owens Corning Preferred Contractor"
               width={180}
               height={55}
-              className="h-[50px] md:h-[55px] w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100"
+              className="h-[50px] md:h-[55px] w-auto opacity-85"
             />
             {/* BBB */}
             <Image
@@ -222,10 +232,10 @@ export default function HomePage() {
               alt="BBB A+ Accredited Business"
               width={180}
               height={55}
-              className="h-[50px] md:h-[55px] w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100"
+              className="h-[50px] md:h-[55px] w-auto opacity-85"
             />
             {/* CA Licensed */}
-            <div className="flex items-center gap-2 opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex items-center gap-2 opacity-85">
               <svg className="w-7 h-7 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
@@ -240,10 +250,10 @@ export default function HomePage() {
               alt="Anlin Certified Partner"
               width={180}
               height={55}
-              className="h-[50px] md:h-[55px] w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100"
+              className="h-[50px] md:h-[55px] w-auto opacity-85"
             />
             {/* Financing Available */}
-            <div className="flex items-center gap-2 opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex items-center gap-2 opacity-85">
               <svg className="w-7 h-7 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -297,12 +307,23 @@ export default function HomePage() {
               title="Insulation"
               description="Upgraded insulation solutions that keep your home comfortable and your energy bills low."
               gradientPlaceholder
+              decorativeIcon={
+                <svg className="w-28 h-28" fill="none" stroke="currentColor" strokeWidth="0.8" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  <path strokeLinecap="round" d="M7 14h2M7 17h2M15 14h2M15 17h2" />
+                </svg>
+              }
             />
             <ServiceCard
               icon={icons.paint}
               title="Paint"
               description="Lifetime Plus exterior coating that protects and beautifies your home for decades."
               gradientPlaceholder
+              decorativeIcon={
+                <svg className="w-28 h-28" fill="none" stroke="currentColor" strokeWidth="0.8" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
+                </svg>
+              }
             />
           </div>
         </div>
@@ -327,30 +348,17 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Overlapping photos with accent */}
-            <div className="relative h-80 md:h-96">
-              {/* Portrait — tall, left side */}
-              <div className="absolute top-0 left-0 w-[55%] h-full rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl z-10">
-                <Image
-                  src="/images/about/contractor-portrait.png"
-                  alt="Home Energy Construction contractor"
-                  fill
-                  sizes="(max-width: 768px) 55vw, 28vw"
-                  className="object-cover"
-                />
-              </div>
-              {/* Team — overlapping bottom-right */}
-              <div className="absolute bottom-0 right-0 w-[55%] h-[70%] rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl z-20">
-                <Image
-                  src="/images/about/team-photo.png"
-                  alt="Home Energy Construction team"
-                  fill
-                  sizes="(max-width: 768px) 55vw, 28vw"
-                  className="object-cover"
-                />
-              </div>
+            {/* Team photo */}
+            <div className="relative h-80 md:h-96 rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl">
+              <Image
+                src="/images/about/team-photo.png"
+                alt="Home Energy Construction team"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
               {/* Orange glow behind */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-orange/15 rounded-full blur-[60px] pointer-events-none" />
+              <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-orange/20 rounded-full blur-[60px] pointer-events-none" />
             </div>
           </div>
 
@@ -403,6 +411,22 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          {/* Energy savings stat bar */}
+          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 bg-navy-light/40 rounded-2xl p-8">
+            {[
+              { value: "30%", label: "Up to energy savings" },
+              { value: "9%", label: "Increase in home value" },
+              { value: "100s", label: "Of homes upgraded" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-orange text-3xl sm:text-4xl font-extrabold mb-1">
+                  {stat.value}
+                </div>
+                <div className="text-white/60 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </Section>
 
@@ -436,19 +460,20 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 6. FINANCING ════════════════ */}
-      <Section className="py-24 md:py-32 bg-gradient-to-br from-orange to-orange-dark">
+      <Section className="relative py-24 md:py-32 bg-navy noise-overlay">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-dark">
+              <SectionLabel>Financing</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
                 A New Roof Shouldn&apos;t Break the Bank
               </h2>
-              <p className="text-navy-dark/70 text-lg mt-4">
+              <p className="text-gray-300 text-lg mt-4">
                 We offer multiple financing options so every family can afford
                 the upgrades they need.
               </p>
             </div>
-            <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl">
               <Image
                 src="/images/about/happy-homeowners.png"
                 alt="Happy homeowners in front of their newly upgraded home"
@@ -456,6 +481,7 @@ export default function HomePage() {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-orange/20 rounded-full blur-[40px] pointer-events-none" />
             </div>
           </div>
 
@@ -465,32 +491,44 @@ export default function HomePage() {
                 title: "$0 Down",
                 desc: "Get started with nothing out of pocket",
                 popular: true,
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 013 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 013 6v3" />
+                  </svg>
+                ),
               },
               {
                 title: "Deferred Payments",
                 desc: "Enjoy now, pay later — up to 18 months",
                 popular: false,
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                  </svg>
+                ),
               },
               {
                 title: "Low Monthly",
                 desc: "Payments starting at $189/mo",
                 popular: false,
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898M2.25 6l3 3m-3-3h3m-3 0V3" />
+                  </svg>
+                ),
               },
             ].map((plan) => (
               <div
                 key={plan.title}
-                className="relative bg-white rounded-2xl p-8 text-center shadow-xl"
+                className="relative bg-white rounded-2xl p-8 border-l-[3px] border-l-orange shadow-lg"
               >
                 {plan.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy-dark text-white text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full">
+                  <span className="absolute -top-3 left-6 bg-orange text-white text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full">
                     Most Popular
                   </span>
                 )}
-                {/* Orange checkmark */}
-                <div className="w-10 h-10 rounded-full bg-orange/10 flex items-center justify-center text-orange mx-auto mb-4">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
+                <div className="w-14 h-14 rounded-xl bg-orange/10 flex items-center justify-center text-orange mb-4">
+                  {plan.icon}
                 </div>
                 <h3 className="text-xl font-bold text-navy mb-2">
                   {plan.title}
@@ -501,10 +539,10 @@ export default function HomePage() {
           </div>
 
           <div className="text-center">
-            <CTAButton variant="navy" href="#estimate">
+            <CTAButton href="#estimate">
               See If You Qualify
             </CTAButton>
-            <p className="text-navy-dark/60 text-sm mt-3">
+            <p className="text-gray-400 text-sm mt-3">
               Checking rates won&apos;t affect your credit score
             </p>
           </div>
@@ -534,15 +572,18 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex gap-6 overflow-x-auto scroll-row pb-4 -mx-4 px-4">
-            {reviews.map((r) => (
-              <ReviewCard
-                key={r.name}
-                text={r.text}
-                name={r.name}
-                city={r.city}
-              />
-            ))}
+          <div className="overflow-hidden -mx-4 px-4">
+            <div className="flex gap-6 reviews-carousel w-max">
+              {/* Render reviews twice for seamless loop */}
+              {[...reviews, ...reviews].map((r, i) => (
+                <ReviewCard
+                  key={`${r.name}-${i}`}
+                  text={r.text}
+                  name={r.name}
+                  city={r.city}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </Section>
@@ -640,7 +681,7 @@ export default function HomePage() {
                 className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
               >
                 <option value="" disabled>
-                  Service Needed
+                  Select a service...
                 </option>
                 <option>Roofing</option>
                 <option>HVAC</option>
@@ -656,7 +697,7 @@ export default function HomePage() {
                 className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
               >
                 <option value="" disabled>
-                  Financing Interest
+                  Interested in financing?
                 </option>
                 <option>Yes — $0 Down</option>
                 <option>Yes — Low Monthly Payments</option>

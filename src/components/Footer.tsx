@@ -32,7 +32,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Company info */}
           <div>
-            <Logo className="mb-5" height={36} />
+            <Logo className="mb-5" height={44} />
             <p className="text-white/60 text-sm leading-relaxed mb-4">
               Fresno&apos;s trusted home improvement contractor. Specializing in
               roofing, HVAC, windows, and outdoor living with over 20 years of

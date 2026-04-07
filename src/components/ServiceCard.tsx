@@ -7,6 +7,7 @@ interface ServiceCardProps {
   href?: string;
   image?: string;
   gradientPlaceholder?: boolean;
+  decorativeIcon?: React.ReactNode;
 }
 
 export default function ServiceCard({
@@ -16,6 +17,7 @@ export default function ServiceCard({
   href = "#",
   image,
   gradientPlaceholder,
+  decorativeIcon,
 }: ServiceCardProps) {
   return (
     <a
@@ -34,10 +36,17 @@ export default function ServiceCard({
           <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/40 to-transparent" />
         </div>
       ) : gradientPlaceholder ? (
-        <div className="relative h-48 w-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
-          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center text-orange/80">
-            <div className="scale-[2]">{icon}</div>
-          </div>
+        <div className="relative h-48 w-full bg-gradient-to-br from-navy via-navy to-navy-light flex items-center justify-center overflow-hidden">
+          {/* Large decorative icon */}
+          {decorativeIcon ? (
+            <div className="text-orange/15">{decorativeIcon}</div>
+          ) : (
+            <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center text-orange/80">
+              <div className="scale-[2]">{icon}</div>
+            </div>
+          )}
+          {/* Subtle gradient sheen */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-white/[0.06]" />
         </div>
       ) : null}
       <div className="p-8">
