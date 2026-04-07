@@ -42,7 +42,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-[72px]">
             {/* Logo */}
             <a href="/" className="flex-shrink-0">
-              <Logo dark />
+              <Logo height={40} />
             </a>
 
             {/* Desktop nav links */}
