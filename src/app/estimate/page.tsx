@@ -173,12 +173,10 @@ export default function EstimatePage() {
             <p className="text-white font-semibold text-lg">{address}</p>
             {analysis && (
               <p className="text-white/50 text-sm mt-2">
-                {analysis.segmentCount} roof segments detected · Color-coded by sun exposure direction · Tap segments for details
-              </p>
-            )}
-            {solarData?.imageryDate && (
-              <p className="text-white/40 text-xs mt-1">
-                Imagery from {solarData.imageryDate.month}/{solarData.imageryDate.year}
+                {analysis.segmentCount} roof segments detected
+                {solarData?.imageryDate
+                  ? ` · Satellite imagery from ${solarData.imageryDate.month}/${solarData.imageryDate.year}`
+                  : ""}
               </p>
             )}
           </div>

@@ -7,10 +7,19 @@ interface SatelliteMapProps {
   lng: number;
 }
 
+const MARKER_SVG = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="20" fill="#F5A623" stroke="#fff" stroke-width="3" />
+  <path d="M24 14l8 6v10H16V20l8-6z" fill="#fff"/>
+  <rect x="21" y="25" width="6" height="5" rx="0.5" fill="#F5A623"/>
+</svg>
+`)}`;
+
 export default function SatelliteMap({ lat, lng }: SatelliteMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
-  const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const markerRef = useRef<any>(null);
   const [isSatellite, setIsSatellite] = useState(true);
 
   useEffect(() => {
@@ -19,6 +28,9 @@ export default function SatelliteMap({ lat, lng }: SatelliteMapProps) {
 
     if (mapRef.current) {
       mapRef.current.setCenter({ lat, lng });
+      if (markerRef.current?.setPosition) {
+        markerRef.current.setPosition({ lat, lng });
+      }
       return;
     }
 
@@ -28,29 +40,22 @@ export default function SatelliteMap({ lat, lng }: SatelliteMapProps) {
       mapTypeId: "satellite",
       disableDefaultUI: true,
       gestureHandling: "cooperative",
-      mapId: "roof-analysis",
     });
     mapRef.current = map;
 
-    // Pulsing marker
-    const pin = document.createElement("div");
-    pin.innerHTML = `
-      <div style="position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center">
-        <div style="position:absolute;inset:0;border-radius:50%;background:rgba(245,166,35,0.25);animation:markerPulse 2s ease-out infinite"></div>
-        <div style="width:16px;height:16px;border-radius:50%;background:#F5A623;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.3);position:relative;z-index:1"></div>
-      </div>
-    `;
-
-    if (google.maps.marker?.AdvancedMarkerElement) {
-      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
-        map,
-        position: { lat, lng },
-        content: pin,
-      });
-    }
+    // Standard marker with custom orange house icon
+    markerRef.current = new google.maps.Marker({
+      map,
+      position: { lat, lng },
+      icon: {
+        url: MARKER_SVG,
+        scaledSize: new google.maps.Size(48, 48),
+        anchor: new google.maps.Point(24, 24),
+      },
+      title: "Your home",
+    });
   }, [lat, lng]);
 
-  // Toggle map type
   useEffect(() => {
     mapRef.current?.setMapTypeId(isSatellite ? "satellite" : "roadmap");
   }, [isSatellite]);
@@ -61,22 +66,12 @@ export default function SatelliteMap({ lat, lng }: SatelliteMapProps) {
         ref={containerRef}
         className="w-full h-[350px] md:h-[500px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
       />
-
-      {/* Map type toggle */}
       <button
         onClick={() => setIsSatellite((v) => !v)}
         className="absolute top-3 right-3 z-10 bg-navy/90 text-white text-xs font-semibold px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/15 hover:bg-navy transition-colors cursor-pointer"
       >
         {isSatellite ? "Map" : "Satellite"}
       </button>
-
-      {/* Pulse keyframe */}
-      <style>{`
-        @keyframes markerPulse {
-          0% { transform: scale(0.8); opacity: 1; }
-          100% { transform: scale(2.2); opacity: 0; }
-        }
-      `}</style>
     </div>
   );
 }
