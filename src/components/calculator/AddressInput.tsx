@@ -31,7 +31,7 @@ export default function AddressInput({ onSelect, loading }: AddressInputProps) {
     window.initGooglePlaces = () => setReady(true);
 
     const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCE6KM3DxgCo3eEEQm7JPgBqa1bvdmjLq8&libraries=places&callback=initGooglePlaces`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCE6KM3DxgCo3eEEQm7JPgBqa1bvdmjLq8&libraries=places,maps&callback=initGooglePlaces`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);

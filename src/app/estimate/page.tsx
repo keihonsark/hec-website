@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import AddressInput from "@/components/calculator/AddressInput";
 import LoadingAnimation from "@/components/calculator/LoadingAnimation";
+import SatelliteMap from "@/components/calculator/SatelliteMap";
 import RoofAnalysisCard from "@/components/calculator/RoofAnalysis";
 import EstimateCard from "@/components/calculator/EstimateCard";
 import SectionLabel from "@/components/SectionLabel";
@@ -159,14 +160,7 @@ export default function EstimatePage() {
       {/* Section A — Satellite Map */}
       <section className="bg-navy-dark pt-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative w-full aspect-[16/9] md:aspect-[2.2/1] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`https://maps.googleapis.com/maps/api/staticmap?center=${coords.lat},${coords.lng}&zoom=20&size=1200x500&maptype=satellite&markers=color:orange%7C${coords.lat},${coords.lng}&key=AIzaSyCE6KM3DxgCo3eEEQm7JPgBqa1bvdmjLq8`}
-              alt={`Satellite view of ${address}`}
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <SatelliteMap lat={coords.lat} lng={coords.lng} />
           <div className="text-center mt-4 pb-8">
             <p className="text-white font-semibold text-lg">{address}</p>
             {solarData?.imageryDate && (

@@ -1,6 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+function LoadingMap({ lat, lng }: { lat: number; lng: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current || !window.google?.maps) return;
+    new window.google.maps.Map(ref.current, {
+      center: { lat, lng },
+      zoom: 19,
+      mapTypeId: "satellite",
+      disableDefaultUI: true,
+      gestureHandling: "none",
+    });
+  }, [lat, lng]);
+
+  return <div ref={ref} className="w-full h-full" />;
+}
 
 const steps = [
   "Locating your property...",
@@ -39,19 +55,12 @@ export default function LoadingAnimation({
     return () => clearTimeout(timeout);
   }, []);
 
-  const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=19&size=600x400&maptype=satellite&key=AIzaSyCE6KM3DxgCo3eEEQm7JPgBqa1bvdmjLq8`;
-
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-navy-dark">
       <div className="max-w-2xl mx-auto px-4 text-center">
-        {/* Satellite map with scanning effect */}
+        {/* Satellite map placeholder with scanning effect */}
         <div className="relative w-full max-w-md mx-auto aspect-[3/2] rounded-2xl overflow-hidden mb-10 shadow-2xl border border-white/10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={mapUrl}
-            alt={`Satellite view of ${address}`}
-            className="w-full h-full object-cover"
-          />
+          <LoadingMap lat={lat} lng={lng} />
           {/* Scanning line animation */}
           <div
             className="absolute inset-0 pointer-events-none"
