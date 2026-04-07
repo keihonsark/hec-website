@@ -79,7 +79,6 @@ export default function Footer() {
                   key={badge}
                   className="text-white/40 text-xs font-semibold uppercase tracking-wider"
                 >
-                  {/* REPLACE: trust badge logos */}
                   {badge}
                 </div>
               )

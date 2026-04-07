@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
 import ServiceCard from "@/components/ServiceCard";
@@ -182,11 +183,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Hero image placeholder */}
-            <div className="hidden md:block">
-              {/* REPLACE: hero-home.png */}
-              <div className="w-full aspect-[4/3] bg-navy-light/60 rounded-2xl flex items-center justify-center text-white/30 text-lg border border-white/5">
-                HERO IMAGE
+            {/* Hero image */}
+            <div className="hidden md:block relative">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/hero/hero-home.png"
+                  alt="Home Energy Construction — premium roofing and home improvement in Fresno, CA"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
               </div>
             </div>
           </div>
@@ -267,21 +274,25 @@ export default function HomePage() {
               icon={icons.roofing}
               title="Roofing"
               description="Full roof replacements and repairs with Owens Corning certified materials and lifetime warranties."
+              image="/images/roofing/roofing-crew.png"
             />
             <ServiceCard
               icon={icons.hvac}
               title="HVAC"
               description="Energy-efficient heating and cooling systems built to handle Central Valley's extreme temperatures."
+              image="/images/hvac/hvac-unit.png"
             />
             <ServiceCard
               icon={icons.windows}
               title="Windows & Doors"
               description="Premium Anlin windows and doors that reduce energy costs and enhance curb appeal."
+              image="/images/windows/windows-interior.png"
             />
             <ServiceCard
               icon={icons.outdoor}
               title="Outdoor Living"
               description="Custom patios, pergolas, and gazebos that transform your backyard into a year-round retreat."
+              image="/images/outdoor/outdoor-patio.png"
             />
             <ServiceCard
               icon={icons.insulation}
@@ -300,11 +311,38 @@ export default function HomePage() {
       {/* ════════════════ 4. WHY US ════════════════ */}
       <Section className="py-20 md:py-28 bg-navy">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <SectionLabel>Why Home Energy</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-              20+ Years of Protecting Central Valley Homes
-            </h2>
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+            <div>
+              <SectionLabel>Why Home Energy</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-6">
+                20+ Years of Protecting Central Valley Homes
+              </h2>
+              <p className="text-gray-300 text-[15px] leading-relaxed">
+                We&apos;re not a franchise or a faceless corporation. Home Energy
+                Construction is a locally owned team that treats every project
+                like it&apos;s our own home.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="relative h-64 rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/about/contractor-portrait.png"
+                  alt="Home Energy Construction contractor"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative h-64 rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/about/team-photo.png"
+                  alt="Home Energy Construction team"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -365,14 +403,18 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 gap-10">
             <BeforeAfter
-              beforeLabel="BEFORE 1"
-              afterLabel="AFTER 1"
+              beforeLabel="Before"
+              afterLabel="After"
               caption="Complete roof replacement — Fresno, CA"
+              beforeImage="/images/before-after/before-roof-1.png"
+              afterImage="/images/before-after/after-roof-1.png"
             />
             <BeforeAfter
-              beforeLabel="BEFORE 2"
-              afterLabel="AFTER 2"
-              caption="Patio cover installation — Clovis, CA"
+              beforeLabel="Before"
+              afterLabel="After"
+              caption="Full roof restoration — Clovis, CA"
+              beforeImage="/images/before-after/before-roof-2.png"
+              afterImage="/images/before-after/after-roof-2.png"
             />
           </div>
         </div>
@@ -381,14 +423,25 @@ export default function HomePage() {
       {/* ════════════════ 6. FINANCING ════════════════ */}
       <Section className="py-20 md:py-28 bg-gradient-to-br from-orange to-orange-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-dark">
-              A New Roof Shouldn&apos;t Break the Bank
-            </h2>
-            <p className="text-navy-dark/70 text-lg mt-4">
-              We offer multiple financing options so every family can afford the
-              upgrades they need.
-            </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-14">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-dark">
+                A New Roof Shouldn&apos;t Break the Bank
+              </h2>
+              <p className="text-navy-dark/70 text-lg mt-4">
+                We offer multiple financing options so every family can afford
+                the upgrades they need.
+              </p>
+            </div>
+            <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src="/images/about/happy-homeowners.png"
+                alt="Happy homeowners in front of their newly upgraded home"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-6 mb-10">
