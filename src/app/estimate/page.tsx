@@ -162,6 +162,18 @@ export default function EstimatePage() {
     );
   }
 
+  /* Store detailed data for CRM / PDF report */
+  if (typeof window !== "undefined" && analysis && pricing) {
+    try {
+      localStorage.setItem(
+        "hec_roof_report",
+        JSON.stringify({ address, coords, analysis, pricing, solarData })
+      );
+    } catch {
+      /* localStorage may be unavailable */
+    }
+  }
+
   /* ════════ RESULTS STATE ════════ */
   return (
     <>
@@ -195,8 +207,26 @@ export default function EstimatePage() {
         </div>
       </section>
 
-      {/* Section C — Cost Estimate */}
-      <section className="relative bg-navy noise-overlay py-16 md:py-24">
+      {/* Your Estimated Roof Size — hero stat */}
+      {analysis && (
+        <section className="relative bg-navy noise-overlay py-16 md:py-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
+              Your Estimated Roof Size
+            </h2>
+            <div className="text-orange text-6xl sm:text-7xl lg:text-[80px] font-extrabold leading-none mb-3">
+              {analysis.totalRoofAreaSqFt.toLocaleString()}
+              <span className="text-3xl sm:text-4xl text-white/60 ml-2">sq ft</span>
+            </div>
+            <p className="text-white/50 text-sm">
+              Based on satellite analysis of your property
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Cost Estimate */}
+      <section className="relative bg-navy-dark noise-overlay py-16 md:py-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <SectionLabel>Your Estimate</SectionLabel>
@@ -208,83 +238,21 @@ export default function EstimatePage() {
           {pricing && <EstimateCard estimate={pricing} />}
 
           <p className="text-white/40 text-xs text-center mt-8 max-w-2xl mx-auto">
-            * Estimates based on satellite roof measurements. Actual cost
-            determined by free in-person inspection. Pricing includes
-            materials, labor, permits, and cleanup.
+            * Estimate based on satellite data. Final cost determined by free
+            in-person inspection.
           </p>
         </div>
       </section>
 
-      {/* Section D — Materials Breakdown */}
-      {analysis && (
-        <section className="bg-white py-16 md:py-24">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10">
-              <SectionLabel>Details</SectionLabel>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-navy">
-                Materials Estimate
-              </h2>
-              <p className="text-gray-text text-sm mt-2">
-                Based on Owens Corning Duration architectural shingles
-              </p>
-            </div>
-
-            {/* Roof measurements */}
-            <h4 className="text-navy font-bold text-sm uppercase tracking-wider mb-3">
-              Roof Measurements
-            </h4>
-            <div className="grid sm:grid-cols-2 gap-3 mb-8">
-              {[
-                { label: "Roofing squares (before waste)", value: `${analysis.roofingSquares} sq` },
-                { label: `Waste factor — ${analysis.complexity} roof`, value: `${Math.round(analysis.wasteFactor * 100)}%` },
-                { label: "Total squares with waste", value: `${analysis.totalSquaresWithWaste} sq` },
-                { label: "Ridge", value: `${analysis.estimatedRidgeFt} lin ft` },
-                ...(analysis.estimatedHipFt > 0 ? [{ label: "Hip", value: `${analysis.estimatedHipFt} lin ft` }] : []),
-                ...(analysis.estimatedValleyFt > 0 ? [{ label: "Valley", value: `${analysis.estimatedValleyFt} lin ft` }] : []),
-                { label: "Eave", value: `${analysis.estimatedEaveFt} lin ft` },
-                { label: "Rake", value: `${analysis.estimatedRakeFt} lin ft` },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between py-3 px-4 bg-light-bg rounded-xl">
-                  <span className="text-gray-text text-sm">{item.label}</span>
-                  <span className="text-navy font-semibold text-sm">{item.value}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Material quantities */}
-            <h4 className="text-navy font-bold text-sm uppercase tracking-wider mb-3">
-              Estimated Material Quantities
-            </h4>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {[
-                { label: "Shingle bundles (OC Duration)", value: `${analysis.shingleBundles} bundles`, note: "3 bundles/square" },
-                { label: "Starter strip bundles", value: `${analysis.starterStripBundles} bundles`, note: "105 ft/bundle" },
-                { label: "Hip & ridge cap bundles", value: `${analysis.hipRidgeBundles} bundles`, note: "20 ft/bundle" },
-                { label: "Synthetic underlayment rolls", value: `${analysis.underlaymentRolls} rolls`, note: "~1,000 sq ft/roll" },
-                { label: "Drip edge sections", value: `${analysis.dripEdgeSections} pcs`, note: "10 ft sections" },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between py-3 px-4 bg-light-bg rounded-xl">
-                  <div>
-                    <span className="text-gray-text text-sm">{item.label}</span>
-                    <span className="text-gray-text/50 text-xs ml-1.5">({item.note})</span>
-                  </div>
-                  <span className="text-navy font-semibold text-sm">{item.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Section E — Lead Capture */}
+      {/* Lead Capture */}
       <section className="relative py-16 md:py-24 overflow-hidden bg-gradient-to-br from-orange to-orange-dark">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-dark mb-3">
-            Want Your Detailed Roof Report?
+            Get Your Detailed Roof Report + $500 Off
           </h2>
           <p className="text-navy-dark/70 text-lg mb-8 max-w-xl mx-auto">
-            Get a PDF with your complete roof analysis, material
-            recommendations, and financing options — plus $500 off your
+            Enter your info to receive a complete analysis with material
+            recommendations, financing options, and a $500 coupon for your
             project.
           </p>
 
@@ -311,17 +279,16 @@ export default function EstimatePage() {
               type="submit"
               className="sm:col-span-2 w-full bg-navy-dark text-white font-bold text-lg py-4 rounded-xl hover:bg-navy transition-colors cta-press cursor-pointer"
             >
-              DOWNLOAD REPORT + GET $500 OFF →
+              GET MY REPORT + $500 OFF →
             </button>
           </form>
           <p className="text-navy-dark/50 text-sm mt-4">
-            We&apos;ll also call you within 1 hour to schedule your free
-            inspection.
+            We&apos;ll call within 1 hour to schedule your free inspection.
           </p>
         </div>
       </section>
 
-      {/* Section F — CTA */}
+      {/* CTA */}
       <section className="relative py-20 md:py-28 bg-navy-dark noise-overlay">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
