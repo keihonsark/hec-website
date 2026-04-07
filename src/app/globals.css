@@ -26,11 +26,11 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), system-ui, sans-serif;
 }
 
-/* Fade-in animation for scroll reveal */
+/* ─── Scroll reveal ─── */
 .fade-in-section {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fade-in-section.visible {
@@ -38,12 +38,12 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0);
 }
 
-/* CTA button active state */
+/* ─── CTA button active state ─── */
 .cta-press:active {
   transform: scale(0.98);
 }
 
-/* Service card hover lift */
+/* ─── Service card hover lift ─── */
 .card-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -53,17 +53,17 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 12px 32px rgba(27, 45, 79, 0.12);
 }
 
-/* Counter animation */
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ─── Hero glassmorphism float ─── */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
-.count-up {
-  animation: countUp 0.6s ease-out forwards;
+.hero-glass-float {
+  animation: heroFloat 6s ease-in-out infinite;
 }
 
-/* Horizontal scroll for reviews */
+/* ─── Horizontal scroll (reviews) ─── */
 .scroll-row {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-/* Mobile sticky CTA transition */
+/* ─── Mobile sticky CTA ─── */
 .mobile-cta-bar {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -81,4 +81,22 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-cta-bar.hidden {
   transform: translateY(100%);
   opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Noise texture overlay for dark sections ─── */
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.noise-overlay > * {
+  position: relative;
+  z-index: 2;
 }

@@ -21,7 +21,7 @@ function useScrollReveal() {
           observer.unobserve(el);
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -46,7 +46,7 @@ function Section({
   );
 }
 
-/* ─── Service icon SVGs ─── */
+/* ─── Inline SVG icons for services ─── */
 const icons = {
   roofing: (
     <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -104,11 +104,66 @@ const reviews = [
   },
 ];
 
+/* ─── Google "G" icon ─── */
+function GoogleG({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+    </svg>
+  );
+}
+
+/* ─── Trust badge SVGs for hero ─── */
+function OwensCorningBadgeSVG() {
+  return (
+    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2.5">
+      <svg className="w-5 h-5 text-orange flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+      <div className="leading-tight">
+        <div className="text-white text-[10px] font-bold uppercase tracking-wider">Owens Corning</div>
+        <div className="text-white/50 text-[9px] uppercase tracking-wider">Preferred Contractor</div>
+      </div>
+    </div>
+  );
+}
+
+function BBBBadgeSVG() {
+  return (
+    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2.5">
+      <svg className="w-6 h-6 flex-shrink-0" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2l3 2 3-1v4l3 2-2 3 2 3-3 2v4l-3-1-3 2-3-2-3 1v-4l-3-2 2-3-2-3 3-2V3l3 1 3-2z" fill="#F5A623" />
+        <text x="12" y="14" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="system-ui">A+</text>
+      </svg>
+      <div className="leading-tight">
+        <div className="text-white text-[10px] font-bold uppercase tracking-wider">BBB</div>
+        <div className="text-white/50 text-[9px] uppercase tracking-wider">A+ Accredited</div>
+      </div>
+    </div>
+  );
+}
+
+function AnlinBadgeSVG() {
+  return (
+    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2.5">
+      <svg className="w-5 h-5 text-orange flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75zM12 3.75v16.5M3.75 12h16.5" />
+      </svg>
+      <div className="leading-tight">
+        <div className="text-white text-[10px] font-bold uppercase tracking-wider">Anlin</div>
+        <div className="text-white/50 text-[9px] uppercase tracking-wider">Certified Partner</div>
+      </div>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════
    HOMEPAGE
    ═══════════════════════════════════════════ */
 export default function HomePage() {
-  /* Mobile sticky CTA: hide when footer visible */
   const footerSentinel = useRef<HTMLDivElement>(null);
   const mobileCta = useRef<HTMLDivElement>(null);
 
@@ -128,130 +183,130 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ════════════════ 1. HERO ════════════════ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-navy-dark via-navy to-navy-light">
-        {/* Orange radial glow */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange/5 rounded-full blur-[120px] pointer-events-none" />
+      {/* ════════════════ 1. HERO — Full-bleed background ════════════════ */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        {/* Background image */}
+        <Image
+          src="/images/hero/hero-home.png"
+          alt="Home Energy Construction — premium roofing and home improvement in Fresno, CA"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
+        {/* Dark gradient overlay — left darker for text, right lets image through */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-navy-dark/40" />
+        {/* Orange radial glow top-right */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange/8 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              {/* Review badge */}
-              <div className="inline-flex items-center gap-2 border border-orange/40 rounded-full px-4 py-1.5 mb-7">
-                <span className="text-sm">⭐</span>
-                <span className="text-white/90 text-sm font-medium">
-                  4.7 Stars · 228+ Google Reviews
-                </span>
-              </div>
-
-              {/* Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.1] mb-6">
-                Fresno&apos;s Trusted Home{" "}
-                <span className="text-orange">Upgrade</span> Experts.
-              </h1>
-
-              {/* Subheadline */}
-              <p className="text-white/70 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg">
-                Roofing. HVAC. Windows. Outdoor Living. All with $0 down
-                financing.
-              </p>
-
-              {/* CTAs */}
-              <div className="flex flex-wrap gap-4 mb-10">
-                <CTAButton href="#estimate">Get Free Estimate</CTAButton>
-                <CTAButton variant="outline" href="tel:5597976081">
-                  Call (559) 797-6081
-                </CTAButton>
-              </div>
-
-              {/* Stats */}
-              <div className="flex gap-8">
-                {[
-                  { value: "20+", label: "Years" },
-                  { value: "A+", label: "BBB" },
-                  { value: "$0", label: "Down" },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center">
-                    <div className="text-orange text-2xl sm:text-3xl font-extrabold">
-                      {stat.value}
-                    </div>
-                    <div className="text-white/50 text-xs uppercase tracking-wider mt-1">
-                      {stat.label}
-                    </div>
-                  </div>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+          {/* Glassmorphism card */}
+          <div
+            className="hero-glass-float max-w-2xl rounded-3xl p-8 sm:p-10 md:p-12"
+            style={{
+              background: "rgba(15, 29, 51, 0.85)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+            }}
+          >
+            {/* Google review badge */}
+            <div className="inline-flex items-center gap-2.5 bg-white/10 border border-white/15 rounded-full px-4 py-2 mb-8">
+              <GoogleG className="w-5 h-5" />
+              <span className="text-orange text-sm font-bold">4.7</span>
+              <span className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-3.5 h-3.5 text-orange" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
                 ))}
-              </div>
+              </span>
+              <span className="text-white/70 text-sm">228+ Reviews</span>
             </div>
 
-            {/* Hero image */}
-            <div className="hidden md:block relative">
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden">
-                <Image
-                  src="/images/hero/hero-home.png"
-                  alt="Home Energy Construction — premium roofing and home improvement in Fresno, CA"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover"
-                  priority
-                />
-              </div>
+            {/* Headline — 56px desktop, 36px mobile */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.08] mb-6">
+              Fresno&apos;s Trusted Home{" "}
+              <span className="text-orange">Upgrade</span> Experts.
+            </h1>
+
+            {/* Subheadline */}
+            <p className="text-white/65 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg">
+              Roofing. HVAC. Windows. Outdoor Living. All with $0 down
+              financing.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-4 mb-10">
+              <CTAButton href="#estimate">Get Free Estimate</CTAButton>
+              <CTAButton variant="outline" href="tel:5597976081">
+                Call (559) 797-6081
+              </CTAButton>
+            </div>
+
+            {/* Trust logo badges */}
+            <div className="flex flex-wrap gap-3">
+              <OwensCorningBadgeSVG />
+              <BBBBadgeSVG />
+              <AnlinBadgeSVG />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ════════════════ 2. TRUST BAR ════════════════ */}
-      <Section className="bg-light-bg py-6 border-y border-gray-100">
+      {/* ════════════════ 2. TRUST BAR — Styled badge bar ════════════════ */}
+      <Section className="bg-white py-7 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
             {[
               {
                 label: "Owens Corning Preferred",
                 icon: (
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ),
-              },
-              {
-                label: "Licensed & Bonded",
-                icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                   </svg>
                 ),
               },
               {
                 label: "BBB A+ Rated",
                 icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2l3 2 3-1v4l3 2-2 3 2 3-3 2v4l-3-1-3 2-3-2-3 1v-4l-3-2 2-3-2-3 3-2V3l3 1 3-2z" fill="currentColor" />
+                    <text x="12" y="14" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="system-ui">A+</text>
+                  </svg>
+                ),
+              },
+              {
+                label: "Licensed #1086515",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                  </svg>
+                ),
+              },
+              {
+                label: "Anlin Certified",
+                icon: (
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75zM12 3.75v16.5M3.75 12h16.5" />
                   </svg>
                 ),
               },
               {
                 label: "Financing Available",
                 icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-              },
-              {
-                label: "Anlin Window Partner",
-                icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75zM12 3.75v16.5" />
                   </svg>
                 ),
               },
             ].map((item) => (
               <div
                 key={item.label}
-                className="flex items-center gap-2 text-gray-text"
+                className="flex items-center gap-2.5 bg-light-bg border border-gray-100 rounded-xl px-4 py-2.5"
               >
                 <span className="text-orange">{item.icon}</span>
-                <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
+                <span className="text-navy text-sm font-semibold whitespace-nowrap">{item.label}</span>
               </div>
             ))}
           </div>
@@ -259,9 +314,9 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 3. SERVICES GRID ════════════════ */}
-      <Section className="py-20 md:py-28 bg-white">
+      <Section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="text-center max-w-2xl mx-auto mb-16">
             <SectionLabel>What We Do</SectionLabel>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
               Complete Home Improvement.{" "}
@@ -298,20 +353,23 @@ export default function HomePage() {
               icon={icons.insulation}
               title="Insulation"
               description="Upgraded insulation solutions that keep your home comfortable and your energy bills low."
+              gradientPlaceholder
             />
             <ServiceCard
               icon={icons.paint}
               title="Paint"
               description="Lifetime Plus exterior coating that protects and beautifies your home for decades."
+              gradientPlaceholder
             />
           </div>
         </div>
       </Section>
 
       {/* ════════════════ 4. WHY US ════════════════ */}
-      <Section className="py-20 md:py-28 bg-navy">
+      <Section className="relative py-24 md:py-32 bg-navy noise-overlay">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
+            {/* Text */}
             <div>
               <SectionLabel>Why Home Energy</SectionLabel>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-6">
@@ -320,38 +378,47 @@ export default function HomePage() {
               <p className="text-gray-300 text-[15px] leading-relaxed">
                 We&apos;re not a franchise or a faceless corporation. Home Energy
                 Construction is a locally owned team that treats every project
-                like it&apos;s our own home.
+                like it&apos;s our own home. From the first phone call to the
+                final walk-through, you&apos;ll work with people who live in
+                your community and stand behind every job.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="relative h-64 rounded-2xl overflow-hidden">
+
+            {/* Overlapping photos with accent */}
+            <div className="relative h-80 md:h-96">
+              {/* Portrait — tall, left side */}
+              <div className="absolute top-0 left-0 w-[55%] h-full rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl z-10">
                 <Image
                   src="/images/about/contractor-portrait.png"
                   alt="Home Energy Construction contractor"
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 768px) 55vw, 28vw"
                   className="object-cover"
                 />
               </div>
-              <div className="relative h-64 rounded-2xl overflow-hidden">
+              {/* Team — overlapping bottom-right */}
+              <div className="absolute bottom-0 right-0 w-[55%] h-[70%] rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl z-20">
                 <Image
                   src="/images/about/team-photo.png"
                   alt="Home Energy Construction team"
                   fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
+                  sizes="(max-width: 768px) 55vw, 28vw"
                   className="object-cover"
                 />
               </div>
+              {/* Orange glow behind */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-orange/15 rounded-full blur-[60px] pointer-events-none" />
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Feature cards with orange left border */}
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 title: "Premium Materials",
                 desc: "Owens Corning & Anlin certified — only the best products go on your home.",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                   </svg>
                 ),
@@ -360,7 +427,7 @@ export default function HomePage() {
                 title: "Built for Valley Heat",
                 desc: "Energy-efficient solutions engineered for 110° summers and year-round comfort.",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 6.75 6.75 0 0012 15.75a6.75 6.75 0 003.362-10.536z" />
                   </svg>
                 ),
@@ -369,22 +436,27 @@ export default function HomePage() {
                 title: "$0 Down Financing",
                 desc: "Multiple financing plans for every budget — because everyone deserves a better home.",
                 icon: (
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
                   </svg>
                 ),
               },
             ].map((item) => (
-              <div key={item.title} className="text-center px-4">
-                <div className="w-16 h-16 rounded-2xl bg-orange/10 flex items-center justify-center text-orange mx-auto mb-5">
+              <div
+                key={item.title}
+                className="bg-navy-light/50 border-l-4 border-l-orange rounded-xl p-6 flex gap-4 items-start"
+              >
+                <div className="w-12 h-12 rounded-xl bg-orange/10 flex items-center justify-center text-orange flex-shrink-0">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-gray-300 text-[15px] leading-relaxed">
-                  {item.desc}
-                </p>
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1.5">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -392,9 +464,9 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 5. BEFORE / AFTER ════════════════ */}
-      <Section className="py-20 md:py-28 bg-white">
+      <Section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
+          <div className="text-center max-w-2xl mx-auto mb-16">
             <SectionLabel>Real Results</SectionLabel>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
               See the Difference
@@ -421,9 +493,9 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 6. FINANCING ════════════════ */}
-      <Section className="py-20 md:py-28 bg-gradient-to-br from-orange to-orange-dark">
+      <Section className="py-24 md:py-32 bg-gradient-to-br from-orange to-orange-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-14">
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-dark">
                 A New Roof Shouldn&apos;t Break the Bank
@@ -433,7 +505,7 @@ export default function HomePage() {
                 the upgrades they need.
               </p>
             </div>
-            <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-2xl">
               <Image
                 src="/images/about/happy-homeowners.png"
                 alt="Happy homeowners in front of their newly upgraded home"
@@ -449,20 +521,34 @@ export default function HomePage() {
               {
                 title: "$0 Down",
                 desc: "Get started with nothing out of pocket",
+                popular: true,
               },
               {
                 title: "Deferred Payments",
                 desc: "Enjoy now, pay later — up to 18 months",
+                popular: false,
               },
               {
                 title: "Low Monthly",
                 desc: "Payments starting at $189/mo",
+                popular: false,
               },
             ].map((plan) => (
               <div
                 key={plan.title}
-                className="bg-white rounded-2xl p-8 text-center shadow-lg"
+                className="relative bg-white rounded-2xl p-8 text-center shadow-xl"
               >
+                {plan.popular && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-navy-dark text-white text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full">
+                    Most Popular
+                  </span>
+                )}
+                {/* Orange checkmark */}
+                <div className="w-10 h-10 rounded-full bg-orange/10 flex items-center justify-center text-orange mx-auto mb-4">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
                 <h3 className="text-xl font-bold text-navy mb-2">
                   {plan.title}
                 </h3>
@@ -475,21 +561,34 @@ export default function HomePage() {
             <CTAButton variant="navy" href="#estimate">
               See If You Qualify
             </CTAButton>
+            <p className="text-navy-dark/60 text-sm mt-3">
+              Checking rates won&apos;t affect your credit score
+            </p>
           </div>
         </div>
       </Section>
 
       {/* ════════════════ 7. REVIEWS ════════════════ */}
-      <Section className="py-20 md:py-28 bg-light-bg">
+      <Section className="py-24 md:py-32 bg-light-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-14">
             <SectionLabel>Real Reviews</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
               What Our Customers Say
             </h2>
-            <p className="text-gray-text mt-3">
-              4.7 stars across 228+ Google reviews
-            </p>
+            {/* Google rating block */}
+            <div className="inline-flex items-center gap-3 bg-white border border-gray-100 rounded-full px-5 py-2.5 shadow-sm">
+              <GoogleG className="w-6 h-6" />
+              <span className="text-navy font-bold text-lg">4.7</span>
+              <span className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-4 h-4 text-orange" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </span>
+              <span className="text-gray-text text-sm">228+ reviews</span>
+            </div>
           </div>
 
           <div className="flex gap-6 overflow-x-auto scroll-row pb-4 -mx-4 px-4">
@@ -506,12 +605,20 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 8. CTA BANNER ════════════════ */}
-      <Section className="py-20 md:py-24 bg-navy-dark">
+      <Section className="relative py-24 md:py-28 bg-navy-dark noise-overlay overflow-hidden">
+        {/* Subtle diagonal pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(245,166,35,0.3) 40px, rgba(245,166,35,0.3) 41px)",
+          }}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-5">
             Ready to Upgrade Your Home?
           </h2>
-          <p className="text-white/60 text-lg mb-8">
+          <p className="text-white/55 text-xl mb-10 max-w-xl mx-auto">
             $0 down. Free estimates. Flexible financing.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
@@ -525,85 +632,111 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ════════════════ 9. ESTIMATE FORM ════════════════ */}
-      <Section id="estimate" className="py-20 md:py-28 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <SectionLabel>Free Estimate</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
-              Get Your Free Estimate
-            </h2>
-            <p className="text-gray-text mt-3">
-              No obligation. No pressure. Just honest answers.
-            </p>
+      {/* ════════════════ 9. ESTIMATE FORM — Image background ════════════════ */}
+      <section id="estimate" className="relative py-24 md:py-32 overflow-hidden">
+        {/* Background image */}
+        <Image
+          src="/images/about/team-photo.png"
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-navy-dark/90" />
+
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Response badge */}
+          <div className="text-center mb-6">
+            <span className="inline-flex items-center gap-2 bg-orange/20 border border-orange/30 text-orange rounded-full px-5 py-2 text-sm font-semibold">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              We&apos;ll call you within the hour
+            </span>
           </div>
 
-          <form
-            className="grid sm:grid-cols-2 gap-5"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-            />
-            <input
-              type="tel"
-              placeholder="Phone"
-              className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-            />
-            <input
-              type="text"
-              placeholder="Address"
-              className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-            />
-            <select
-              defaultValue=""
-              className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
-            >
-              <option value="" disabled>
-                Service Needed
-              </option>
-              <option>Roofing</option>
-              <option>HVAC</option>
-              <option>Windows &amp; Doors</option>
-              <option>Outdoor Living</option>
-              <option>Insulation</option>
-              <option>Paint</option>
-              <option>Other</option>
-            </select>
-            <select
-              defaultValue=""
-              className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
-            >
-              <option value="" disabled>
-                Financing Interest
-              </option>
-              <option>Yes — $0 Down</option>
-              <option>Yes — Low Monthly Payments</option>
-              <option>Not Sure Yet</option>
-              <option>No — Paying Cash</option>
-            </select>
-
-            <div className="sm:col-span-2">
-              <button
-                type="submit"
-                className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer"
-              >
-                GET MY FREE ESTIMATE →
-              </button>
-              <p className="text-gray-text text-sm text-center mt-3">
+          {/* Form card */}
+          <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-2xl">
+            <div className="text-center mb-8">
+              <SectionLabel>Free Estimate</SectionLabel>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
+                Get Your Free Estimate
+              </h2>
+              <p className="text-gray-text mt-3">
                 No obligation. No pressure. Just honest answers.
               </p>
             </div>
-          </form>
+
+            <form
+              className="grid sm:grid-cols-2 gap-5"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
+              />
+              <input
+                type="tel"
+                placeholder="Phone"
+                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
+              />
+              <input
+                type="text"
+                placeholder="Address"
+                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
+              />
+              <select
+                defaultValue=""
+                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
+              >
+                <option value="" disabled>
+                  Service Needed
+                </option>
+                <option>Roofing</option>
+                <option>HVAC</option>
+                <option>Windows &amp; Doors</option>
+                <option>Outdoor Living</option>
+                <option>Insulation</option>
+                <option>Paint</option>
+                <option>Multiple Services</option>
+                <option>Not Sure</option>
+              </select>
+              <select
+                defaultValue=""
+                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
+              >
+                <option value="" disabled>
+                  Financing Interest
+                </option>
+                <option>Yes — $0 Down</option>
+                <option>Yes — Low Monthly Payments</option>
+                <option>Yes — Deferred Payments</option>
+                <option>Not Sure Yet</option>
+                <option>No — Paying Cash</option>
+              </select>
+
+              <div className="sm:col-span-2">
+                <button
+                  type="submit"
+                  className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer"
+                >
+                  GET MY FREE ESTIMATE →
+                </button>
+                <p className="text-gray-text text-sm text-center mt-3">
+                  No obligation. No pressure. Just honest answers.
+                </p>
+              </div>
+            </form>
+          </div>
         </div>
-      </Section>
+      </section>
 
       {/* Footer visibility sentinel */}
       <div ref={footerSentinel} className="h-1" />
@@ -611,20 +744,18 @@ export default function HomePage() {
       {/* ════════════════ MOBILE STICKY CTA BAR ════════════════ */}
       <div
         ref={mobileCta}
-        className="mobile-cta-bar md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-4 py-3 flex gap-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]"
+        className="mobile-cta-bar md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-4 py-3 flex gap-3 shadow-[0_-4px_12px_rgba(0,0,0,0.1)]"
       >
         <a
           href="tel:5597976081"
           className="flex-1 flex items-center justify-center gap-2 bg-orange text-white py-3 rounded-xl font-bold text-sm cta-press"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
+          <span>📞</span>
           Call Now
         </a>
         <a
           href="#estimate"
-          className="flex-1 flex items-center justify-center bg-navy text-white py-3 rounded-xl font-bold text-sm cta-press"
+          className="flex-1 flex items-center justify-center border-2 border-navy bg-white text-navy py-3 rounded-xl font-bold text-sm cta-press"
         >
           Free Estimate
         </a>

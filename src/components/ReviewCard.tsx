@@ -23,9 +23,13 @@ function Stars() {
 
 export default function ReviewCard({ text, name, city }: ReviewCardProps) {
   return (
-    <div className="bg-white rounded-2xl p-7 shadow-sm border border-gray-100 min-w-[320px] max-w-[380px] flex-shrink-0">
+    <div className="relative bg-white rounded-2xl p-7 shadow-sm border border-gray-100 border-l-4 border-l-orange min-w-[320px] max-w-[380px] flex-shrink-0 overflow-hidden">
+      {/* Decorative quotation mark */}
+      <span className="absolute top-3 right-5 text-orange/[0.07] text-[80px] font-serif leading-none pointer-events-none select-none">
+        &ldquo;
+      </span>
       <Stars />
-      <p className="text-gray-text italic text-[15px] leading-relaxed mb-5">
+      <p className="relative text-gray-text italic text-[15px] leading-relaxed mb-5">
         &ldquo;{text}&rdquo;
       </p>
       <p className="text-navy font-semibold text-sm">

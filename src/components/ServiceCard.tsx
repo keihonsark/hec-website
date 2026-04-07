@@ -6,6 +6,7 @@ interface ServiceCardProps {
   description: string;
   href?: string;
   image?: string;
+  gradientPlaceholder?: boolean;
 }
 
 export default function ServiceCard({
@@ -14,13 +15,14 @@ export default function ServiceCard({
   description,
   href = "#",
   image,
+  gradientPlaceholder,
 }: ServiceCardProps) {
   return (
     <a
       href={href}
       className="card-lift block bg-white border border-gray-100 rounded-2xl overflow-hidden group"
     >
-      {image && (
+      {image ? (
         <div className="relative h-48 w-full">
           <Image
             src={image}
@@ -31,7 +33,13 @@ export default function ServiceCard({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/40 to-transparent" />
         </div>
-      )}
+      ) : gradientPlaceholder ? (
+        <div className="relative h-48 w-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center">
+          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center text-orange/80">
+            <div className="scale-[2]">{icon}</div>
+          </div>
+        </div>
+      ) : null}
       <div className="p-8">
         <div className="w-14 h-14 rounded-xl bg-orange/10 flex items-center justify-center text-orange mb-5">
           {icon}
