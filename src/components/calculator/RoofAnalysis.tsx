@@ -3,6 +3,13 @@
 import { useState } from "react";
 import type { RoofAnalysis as RoofAnalysisType } from "@/lib/pricingEngine";
 
+function directionDotColor(direction: string): string {
+  if (direction.startsWith("North")) return "#3B82F6";
+  if (direction.startsWith("East")) return "#F59E0B";
+  if (direction.startsWith("South")) return "#EF4444";
+  return "#F97316";
+}
+
 interface RoofAnalysisProps {
   analysis: RoofAnalysisType;
   imageryDate?: { year: number; month: number; day: number };
@@ -169,7 +176,11 @@ export default function RoofAnalysis({
                   key={i}
                   className="flex items-center justify-between py-2 px-3 bg-light-bg rounded-lg text-sm"
                 >
-                  <span className="font-medium text-navy">
+                  <span className="font-medium text-navy flex items-center gap-2">
+                    <span
+                      className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                      style={{ background: directionDotColor(seg.direction) }}
+                    />
                     Segment {i + 1}
                   </span>
                   <span className="text-gray-text">

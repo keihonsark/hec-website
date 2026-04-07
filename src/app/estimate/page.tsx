@@ -9,7 +9,6 @@ import RoofAnalysisCard from "@/components/calculator/RoofAnalysis";
 import EstimateCard from "@/components/calculator/EstimateCard";
 import SectionLabel from "@/components/SectionLabel";
 import CTAButton from "@/components/CTAButton";
-import type { MapSegment } from "@/components/calculator/SatelliteMap";
 import {
   analyzeRoof,
   calculatePricing,
@@ -169,20 +168,7 @@ export default function EstimatePage() {
       {/* Section A — Satellite Map */}
       <section className="bg-navy-dark pt-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SatelliteMap
-            lat={coords.lat}
-            lng={coords.lng}
-            segments={
-              analysis && solarData
-                ? solarData.roofSegmentStats.map((seg, i) => ({
-                    ...seg,
-                    areaSqFt: analysis.segments[i]?.areaSqFt ?? 0,
-                    pitchRatio: analysis.segments[i]?.pitchRatio ?? "",
-                    direction: analysis.segments[i]?.direction ?? "",
-                  } as MapSegment))
-                : undefined
-            }
-          />
+          <SatelliteMap lat={coords.lat} lng={coords.lng} />
           <div className="text-center mt-4 pb-8">
             <p className="text-white font-semibold text-lg">{address}</p>
             {analysis && (
