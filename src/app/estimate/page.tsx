@@ -9,6 +9,7 @@ import RoofAnalysisCard from "@/components/calculator/RoofAnalysis";
 import EstimateCard from "@/components/calculator/EstimateCard";
 import SectionLabel from "@/components/SectionLabel";
 import CTAButton from "@/components/CTAButton";
+import type { MapSegment } from "@/components/calculator/SatelliteMap";
 import {
   analyzeRoof,
   calculatePricing,
@@ -19,10 +20,18 @@ import {
 
 type PageState = "input" | "loading" | "results" | "error";
 
+interface SolarSegment extends RoofSegmentInput {
+  center?: { latitude: number; longitude: number } | null;
+  boundingBox?: {
+    sw: { latitude: number; longitude: number };
+    ne: { latitude: number; longitude: number };
+  } | null;
+}
+
 interface SolarData {
   center: { latitude: number; longitude: number };
   imageryDate?: { year: number; month: number; day: number };
-  roofSegmentStats: RoofSegmentInput[];
+  roofSegmentStats: SolarSegment[];
 }
 
 export default function EstimatePage() {
@@ -160,9 +169,27 @@ export default function EstimatePage() {
       {/* Section A — Satellite Map */}
       <section className="bg-navy-dark pt-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SatelliteMap lat={coords.lat} lng={coords.lng} />
+          <SatelliteMap
+            lat={coords.lat}
+            lng={coords.lng}
+            segments={
+              analysis && solarData
+                ? solarData.roofSegmentStats.map((seg, i) => ({
+                    ...seg,
+                    areaSqFt: analysis.segments[i]?.areaSqFt ?? 0,
+                    pitchRatio: analysis.segments[i]?.pitchRatio ?? "",
+                    direction: analysis.segments[i]?.direction ?? "",
+                  } as MapSegment))
+                : undefined
+            }
+          />
           <div className="text-center mt-4 pb-8">
             <p className="text-white font-semibold text-lg">{address}</p>
+            {analysis && (
+              <p className="text-white/50 text-sm mt-2">
+                {analysis.segmentCount} roof segments detected · Color-coded by sun exposure direction · Tap segments for details
+              </p>
+            )}
             {solarData?.imageryDate && (
               <p className="text-white/40 text-xs mt-1">
                 Imagery from {solarData.imageryDate.month}/{solarData.imageryDate.year}

@@ -63,6 +63,8 @@ export async function GET(request: Request) {
           azimuthDegrees: seg.azimuthDegrees,
           areaMeters2: seg.stats?.areaMeters2 ?? 0,
           groundAreaMeters2: seg.stats?.groundAreaMeters2 ?? 0,
+          center: seg.center ?? null,
+          boundingBox: seg.boundingBox ?? null,
         })
       ),
     };
