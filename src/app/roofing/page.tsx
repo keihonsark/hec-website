@@ -660,6 +660,7 @@ export default function RoofingPage() {
             {[
               {
                 title: "HVAC",
+                href: "/hvac",
                 desc: "Energy-efficient heating & cooling systems.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -669,6 +670,7 @@ export default function RoofingPage() {
               },
               {
                 title: "Windows",
+                href: "/windows",
                 desc: "Premium Anlin windows & doors.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -678,6 +680,7 @@ export default function RoofingPage() {
               },
               {
                 title: "Outdoor Living",
+                href: "/outdoor",
                 desc: "Patios, pergolas, and gazebos.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -687,6 +690,7 @@ export default function RoofingPage() {
               },
               {
                 title: "Insulation",
+                href: "/insulation",
                 desc: "Lower your energy bills year-round.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -697,7 +701,7 @@ export default function RoofingPage() {
             ].map((svc) => (
               <a
                 key={svc.title}
-                href="#"
+                href={svc.href}
                 className="group bg-light-bg rounded-2xl p-6 text-center hover:shadow-md transition-shadow"
               >
                 <div className="w-12 h-12 rounded-xl bg-orange/10 flex items-center justify-center text-orange mx-auto mb-4">

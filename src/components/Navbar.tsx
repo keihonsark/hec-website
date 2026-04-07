@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import Logo from "./Logo";
 
 const navLinks = [
-  { label: "Roofing", href: "#" },
-  { label: "HVAC", href: "#" },
-  { label: "Windows", href: "#" },
-  { label: "Outdoor Living", href: "#" },
+  { label: "Roofing", href: "/roofing" },
+  { label: "HVAC", href: "/hvac" },
+  { label: "Windows", href: "/windows" },
+  { label: "Outdoor Living", href: "/outdoor" },
 ];
 
 export default function Navbar() {
@@ -20,7 +20,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -33,9 +32,7 @@ export default function Navbar() {
 
       <nav
         className={`fixed top-[2px] left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white shadow-md"
-            : "bg-white/95"
+          scrolled ? "bg-white shadow-md" : "bg-white/95"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,16 +55,24 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Desktop phone CTA */}
-            <a
-              href="tel:5597976081"
-              className="hidden md:inline-flex items-center gap-2 bg-orange text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-orange-dark transition-colors cta-press"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-              (559) 797-6081
-            </a>
+            {/* Desktop right side: estimate link + phone CTA */}
+            <div className="hidden md:flex items-center gap-5">
+              <a
+                href="/estimate"
+                className="text-orange hover:text-orange-dark font-semibold text-[15px] transition-colors"
+              >
+                Free Roof Estimate
+              </a>
+              <a
+                href="tel:5597976081"
+                className="inline-flex items-center gap-2 bg-orange text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-orange-dark transition-colors cta-press"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                (559) 797-6081
+              </a>
+            </div>
 
             {/* Mobile hamburger */}
             <button
@@ -106,6 +111,13 @@ export default function Navbar() {
               </a>
             ))}
             <a
+              href="/estimate"
+              className="text-orange font-semibold text-lg py-3 border-b border-gray-100"
+              onClick={() => setMobileOpen(false)}
+            >
+              Free Roof Estimate
+            </a>
+            <a
               href="tel:5597976081"
               className="mt-4 flex items-center justify-center gap-2 bg-orange text-white px-6 py-4 rounded-xl font-bold text-lg cta-press"
               onClick={() => setMobileOpen(false)}
@@ -116,7 +128,7 @@ export default function Navbar() {
               Call (559) 797-6081
             </a>
             <a
-              href="#estimate"
+              href="/estimate"
               className="flex items-center justify-center bg-navy text-white px-6 py-4 rounded-xl font-bold text-lg cta-press"
               onClick={() => setMobileOpen(false)}
             >

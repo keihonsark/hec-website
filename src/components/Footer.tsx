@@ -2,11 +2,11 @@ import Image from "next/image";
 import Logo from "./Logo";
 
 const services = [
-  { label: "Roofing", href: "#" },
-  { label: "HVAC", href: "#" },
-  { label: "Windows & Doors", href: "#" },
-  { label: "Outdoor Living", href: "#" },
-  { label: "Insulation", href: "#" },
+  { label: "Roofing", href: "/roofing" },
+  { label: "HVAC", href: "/hvac" },
+  { label: "Windows & Doors", href: "/windows" },
+  { label: "Outdoor Living", href: "/outdoor" },
+  { label: "Insulation", href: "/insulation" },
   { label: "Paint", href: "#" },
 ];
 

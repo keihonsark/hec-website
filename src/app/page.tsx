@@ -283,30 +283,35 @@ export default function HomePage() {
               title="Roofing"
               description="Full roof replacements and repairs with Owens Corning certified materials and lifetime warranties."
               image="/images/roofing/roofing-crew.png"
+              href="/roofing"
             />
             <ServiceCard
               icon={icons.hvac}
               title="HVAC"
               description="Energy-efficient heating and cooling systems built to handle Central Valley's extreme temperatures."
               image="/images/hvac/hvac-unit.png"
+              href="/hvac"
             />
             <ServiceCard
               icon={icons.windows}
               title="Windows & Doors"
               description="Premium Anlin windows and doors that reduce energy costs and enhance curb appeal."
               image="/images/windows/windows-interior.png"
+              href="/windows"
             />
             <ServiceCard
               icon={icons.outdoor}
               title="Outdoor Living"
               description="Custom patios, pergolas, and gazebos that transform your backyard into a year-round retreat."
               image="/images/outdoor/outdoor-patio.png"
+              href="/outdoor"
             />
             <ServiceCard
               icon={icons.insulation}
               title="Insulation"
               description="Upgraded insulation solutions that keep your home comfortable and your energy bills low."
               image="/images/about/insulation-interior.png"
+              href="/insulation"
             />
             <ServiceCard
               icon={icons.paint}
