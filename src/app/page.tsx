@@ -116,40 +116,6 @@ function GoogleG({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
-/* ─── Partner logo badges for hero (real images) ─── */
-function HeroPartnerLogos() {
-  return (
-    <div className="flex flex-wrap gap-3">
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2.5">
-        <Image
-          src="/images/logos/owens-preferred-logo.png"
-          alt="Owens Corning Preferred Contractor"
-          width={120}
-          height={36}
-          className="h-[36px] w-auto opacity-90"
-        />
-      </div>
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2.5">
-        <Image
-          src="/images/logos/bbb-logo.png"
-          alt="BBB A+ Accredited Business"
-          width={120}
-          height={36}
-          className="h-[36px] w-auto opacity-90"
-        />
-      </div>
-      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2.5">
-        <Image
-          src="/images/logos/anlin-logo.png"
-          alt="Anlin Certified Partner"
-          width={120}
-          height={36}
-          className="h-[36px] w-auto opacity-90"
-        />
-      </div>
-    </div>
-  );
-}
 
 /* ═══════════════════════════════════════════
    HOMEPAGE
@@ -228,66 +194,63 @@ export default function HomePage() {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-4 mb-10">
+            <div className="flex flex-wrap gap-4">
               <CTAButton href="#estimate">Get Free Estimate</CTAButton>
               <CTAButton variant="outline" href="tel:5597976081">
                 Call (559) 797-6081
               </CTAButton>
             </div>
-
-            {/* Partner logo badges */}
-            <HeroPartnerLogos />
           </div>
         </div>
       </section>
 
-      {/* ════════════════ 2. TRUST BAR — Logo bar ════════════════ */}
-      <Section className="bg-white py-7 border-b border-gray-100">
+      {/* ════════════════ 2. TRUST BAR — Clean logo bar ════════════════ */}
+      <Section className="bg-white py-6 border-y border-gray-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 md:gap-x-16">
             {/* Owens Corning */}
-            <div className="bg-light-bg border border-gray-100 rounded-xl px-5 py-3">
-              <Image
-                src="/images/logos/owens-preferred-logo.png"
-                alt="Owens Corning Preferred Contractor"
-                width={135}
-                height={45}
-                className="h-[45px] w-auto"
-              />
-            </div>
+            <Image
+              src="/images/logos/owens-preferred-logo.png"
+              alt="Owens Corning Preferred Contractor"
+              width={180}
+              height={55}
+              className="h-[50px] md:h-[55px] w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100"
+            />
             {/* BBB */}
-            <div className="bg-light-bg border border-gray-100 rounded-xl px-5 py-3">
-              <Image
-                src="/images/logos/bbb-logo.png"
-                alt="BBB A+ Accredited Business"
-                width={135}
-                height={45}
-                className="h-[45px] w-auto"
-              />
-            </div>
-            {/* Licensed & Bonded */}
-            <div className="flex items-center gap-2.5 bg-light-bg border border-gray-100 rounded-xl px-5 py-3">
-              <svg className="w-6 h-6 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+            <Image
+              src="/images/logos/bbb-logo.png"
+              alt="BBB A+ Accredited Business"
+              width={180}
+              height={55}
+              className="h-[50px] md:h-[55px] w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100"
+            />
+            {/* CA Licensed */}
+            <div className="flex items-center gap-2 opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+              <svg className="w-7 h-7 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
-              <span className="text-navy text-sm font-semibold whitespace-nowrap">Licensed #1086515</span>
+              <div className="leading-tight">
+                <div className="text-navy text-sm font-bold">CA Licensed</div>
+                <div className="text-gray-text text-xs">#1086515</div>
+              </div>
             </div>
             {/* Anlin */}
-            <div className="bg-light-bg border border-gray-100 rounded-xl px-5 py-3">
-              <Image
-                src="/images/logos/anlin-logo.png"
-                alt="Anlin Certified Partner"
-                width={135}
-                height={45}
-                className="h-[45px] w-auto"
-              />
-            </div>
-            {/* Financing */}
-            <div className="flex items-center gap-2.5 bg-light-bg border border-gray-100 rounded-xl px-5 py-3">
-              <svg className="w-6 h-6 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+            <Image
+              src="/images/logos/anlin-logo.png"
+              alt="Anlin Certified Partner"
+              width={180}
+              height={55}
+              className="h-[50px] md:h-[55px] w-auto grayscale hover:grayscale-0 transition-all duration-500 opacity-70 hover:opacity-100"
+            />
+            {/* Financing Available */}
+            <div className="flex items-center gap-2 opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-500">
+              <svg className="w-7 h-7 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-navy text-sm font-semibold whitespace-nowrap">Financing Available</span>
+              <div className="leading-tight">
+                <div className="text-navy text-sm font-bold">Financing</div>
+                <div className="text-gray-text text-xs">Available</div>
+              </div>
             </div>
           </div>
         </div>
