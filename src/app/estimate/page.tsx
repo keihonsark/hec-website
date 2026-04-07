@@ -11,6 +11,7 @@ import CTAButton from "@/components/CTAButton";
 import {
   analyzeRoof,
   calculatePricing,
+  SOLAR_COST_PER_PANEL,
   type RoofAnalysis,
   type PriceEstimate,
   type RoofSegmentInput,
@@ -180,7 +181,7 @@ function ResultsFunnel({
   address,
   coords,
   analysis,
-  pricing,
+  pricing: basePricing,
   solarData,
 }: {
   address: string;
@@ -195,12 +196,32 @@ function ResultsFunnel({
   const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
   const fullResultsRef = useRef<HTMLDivElement>(null);
 
+  // Solar panel state
+  const [solarAnswer, setSolarAnswer] = useState<"yes" | "no" | null>(null);
+  const [solarPanelCount, setSolarPanelCount] = useState(20);
+
+  // Recalculate pricing with solar
+  const activePanelCount = solarAnswer === "yes" ? solarPanelCount : 0;
+  const pricing =
+    analysis && basePricing
+      ? calculatePricing(analysis, activePanelCount)
+      : basePricing;
+
+  const solarCost = activePanelCount * SOLAR_COST_PER_PANEL;
+
   /* Store detailed data for CRM / PDF */
   if (typeof window !== "undefined" && analysis && pricing) {
     try {
       localStorage.setItem(
         "hec_roof_report",
-        JSON.stringify({ address, coords, analysis, pricing, solarData })
+        JSON.stringify({
+          address,
+          coords,
+          analysis,
+          pricing,
+          solarData,
+          solarPanelCount: activePanelCount,
+        })
       );
     } catch {
       /* localStorage may be unavailable */
@@ -211,11 +232,11 @@ function ResultsFunnel({
     (e: React.FormEvent) => {
       e.preventDefault();
       if (!formData.name || !formData.phone || !formData.email) return;
+      if (solarAnswer === null) return;
 
       setSubmitting(true);
       const code = `HEC-${Math.floor(1000 + Math.random() * 9000)}`;
 
-      // Build lead data object
       const leadData = {
         name: formData.name,
         phone: formData.phone,
@@ -228,6 +249,12 @@ function ResultsFunnel({
         estimateLow: pricing?.low ?? 0,
         estimateMid: pricing?.mid ?? 0,
         estimateHigh: pricing?.high ?? 0,
+        hasSolarPanels: solarAnswer === "yes",
+        solarPanelCount: activePanelCount,
+        solarRemovalCost: solarCost,
+        totalEstimateLow: pricing?.totalLow ?? 0,
+        totalEstimateMid: pricing?.totalMid ?? 0,
+        totalEstimateHigh: pricing?.totalHigh ?? 0,
         couponCode: code,
         timestamp: new Date().toISOString(),
         source: "roof_calculator",
@@ -240,13 +267,12 @@ function ResultsFunnel({
         setUnlocked(true);
         setSubmitting(false);
 
-        // Scroll to full results after reveal
         setTimeout(() => {
           fullResultsRef.current?.scrollIntoView({ behavior: "smooth" });
         }, 300);
       }, 1000);
     },
-    [formData, address, analysis, pricing]
+    [formData, address, analysis, pricing, solarAnswer, activePanelCount, solarCost]
   );
 
   const inputClass =
@@ -304,6 +330,90 @@ function ResultsFunnel({
         </section>
       )}
 
+      {/* ═══ Solar Panel Question ═══ */}
+      {analysis && !unlocked && (
+        <section className="bg-white py-10 md:py-14">
+          <div className="max-w-lg mx-auto px-4">
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-xl bg-orange/10 flex items-center justify-center text-orange flex-shrink-0">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-navy">
+                  Does your home have solar panels?
+                </h3>
+              </div>
+
+              {/* Toggle buttons */}
+              <div className="flex gap-3 mb-4">
+                <button
+                  type="button"
+                  onClick={() => setSolarAnswer("no")}
+                  className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                    solarAnswer === "no"
+                      ? "bg-orange text-white shadow-md"
+                      : "bg-light-bg text-navy border border-gray-200 hover:border-orange/40"
+                  }`}
+                >
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSolarAnswer("yes")}
+                  className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                    solarAnswer === "yes"
+                      ? "bg-orange text-white shadow-md"
+                      : "bg-light-bg text-navy border border-gray-200 hover:border-orange/40"
+                  }`}
+                >
+                  Yes
+                </button>
+              </div>
+
+              {/* Conditional content */}
+              {solarAnswer === "no" && (
+                <p className="text-gray-text text-sm flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  Great — no additional costs for solar removal.
+                </p>
+              )}
+
+              {solarAnswer === "yes" && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <label className="text-sm text-navy font-medium whitespace-nowrap">
+                      How many panels?
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={100}
+                      value={solarPanelCount}
+                      onChange={(e) =>
+                        setSolarPanelCount(
+                          Math.max(1, Math.min(100, Number(e.target.value) || 1))
+                        )
+                      }
+                      className="w-20 px-3 py-2 rounded-lg border border-gray-200 text-navy text-center font-semibold focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange"
+                    />
+                  </div>
+                  <p className="text-sm text-navy bg-orange/5 rounded-lg px-4 py-2.5 border border-orange/10">
+                    Estimated solar removal &amp; reinstall:{" "}
+                    <strong className="text-orange">
+                      ${(solarPanelCount * SOLAR_COST_PER_PANEL).toLocaleString()}
+                    </strong>
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ═══ GATE — shown when NOT unlocked ═══ */}
       {!unlocked && (
         <section className="relative bg-light-bg py-16 md:py-24 overflow-hidden">
@@ -337,14 +447,15 @@ function ResultsFunnel({
               Unlock Your Cost Estimate + Get $500 Off
             </h2>
             <p className="text-gray-text text-[15px] mb-8">
-              Enter your info to see personalized pricing, monthly payments,
-              and download your free roof report.
+              {solarAnswer === null
+                ? "Please answer the solar panel question above to get your estimate."
+                : "Enter your info to see personalized pricing, monthly payments, and download your free roof report."}
             </p>
 
             {/* Form card */}
             <form
               onSubmit={handleGateSubmit}
-              className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl text-left"
+              className={`bg-white rounded-2xl p-6 sm:p-8 shadow-xl text-left transition-opacity ${solarAnswer === null ? "opacity-50 pointer-events-none" : ""}`}
             >
               <div className="grid sm:grid-cols-2 gap-4 mb-4">
                 <input
@@ -419,7 +530,7 @@ function ResultsFunnel({
                 </h2>
               </div>
 
-              <EstimateCard estimate={pricing} />
+              <EstimateCard estimate={pricing} solarPanelCount={activePanelCount} />
 
               <p className="text-white/40 text-xs text-center mt-8 max-w-2xl mx-auto">
                 * Estimate based on satellite data. Final cost determined by

@@ -47,7 +47,16 @@ export interface PriceEstimate {
   monthlyLow: number;
   monthlyMid: number;
   monthlyHigh: number;
+  solarCost: number;
+  totalLow: number;
+  totalMid: number;
+  totalHigh: number;
+  totalMonthlyLow: number;
+  totalMonthlyMid: number;
+  totalMonthlyHigh: number;
 }
+
+export const SOLAR_COST_PER_PANEL = 350;
 
 function pitchDegreesToRatio(degrees: number): string {
   const rise = Math.round(Math.tan((degrees * Math.PI) / 180) * 12);
@@ -153,7 +162,10 @@ export function analyzeRoof(segments: RoofSegmentInput[]): RoofAnalysis {
   };
 }
 
-export function calculatePricing(analysis: RoofAnalysis): PriceEstimate {
+export function calculatePricing(
+  analysis: RoofAnalysis,
+  solarPanelCount = 0
+): PriceEstimate {
   const sq = analysis.totalSquaresWithWaste;
   const MIN_PRICE = 8000;
   const TERM = 180;
@@ -167,6 +179,11 @@ export function calculatePricing(analysis: RoofAnalysis): PriceEstimate {
   const low = Math.max(raw.low, MIN_PRICE);
   const mid = Math.max(raw.mid, MIN_PRICE);
   const high = Math.max(raw.high, MIN_PRICE);
+  const solarCost = solarPanelCount * SOLAR_COST_PER_PANEL;
+
+  const totalLow = low + solarCost;
+  const totalMid = mid + solarCost;
+  const totalHigh = high + solarCost;
 
   return {
     low,
@@ -175,5 +192,12 @@ export function calculatePricing(analysis: RoofAnalysis): PriceEstimate {
     monthlyLow: Math.round(low / TERM),
     monthlyMid: Math.round(mid / TERM),
     monthlyHigh: Math.round(high / TERM),
+    solarCost,
+    totalLow,
+    totalMid,
+    totalHigh,
+    totalMonthlyLow: Math.round(totalLow / TERM),
+    totalMonthlyMid: Math.round(totalMid / TERM),
+    totalMonthlyHigh: Math.round(totalHigh / TERM),
   };
 }

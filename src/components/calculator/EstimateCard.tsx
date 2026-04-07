@@ -1,11 +1,12 @@
 import type { PriceEstimate } from "@/lib/pricingEngine";
 
-function formatPrice(n: number): string {
+function fmt(n: number): string {
   return "$" + n.toLocaleString("en-US");
 }
 
 interface EstimateCardProps {
   estimate: PriceEstimate;
+  solarPanelCount?: number;
 }
 
 const tiers = [
@@ -13,26 +14,34 @@ const tiers = [
     key: "low" as const,
     label: "Good",
     subtitle: "Standard Shingle",
-    monthlyKey: "monthlyLow" as const,
+    totalKey: "totalLow" as const,
+    totalMonthlyKey: "totalMonthlyLow" as const,
     recommended: false,
   },
   {
     key: "mid" as const,
     label: "Better",
     subtitle: "Owens Corning Duration",
-    monthlyKey: "monthlyMid" as const,
+    totalKey: "totalMid" as const,
+    totalMonthlyKey: "totalMonthlyMid" as const,
     recommended: true,
   },
   {
     key: "high" as const,
     label: "Best",
     subtitle: "Premium / Tile",
-    monthlyKey: "monthlyHigh" as const,
+    totalKey: "totalHigh" as const,
+    totalMonthlyKey: "totalMonthlyHigh" as const,
     recommended: false,
   },
 ];
 
-export default function EstimateCard({ estimate }: EstimateCardProps) {
+export default function EstimateCard({
+  estimate,
+  solarPanelCount = 0,
+}: EstimateCardProps) {
+  const hasSolar = solarPanelCount > 0 && estimate.solarCost > 0;
+
   return (
     <div className="grid md:grid-cols-3 gap-6 items-stretch">
       {tiers.map((tier) => (
@@ -55,16 +64,40 @@ export default function EstimateCard({ estimate }: EstimateCardProps) {
           </div>
           <div className="text-white/40 text-xs mb-5">{tier.subtitle}</div>
 
-          <div
-            className={`text-3xl font-extrabold mb-1 ${
-              tier.recommended ? "text-orange" : "text-white"
-            }`}
-          >
-            {formatPrice(estimate[tier.key])}
-          </div>
-          <div className="text-white/50 text-sm">
-            ~{formatPrice(estimate[tier.monthlyKey])}/mo with $0 down
-          </div>
+          {hasSolar ? (
+            <>
+              <div className="text-white/70 text-sm mb-1">
+                Roof: {fmt(estimate[tier.key])}
+              </div>
+              <div className="text-white/70 text-sm mb-2">
+                Solar R&R ({solarPanelCount} panels): {fmt(estimate.solarCost)}
+              </div>
+              <div className="w-12 h-px bg-white/20 mb-2" />
+              <div
+                className={`text-3xl font-extrabold mb-1 ${
+                  tier.recommended ? "text-orange" : "text-white"
+                }`}
+              >
+                {fmt(estimate[tier.totalKey])}
+              </div>
+              <div className="text-white/50 text-sm">
+                ~{fmt(estimate[tier.totalMonthlyKey])}/mo with $0 down
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                className={`text-3xl font-extrabold mb-1 ${
+                  tier.recommended ? "text-orange" : "text-white"
+                }`}
+              >
+                {fmt(estimate[tier.totalKey])}
+              </div>
+              <div className="text-white/50 text-sm">
+                ~{fmt(estimate[tier.totalMonthlyKey])}/mo with $0 down
+              </div>
+            </>
+          )}
         </div>
       ))}
     </div>
