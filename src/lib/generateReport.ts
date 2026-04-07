@@ -70,14 +70,21 @@ export async function generateRoofReport(data: ReportData): Promise<void> {
 
   /* ═══════ PAGE 1 -- COVER ═══════ */
   box(doc, 0, 0, W, 22, NAVY);
-  if (imgs.logo) {
-    img(doc, imgs.logo, M, 4, 50, 14);
-  } else {
-    doc.setFontSize(11); doc.setFont("helvetica", "bold");
-    tc(doc, WHITE); doc.text("HOME", M, 13);
-    tc(doc, ORANGE); doc.text("ENERGY", M + 22, 13);
-    doc.setFontSize(6); tc(doc, [180, 190, 210]); doc.text("CONSTRUCTION", M, 18);
-  }
+  // Lightning bolt icon (drawn as orange lines)
+  const boltX = M;
+  const boltY = 5;
+  doc.setDrawColor(ORANGE[0], ORANGE[1], ORANGE[2]);
+  doc.setFillColor(ORANGE[0], ORANGE[1], ORANGE[2]);
+  doc.triangle(boltX + 4, boltY, boltX, boltY + 7, boltX + 5, boltY + 6, "F");
+  doc.triangle(boltX + 2, boltY + 6, boltX + 6, boltY + 5, boltX + 3, boltY + 12, "F");
+  // Logo text
+  const logoTx = M + 9;
+  doc.setFontSize(14); doc.setFont("helvetica", "bold");
+  tc(doc, WHITE); doc.text("HOME", logoTx, 12);
+  const homeW = doc.getTextWidth("HOME");
+  tc(doc, ORANGE); doc.text("ENERGY", logoTx + homeW + 1.5, 12);
+  doc.setFontSize(6); doc.setFont("helvetica", "normal");
+  tc(doc, [180, 190, 210]); doc.text("CONSTRUCTION", logoTx, 17);
   doc.setFontSize(9); tc(doc, [180, 190, 210]);
   doc.text("(559) 797-6081", W - M, 11, { align: "right" });
   doc.text("homeenergyconstruction.com", W - M, 16, { align: "right" });
