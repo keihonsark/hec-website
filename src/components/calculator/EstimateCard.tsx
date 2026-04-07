@@ -7,6 +7,7 @@ function fmt(n: number): string {
 interface EstimateCardProps {
   estimate: PriceEstimate;
   solarPanelCount?: number;
+  solarUnsure?: boolean;
 }
 
 const tiers = [
@@ -39,6 +40,7 @@ const tiers = [
 export default function EstimateCard({
   estimate,
   solarPanelCount = 0,
+  solarUnsure = false,
 }: EstimateCardProps) {
   const hasSolar = solarPanelCount > 0 && estimate.solarCost > 0;
 
@@ -96,6 +98,11 @@ export default function EstimateCard({
               <div className="text-white/50 text-sm">
                 ~{fmt(estimate[tier.totalMonthlyKey])}/mo with $0 down
               </div>
+              {solarUnsure && (
+                <p className="text-white/35 text-xs mt-3">
+                  * Solar panel removal not included — quoted at inspection
+                </p>
+              )}
             </>
           )}
         </div>

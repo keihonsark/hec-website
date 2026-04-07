@@ -197,7 +197,7 @@ function ResultsFunnel({
   const fullResultsRef = useRef<HTMLDivElement>(null);
 
   // Solar panel state
-  const [solarAnswer, setSolarAnswer] = useState<"yes" | "no" | null>(null);
+  const [solarAnswer, setSolarAnswer] = useState<"yes" | "no" | "notsure" | null>(null);
   const [solarPanelCount, setSolarPanelCount] = useState(20);
 
   // Recalculate pricing with solar
@@ -249,7 +249,7 @@ function ResultsFunnel({
         estimateLow: pricing?.low ?? 0,
         estimateMid: pricing?.mid ?? 0,
         estimateHigh: pricing?.high ?? 0,
-        hasSolarPanels: solarAnswer === "yes",
+        hasSolarPanels: solarAnswer === "yes" ? true : solarAnswer === "no" ? false : "unknown" as const,
         solarPanelCount: activePanelCount,
         solarRemovalCost: solarCost,
         totalEstimateLow: pricing?.totalLow ?? 0,
@@ -348,28 +348,24 @@ function ResultsFunnel({
 
               {/* Toggle buttons */}
               <div className="flex gap-3 mb-4">
-                <button
-                  type="button"
-                  onClick={() => setSolarAnswer("no")}
-                  className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
-                    solarAnswer === "no"
-                      ? "bg-orange text-white shadow-md"
-                      : "bg-light-bg text-navy border border-gray-200 hover:border-orange/40"
-                  }`}
-                >
-                  No
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSolarAnswer("yes")}
-                  className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
-                    solarAnswer === "yes"
-                      ? "bg-orange text-white shadow-md"
-                      : "bg-light-bg text-navy border border-gray-200 hover:border-orange/40"
-                  }`}
-                >
-                  Yes
-                </button>
+                {([
+                  { value: "no" as const, label: "No" },
+                  { value: "yes" as const, label: "Yes" },
+                  { value: "notsure" as const, label: "Not Sure" },
+                ] as const).map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setSolarAnswer(opt.value)}
+                    className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                      solarAnswer === opt.value
+                        ? "bg-orange text-white shadow-md"
+                        : "bg-light-bg text-navy border border-gray-200 hover:border-orange/40"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
 
               {/* Conditional content */}
@@ -408,6 +404,16 @@ function ResultsFunnel({
                     </strong>
                   </p>
                 </div>
+              )}
+
+              {solarAnswer === "notsure" && (
+                <p className="text-gray-text text-sm flex items-start gap-2">
+                  <svg className="w-4 h-4 text-orange flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                  </svg>
+                  No worries — we&apos;ll count your panels during your free
+                  inspection and include the cost in your final quote.
+                </p>
               )}
             </div>
           </div>
@@ -530,7 +536,7 @@ function ResultsFunnel({
                 </h2>
               </div>
 
-              <EstimateCard estimate={pricing} solarPanelCount={activePanelCount} />
+              <EstimateCard estimate={pricing} solarPanelCount={activePanelCount} solarUnsure={solarAnswer === "notsure"} />
 
               <p className="text-white/40 text-xs text-center mt-8 max-w-2xl mx-auto">
                 * Estimate based on satellite data. Final cost determined by
