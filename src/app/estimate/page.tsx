@@ -213,47 +213,51 @@ export default function EstimatePage() {
               <h2 className="text-2xl sm:text-3xl font-extrabold text-navy">
                 Materials Estimate
               </h2>
+              <p className="text-gray-text text-sm mt-2">
+                Based on Owens Corning Duration architectural shingles
+              </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-4">
+            {/* Roof measurements */}
+            <h4 className="text-navy font-bold text-sm uppercase tracking-wider mb-3">
+              Roof Measurements
+            </h4>
+            <div className="grid sm:grid-cols-2 gap-3 mb-8">
               {[
-                {
-                  label: "Roofing squares needed",
-                  value: `${analysis.roofingSquares} squares`,
-                },
-                {
-                  label: "Waste factor",
-                  value: `${Math.round(analysis.wasteFactor * 100)}% (${analysis.complexity} roof)`,
-                },
-                {
-                  label: "Total material",
-                  value: `${analysis.totalSquaresWithWaste} squares`,
-                },
-                {
-                  label: "Estimated ridge",
-                  value: `${analysis.estimatedRidgeFt} linear ft`,
-                },
-                {
-                  label: "Estimated eave",
-                  value: `${analysis.estimatedEaveFt} linear ft`,
-                },
-                ...(analysis.estimatedValleyFt > 0
-                  ? [
-                      {
-                        label: "Estimated valley",
-                        value: `${analysis.estimatedValleyFt} linear ft`,
-                      },
-                    ]
-                  : []),
+                { label: "Roofing squares (before waste)", value: `${analysis.roofingSquares} sq` },
+                { label: `Waste factor — ${analysis.complexity} roof`, value: `${Math.round(analysis.wasteFactor * 100)}%` },
+                { label: "Total squares with waste", value: `${analysis.totalSquaresWithWaste} sq` },
+                { label: "Ridge", value: `${analysis.estimatedRidgeFt} lin ft` },
+                ...(analysis.estimatedHipFt > 0 ? [{ label: "Hip", value: `${analysis.estimatedHipFt} lin ft` }] : []),
+                ...(analysis.estimatedValleyFt > 0 ? [{ label: "Valley", value: `${analysis.estimatedValleyFt} lin ft` }] : []),
+                { label: "Eave", value: `${analysis.estimatedEaveFt} lin ft` },
+                { label: "Rake", value: `${analysis.estimatedRakeFt} lin ft` },
               ].map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between py-3 px-4 bg-light-bg rounded-xl"
-                >
+                <div key={item.label} className="flex items-center justify-between py-3 px-4 bg-light-bg rounded-xl">
                   <span className="text-gray-text text-sm">{item.label}</span>
-                  <span className="text-navy font-semibold text-sm">
-                    {item.value}
-                  </span>
+                  <span className="text-navy font-semibold text-sm">{item.value}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Material quantities */}
+            <h4 className="text-navy font-bold text-sm uppercase tracking-wider mb-3">
+              Estimated Material Quantities
+            </h4>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { label: "Shingle bundles (OC Duration)", value: `${analysis.shingleBundles} bundles`, note: "3 bundles/square" },
+                { label: "Starter strip bundles", value: `${analysis.starterStripBundles} bundles`, note: "105 ft/bundle" },
+                { label: "Hip & ridge cap bundles", value: `${analysis.hipRidgeBundles} bundles`, note: "20 ft/bundle" },
+                { label: "Synthetic underlayment rolls", value: `${analysis.underlaymentRolls} rolls`, note: "~1,000 sq ft/roll" },
+                { label: "Drip edge sections", value: `${analysis.dripEdgeSections} pcs`, note: "10 ft sections" },
+              ].map((item) => (
+                <div key={item.label} className="flex items-center justify-between py-3 px-4 bg-light-bg rounded-xl">
+                  <div>
+                    <span className="text-gray-text text-sm">{item.label}</span>
+                    <span className="text-gray-text/50 text-xs ml-1.5">({item.note})</span>
+                  </div>
+                  <span className="text-navy font-semibold text-sm">{item.value}</span>
                 </div>
               ))}
             </div>

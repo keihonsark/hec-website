@@ -14,6 +14,8 @@ export interface AnalyzedSegment {
   direction: string;
 }
 
+export type Complexity = "Simple" | "Standard" | "Complex" | "Very Complex";
+
 export interface RoofAnalysis {
   totalRoofAreaSqFt: number;
   totalGroundAreaSqFt: number;
@@ -21,13 +23,21 @@ export interface RoofAnalysis {
   segments: AnalyzedSegment[];
   averagePitch: number;
   averagePitchRatio: string;
-  complexity: "Simple" | "Standard" | "Complex";
+  complexity: Complexity;
   roofingSquares: number;
   wasteFactor: number;
   totalSquaresWithWaste: number;
   estimatedRidgeFt: number;
+  estimatedHipFt: number;
   estimatedValleyFt: number;
   estimatedEaveFt: number;
+  estimatedRakeFt: number;
+  // Material quantities
+  shingleBundles: number;
+  starterStripBundles: number;
+  hipRidgeBundles: number;
+  underlaymentRolls: number;
+  dripEdgeSections: number;
 }
 
 export interface PriceEstimate {
@@ -52,18 +62,24 @@ function azimuthToDirection(azimuth: number): string {
   return "West-facing";
 }
 
-function getComplexity(
-  segmentCount: number
-): "Simple" | "Standard" | "Complex" {
+function getComplexity(segmentCount: number): Complexity {
   if (segmentCount <= 2) return "Simple";
-  if (segmentCount <= 4) return "Standard";
-  return "Complex";
+  if (segmentCount <= 6) return "Standard";
+  if (segmentCount <= 15) return "Complex";
+  return "Very Complex";
 }
 
-function getWasteFactor(complexity: "Simple" | "Standard" | "Complex"): number {
-  if (complexity === "Simple") return 0.1;
-  if (complexity === "Standard") return 0.15;
-  return 0.2;
+function getWasteFactor(complexity: Complexity): number {
+  switch (complexity) {
+    case "Simple":
+      return 0.12;
+    case "Standard":
+      return 0.15;
+    case "Complex":
+      return 0.18;
+    case "Very Complex":
+      return 0.2;
+  }
 }
 
 export function analyzeRoof(segments: RoofSegmentInput[]): RoofAnalysis {
@@ -91,6 +107,27 @@ export function analyzeRoof(segments: RoofSegmentInput[]): RoofAnalysis {
     Math.round(roofingSquares * (1 + wasteFactor) * 10) / 10;
 
   const sqrtGround = Math.sqrt(totalGroundAreaSqFt);
+  const avgSegArea =
+    analyzed.length > 0
+      ? totalRoofAreaSqFt / analyzed.length
+      : 0;
+
+  // Linear footage estimates
+  const ridgeFt = Math.round(sqrtGround * 0.5);
+  const hipFt =
+    segments.length > 2
+      ? Math.round((segments.length - 2) * Math.sqrt(avgSegArea) * 0.4)
+      : 0;
+  const valleyFt = segments.length > 2 ? Math.round(sqrtGround * 0.3) : 0;
+  const eaveFt = Math.round(sqrtGround * 2.2);
+  const rakeFt = Math.round(sqrtGround * 1.0);
+
+  // Material quantities
+  const shingleBundles = Math.ceil(totalSquaresWithWaste * 3);
+  const starterStripBundles = Math.ceil((eaveFt + rakeFt) / 105);
+  const hipRidgeBundles = Math.ceil((ridgeFt + hipFt) / 20);
+  const underlaymentRolls = Math.ceil(totalRoofAreaSqFt / 1000);
+  const dripEdgeSections = Math.ceil((eaveFt + rakeFt) / 10);
 
   return {
     totalRoofAreaSqFt,
@@ -103,9 +140,16 @@ export function analyzeRoof(segments: RoofSegmentInput[]): RoofAnalysis {
     roofingSquares: Math.round(roofingSquares * 10) / 10,
     wasteFactor,
     totalSquaresWithWaste,
-    estimatedRidgeFt: Math.round(sqrtGround * 0.6),
-    estimatedValleyFt: segments.length > 2 ? Math.round(sqrtGround * 0.3) : 0,
-    estimatedEaveFt: Math.round(sqrtGround * 2.2),
+    estimatedRidgeFt: ridgeFt,
+    estimatedHipFt: hipFt,
+    estimatedValleyFt: valleyFt,
+    estimatedEaveFt: eaveFt,
+    estimatedRakeFt: rakeFt,
+    shingleBundles,
+    starterStripBundles,
+    hipRidgeBundles,
+    underlaymentRolls,
+    dripEdgeSections,
   };
 }
 

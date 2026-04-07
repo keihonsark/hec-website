@@ -8,6 +8,14 @@ interface RoofAnalysisProps {
   imageryDate?: { year: number; month: number; day: number };
 }
 
+function isImageryOld(imageryDate?: { year: number; month: number; day: number }): boolean {
+  if (!imageryDate) return false;
+  const imagery = new Date(imageryDate.year, imageryDate.month - 1, imageryDate.day);
+  const now = new Date();
+  const twoYearsAgo = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
+  return imagery < twoYearsAgo;
+}
+
 export default function RoofAnalysis({
   analysis,
   imageryDate,
@@ -17,6 +25,8 @@ export default function RoofAnalysis({
   const imageryLabel = imageryDate
     ? `${imageryDate.month}/${imageryDate.year}`
     : null;
+
+  const oldImagery = isImageryOld(imageryDate);
 
   const stats = [
     {
@@ -55,6 +65,28 @@ export default function RoofAnalysis({
         </svg>
       ),
     },
+    {
+      label: "Ridge",
+      value: `${analysis.estimatedRidgeFt} ft`,
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 21l9-9 9 9" />
+        </svg>
+      ),
+    },
+    ...(analysis.estimatedHipFt > 0
+      ? [
+          {
+            label: "Hip",
+            value: `${analysis.estimatedHipFt} ft`,
+            icon: (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15" />
+              </svg>
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -62,14 +94,28 @@ export default function RoofAnalysis({
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-bold text-navy">Your Roof Analysis</h3>
         {imageryLabel && (
-          <span className="text-gray-text text-xs">
+          <span className="text-gray-text text-xs bg-light-bg px-3 py-1 rounded-full">
             Imagery from {imageryLabel}
           </span>
         )}
       </div>
 
+      {/* Old imagery warning */}
+      {oldImagery && imageryDate && (
+        <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+          <svg className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+          <p className="text-amber-800 text-sm">
+            <strong>Note:</strong> Satellite imagery for this address is from{" "}
+            {imageryDate.month}/{imageryDate.year}. If your roof has been
+            modified since then, measurements may differ.
+          </p>
+        </div>
+      )}
+
       {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
         {stats.map((s) => (
           <div
             key={s.label}
@@ -82,6 +128,19 @@ export default function RoofAnalysis({
             <div className="text-gray-text text-xs mt-0.5">{s.label}</div>
           </div>
         ))}
+      </div>
+
+      {/* Disclaimer */}
+      <div className="bg-light-bg rounded-xl p-4 mb-4">
+        <p className="text-gray-text text-xs leading-relaxed text-center">
+          This analysis uses Google satellite data to provide an instant
+          estimate. For a precise measurement with exact ridge, valley, and hip
+          calculations, schedule your{" "}
+          <a href="tel:5597976081" className="text-orange font-semibold hover:underline">
+            free in-person inspection
+          </a>
+          .
+        </p>
       </div>
 
       {/* Segment breakdown */}
