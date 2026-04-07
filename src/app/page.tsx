@@ -306,24 +306,13 @@ export default function HomePage() {
               icon={icons.insulation}
               title="Insulation"
               description="Upgraded insulation solutions that keep your home comfortable and your energy bills low."
-              gradientPlaceholder
-              decorativeIcon={
-                <svg className="w-28 h-28" fill="none" stroke="currentColor" strokeWidth="0.8" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                  <path strokeLinecap="round" d="M7 14h2M7 17h2M15 14h2M15 17h2" />
-                </svg>
-              }
+              image="/images/about/insulation-interior.png"
             />
             <ServiceCard
               icon={icons.paint}
               title="Paint"
               description="Lifetime Plus exterior coating that protects and beautifies your home for decades."
-              gradientPlaceholder
-              decorativeIcon={
-                <svg className="w-28 h-28" fill="none" stroke="currentColor" strokeWidth="0.8" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
-                </svg>
-              }
+              image="/images/about/paint-exterior.png"
             />
           </div>
         </div>
