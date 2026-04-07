@@ -368,7 +368,7 @@ export default function HomePage() {
                 desc: "Energy-efficient solutions engineered for 110° summers and year-round comfort.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 6.75 6.75 0 0012 15.75a6.75 6.75 0 003.362-10.536z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
                   </svg>
                 ),
               },
@@ -397,22 +397,6 @@ export default function HomePage() {
                     {item.desc}
                   </p>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Energy savings stat bar */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 bg-navy-light/40 rounded-2xl p-8">
-            {[
-              { value: "30%", label: "Up to energy savings" },
-              { value: "9%", label: "Increase in home value" },
-              { value: "100s", label: "Of homes upgraded" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-orange text-3xl sm:text-4xl font-extrabold mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-white/60 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
