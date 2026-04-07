@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
@@ -90,6 +90,103 @@ const reviews = [
   },
 ];
 
+/* ─── FAQ data ─── */
+const faqs = [
+  {
+    q: "How do I know if my roof needs to be replaced?",
+    a: "If your roof is over 15-20 years old, has visible damage like curling or missing shingles, or you're experiencing leaks, it's time for an inspection. We offer free, no-pressure inspections to give you an honest assessment.",
+  },
+  {
+    q: "How much does a new roof cost in Fresno?",
+    a: "Most residential roof replacements in the Fresno area range from $15,000 to $40,000 depending on size, materials, and complexity. We provide detailed quotes with no hidden fees — and with $0 down financing, you can get started with nothing out of pocket.",
+  },
+  {
+    q: "What roofing materials do you use?",
+    a: "We're an Owens Corning Preferred Contractor, which means we use premium Duration and TruDefinition shingles backed by manufacturer warranties. We also install tile, metal, and flat roofing systems.",
+  },
+  {
+    q: "How long does a roof replacement take?",
+    a: "Most residential roof replacements are completed in 1-2 days. Larger or more complex projects may take 3-4 days. We'll give you a clear timeline before any work begins.",
+  },
+  {
+    q: "Do you offer financing?",
+    a: "Yes — we offer multiple financing options including $0 down, deferred payments up to 18 months, and low monthly payment plans. We work with multiple lenders to find the right fit for every credit profile.",
+  },
+];
+
+function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("visible");
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section ref={ref} className="fade-in-section py-24 md:py-32 bg-light-bg">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-14">
+          <SectionLabel>FAQ</SectionLabel>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
+            Common Questions About Roofing
+          </h2>
+        </div>
+
+        <div className="divide-y divide-gray-200">
+          {faqs.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div key={i}>
+                <button
+                  className="w-full flex items-center justify-between py-5 text-left cursor-pointer group"
+                  onClick={() => setOpenIndex(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="text-navy font-semibold text-[15px] sm:text-base pr-4 group-hover:text-orange transition-colors">
+                    {faq.q}
+                  </span>
+                  <span className="text-orange flex-shrink-0">
+                    <svg
+                      className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </span>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    isOpen ? "max-h-60 pb-5" : "max-h-0"
+                  }`}
+                >
+                  <p className="text-gray-text text-[15px] leading-relaxed">
+                    {faq.a}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════════════════════════════════
    ROOFING LANDING PAGE
    ═══════════════════════════════════════════ */
@@ -167,28 +264,32 @@ export default function RoofingPage() {
             </div>
 
             {/* Partner logos */}
-            <div className="flex flex-wrap items-center gap-6">
-              <Image
-                src="/images/logos/owens-preferred-logo.png"
-                alt="Owens Corning Preferred Contractor"
-                width={120}
-                height={35}
-                className="h-[35px] w-auto opacity-85"
-              />
-              <Image
-                src="/images/logos/bbb-logo.png"
-                alt="BBB A+ Accredited"
-                width={120}
-                height={35}
-                className="h-[35px] w-auto opacity-85"
-              />
-              <Image
-                src="/images/logos/anlin-logo.png"
-                alt="Anlin Certified"
-                width={120}
-                height={35}
-                className="h-[35px] w-auto opacity-85"
-              />
+            <div className="border-t border-white/20 pt-8 mt-2">
+              <div className="flex items-center gap-6 sm:gap-8">
+                <Image
+                  src="/images/logos/owens-preferred-logo.png"
+                  alt="Owens Corning Preferred Contractor"
+                  width={160}
+                  height={48}
+                  className="h-[45px] sm:h-[48px] w-auto opacity-90"
+                />
+                <div className="w-px h-10 bg-white/20 flex-shrink-0" />
+                <Image
+                  src="/images/logos/bbb-logo.png"
+                  alt="BBB A+ Accredited"
+                  width={160}
+                  height={48}
+                  className="h-[45px] sm:h-[48px] w-auto opacity-90"
+                />
+                <div className="w-px h-10 bg-white/20 flex-shrink-0" />
+                <Image
+                  src="/images/logos/anlin-logo.png"
+                  alt="Anlin Certified"
+                  width={160}
+                  height={48}
+                  className="h-[45px] sm:h-[48px] w-auto opacity-90"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -289,33 +390,56 @@ export default function RoofingPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
             {/* Dotted connector line (desktop only) */}
-            <div className="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-[2px] border-t-2 border-dashed border-gray-300 z-0" />
+            <div className="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-[2px] border-t-2 border-dashed border-orange/40 z-0" />
 
             {[
               {
                 num: "1",
                 title: "Free Inspection",
                 desc: "We come to your home, inspect your roof, and give you an honest assessment — no pressure, no cost.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  </svg>
+                ),
               },
               {
                 num: "2",
                 title: "Custom Quote",
                 desc: "Get a detailed quote with clear pricing and pick the payment plan that works for your budget.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25" />
+                  </svg>
+                ),
               },
               {
                 num: "3",
                 title: "Expert Installation",
                 desc: "Our experienced crew installs your new roof with premium Owens Corning materials. Most jobs done in 1-2 days.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17l-5.384-3.19A1.5 1.5 0 015.25 10.7V6.79a1.5 1.5 0 01.786-1.32l5.384-3.19a1.5 1.5 0 011.56 0l5.384 3.19a1.5 1.5 0 01.786 1.32v3.91a1.5 1.5 0 01-.786 1.32l-5.384 3.19a1.5 1.5 0 01-1.56 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 12v6.75M9.75 15l2.25 1.5 2.25-1.5" />
+                  </svg>
+                ),
               },
               {
                 num: "4",
                 title: "Enjoy & Relax",
                 desc: "Your home is protected with a beautiful new roof, backed by manufacturer and workmanship warranties.",
+                icon: (
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.5 12.75L11 14.25 14.5 10.5" />
+                  </svg>
+                ),
               },
             ].map((step) => (
               <div key={step.num} className="relative text-center z-10">
-                <div className="w-20 h-20 rounded-full bg-navy flex items-center justify-center mx-auto mb-5 shadow-lg">
-                  <span className="text-orange text-2xl font-extrabold">
+                <div className="relative w-20 h-20 rounded-full bg-navy flex flex-col items-center justify-center mx-auto mb-5 shadow-lg">
+                  <span className="text-white/60 mb-0.5">{step.icon}</span>
+                  <span className="text-orange text-lg font-extrabold leading-none">
                     {step.num}
                   </span>
                 </div>
@@ -480,8 +604,8 @@ export default function RoofingPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden -mx-4 px-4">
-            <div className="flex gap-6 reviews-carousel w-max">
+          <div className="overflow-hidden">
+            <div className="flex gap-6 reviews-carousel w-max pl-4">
               {[...reviews, ...reviews].map((r, i) => (
                 <ReviewCard
                   key={`${r.name}-${i}`}
@@ -564,6 +688,9 @@ export default function RoofingPage() {
           </div>
         </div>
       </Section>
+
+      {/* ════════════════ FAQ ════════════════ */}
+      <FAQSection />
 
       {/* ════════════════ CTA BANNER ════════════════ */}
       <Section className="relative py-24 md:py-28 bg-navy-dark noise-overlay overflow-hidden">
