@@ -193,6 +193,7 @@ function ResultsFunnel({
 }) {
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
 
@@ -493,21 +494,35 @@ function ResultsFunnel({
                   {/* Actions */}
                   <div className="space-y-3">
                     <button
-                      onClick={() => {
-                        if (!analysis || !pricing) return;
-                        generateRoofReport({
-                          customerName: formData.name, email: formData.email, phone: formData.phone,
-                          address, analysis, pricing,
-                          hasSolarPanels: solarAnswer === "yes" ? true : solarAnswer === "no" ? false : "unknown",
-                          solarPanelCount: activePanelCount, couponCode,
-                        });
+                      onClick={async () => {
+                        if (!analysis || !pricing || pdfLoading) return;
+                        setPdfLoading(true);
+                        try {
+                          await generateRoofReport({
+                            customerName: formData.name, email: formData.email, phone: formData.phone,
+                            address, coords, analysis, pricing,
+                            hasSolarPanels: solarAnswer === "yes" ? true : solarAnswer === "no" ? false : "unknown",
+                            solarPanelCount: activePanelCount, couponCode,
+                            imageryDate: solarData?.imageryDate ? { month: solarData.imageryDate.month, year: solarData.imageryDate.year } : undefined,
+                          });
+                        } finally {
+                          setPdfLoading(false);
+                        }
                       }}
-                      className="w-full inline-flex items-center justify-center gap-3 bg-navy text-white font-bold text-base py-4 rounded-xl hover:bg-navy-dark transition-colors cta-press cursor-pointer shadow-lg"
+                      disabled={pdfLoading}
+                      className="w-full inline-flex items-center justify-center gap-3 bg-navy text-white font-bold text-base py-4 rounded-xl hover:bg-navy-dark transition-colors cta-press cursor-pointer shadow-lg disabled:opacity-70"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                      </svg>
-                      DOWNLOAD ROOF REPORT (PDF)
+                      {pdfLoading ? (
+                        <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                        </svg>
+                      )}
+                      {pdfLoading ? "Generating Report..." : "DOWNLOAD ROOF REPORT (PDF)"}
                     </button>
                     <a
                       href="tel:5597976081"
