@@ -1,11 +1,9 @@
 /**
- * Load an image from a URL and convert to base64 data URL via canvas.
- * Works client-side only.
+ * Load an image from a local path and convert to base64 via canvas.
  */
-export async function imageToBase64(url: string): Promise<string | null> {
+export async function localImageToBase64(url: string): Promise<string | null> {
   return new Promise((resolve) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
+    const img = new window.Image();
     img.onload = () => {
       try {
         const canvas = document.createElement("canvas");
@@ -21,6 +19,25 @@ export async function imageToBase64(url: string): Promise<string | null> {
     img.onerror = () => resolve(null);
     img.src = url;
   });
+}
+
+/**
+ * Load an external image via fetch (avoids CORS canvas tainting).
+ */
+async function fetchImageToBase64(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
 }
 
 export interface PdfImages {
@@ -41,11 +58,11 @@ export async function loadPdfImages(
   const satelliteUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=20&size=600x400&maptype=satellite&key=AIzaSyCE6KM3DxgCo3eEEQm7JPgBqa1bvdmjLq8`;
 
   const [logo, owensCorning, bbb, anlin, satellite] = await Promise.all([
-    imageToBase64("/images/logos/hec-logo.png"),
-    imageToBase64("/images/logos/owens-preferred-logo.png"),
-    imageToBase64("/images/logos/bbb-logo.png"),
-    imageToBase64("/images/logos/anlin-logo.png"),
-    imageToBase64(satelliteUrl),
+    localImageToBase64("/images/logos/hec-logo.png"),
+    localImageToBase64("/images/logos/owens-preferred-logo.png"),
+    localImageToBase64("/images/logos/bbb-logo.png"),
+    localImageToBase64("/images/logos/anlin-logo.png"),
+    fetchImageToBase64(satelliteUrl),
   ]);
 
   return { logo, owensCorning, bbb, anlin, satellite };
