@@ -3,11 +3,14 @@ import Logo from "./Logo";
 
 const services = [
   { label: "Roofing", href: "/roofing" },
+  { label: "  Roof Replacement", href: "/roofing/replacement" },
+  { label: "  Roof Repair", href: "/roofing/repair" },
+  { label: "  Free Inspection", href: "/roofing/inspection" },
+  { label: "  Gutters", href: "/roofing/gutters" },
   { label: "HVAC", href: "/hvac" },
   { label: "Windows & Doors", href: "/windows" },
   { label: "Outdoor Living", href: "/outdoor" },
   { label: "Insulation", href: "/insulation" },
-  { label: "Paint", href: "#" },
 ];
 
 /* Google Reviews badge — stays as a component (no logo file) */
