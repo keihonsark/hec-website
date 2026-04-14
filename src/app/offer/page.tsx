@@ -158,7 +158,7 @@ function LeadCaptureForm() {
         </div>
         <h3 className="text-2xl font-extrabold text-navy mb-2">You&apos;re all set!</h3>
         <p className="text-gray-text text-[15px]">
-          We&apos;ll call you within the hour to schedule your free satellite analysis and lock in your $1,000 discount.
+          Our team will call you within the hour to schedule your free inspection and lock in your $1,000 discount.
         </p>
       </div>
     );
@@ -182,7 +182,7 @@ function LeadCaptureForm() {
         onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))} />
       <button type="submit" disabled={submitting}
         className="w-full bg-orange text-white font-extrabold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/30 cursor-pointer disabled:opacity-70">
-        {submitting ? "Submitting..." : "GET MY FREE ROOF ANALYSIS →"}
+        {submitting ? "Submitting..." : "CLAIM MY $1,000 DISCOUNT →"}
       </button>
       <p className="text-gray-text text-xs text-center mt-3">
         No obligation. We&apos;ll call within the hour.
@@ -247,7 +247,7 @@ export default function OfferPage() {
           </p>
           <a href="#claim"
             className="inline-flex items-center gap-2 bg-orange text-white font-extrabold text-base sm:text-lg px-8 py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-xl shadow-orange/30 cursor-pointer">
-            GET YOUR FREE ROOF ANALYSIS →
+            CLAIM YOUR $1,000 DISCOUNT →
           </a>
           <p className="text-orange text-sm font-semibold mt-4 flex items-center justify-center gap-2">
             <span className="relative flex h-2 w-2">
@@ -552,24 +552,23 @@ export default function OfferPage() {
       />
 
       {/* ═══ FINAL CTA + FORM ═══ */}
-      <section id="claim" className="relative py-12 md:py-16 bg-navy-dark noise-overlay overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange/8 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="claim" className="relative bg-navy py-10 md:py-14">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
             <span className="inline-block bg-orange/15 border border-orange/30 text-orange text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Claim Your Offer
+              Limited Time
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3">
-              Get Your <span className="text-orange">Free Satellite Roof Analysis</span>
+              Claim Your <span className="text-orange">$1,000 Discount</span>
             </h2>
             <p className="text-white/65 text-base sm:text-lg max-w-xl mx-auto">
-              See your roof from space, get an instant estimate, and lock in your $1,000 discount.
+              Fill out the form below and our team will call you to schedule your free roof inspection and lock in your discount.
             </p>
           </div>
 
           <LeadCaptureForm />
 
-          <p className="text-white/60 text-center mt-6 text-sm">
+          <p className="text-white/60 text-center mt-5 text-sm">
             Or call now:{" "}
             <a href="tel:+15592158516" className="text-orange font-bold hover:underline">
               (559) 215-8516
