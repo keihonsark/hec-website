@@ -6,6 +6,76 @@ import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
 import ReviewCard from "@/components/ReviewCard";
 import BeforeAfter from "@/components/BeforeAfter";
+import { postToWebhook } from "@/lib/webhook";
+
+function RoofingEstimateForm() {
+  const [form, setForm] = useState({
+    name: "", phone: "", email: "", address: "", service: "", financing: "",
+  });
+  const inputCls =
+    "w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition";
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await postToWebhook({
+      type: "estimate_request",
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      message: form.financing ? `Financing interest: ${form.financing}` : "",
+      service: form.service,
+      address: form.address,
+      source: "hecfresno.com",
+      page: "/roofing",
+    });
+  };
+
+  return (
+    <form className="grid sm:grid-cols-2 gap-5" onSubmit={handleSubmit}>
+      <input type="text" placeholder="Full Name" className={inputCls}
+        value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+      <input type="tel" placeholder="Phone Number" className={inputCls}
+        value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
+      <input type="email" placeholder="Email" className={inputCls}
+        value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
+      <input type="text" placeholder="Street Address" className={inputCls}
+        value={form.address} onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))} />
+      <select
+        value={form.service}
+        onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))}
+        className={`${inputCls} appearance-none bg-white`}
+      >
+        <option value="" disabled>What do you need?</option>
+        <option>Roof Replacement</option>
+        <option>Roof Repair</option>
+        <option>Storm Damage</option>
+        <option>Inspection</option>
+        <option>Not Sure</option>
+      </select>
+      <select
+        value={form.financing}
+        onChange={(e) => setForm((f) => ({ ...f, financing: e.target.value }))}
+        className={`${inputCls} appearance-none bg-white`}
+      >
+        <option value="" disabled>Interested in financing?</option>
+        <option>Yes — $0 Down</option>
+        <option>Yes — Low Monthly</option>
+        <option>Yes — Deferred</option>
+        <option>Not Sure</option>
+        <option>No — Paying Cash</option>
+      </select>
+      <div className="sm:col-span-2">
+        <button type="submit"
+          className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer">
+          GET MY FREE ESTIMATE →
+        </button>
+        <p className="text-gray-text text-sm text-center mt-3">
+          No obligation. No pressure. Just honest answers.
+        </p>
+      </div>
+    </form>
+  );
+}
 
 /* ─── Scroll reveal ─── */
 function useScrollReveal() {
@@ -787,69 +857,7 @@ export default function RoofingPage() {
               </p>
             </div>
 
-            <form
-              className="grid sm:grid-cols-2 gap-5"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <input
-                type="text"
-                placeholder="Full Name"
-                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-              />
-              <input
-                type="text"
-                placeholder="Street Address"
-                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition"
-              />
-              <select
-                defaultValue=""
-                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
-              >
-                <option value="" disabled>
-                  What do you need?
-                </option>
-                <option>Roof Replacement</option>
-                <option>Roof Repair</option>
-                <option>Storm Damage</option>
-                <option>Inspection</option>
-                <option>Not Sure</option>
-              </select>
-              <select
-                defaultValue=""
-                className="w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition appearance-none bg-white"
-              >
-                <option value="" disabled>
-                  Interested in financing?
-                </option>
-                <option>Yes — $0 Down</option>
-                <option>Yes — Low Monthly</option>
-                <option>Yes — Deferred</option>
-                <option>Not Sure</option>
-                <option>No — Paying Cash</option>
-              </select>
-
-              <div className="sm:col-span-2">
-                <button
-                  type="submit"
-                  className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer"
-                >
-                  GET MY FREE ESTIMATE →
-                </button>
-                <p className="text-gray-text text-sm text-center mt-3">
-                  No obligation. No pressure. Just honest answers.
-                </p>
-              </div>
-            </form>
+            <RoofingEstimateForm />
           </div>
         </div>
       </section>

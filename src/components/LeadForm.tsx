@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import SectionLabel from "./SectionLabel";
+import { postToWebhook } from "@/lib/webhook";
 
 interface LeadFormProps {
   id?: string;
@@ -39,6 +41,32 @@ export default function LeadForm({
   serviceOptions,
 }: LeadFormProps) {
   const services = serviceOptions || defaultServices;
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+    service: defaultService,
+    financing: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const page = typeof window !== "undefined" ? window.location.pathname : "";
+    await postToWebhook({
+      type: "estimate_request",
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      message: form.financing
+        ? `Financing interest: ${form.financing}`
+        : "",
+      service: form.service,
+      address: form.address,
+      source: "hecfresno.com",
+      page,
+    });
+  };
 
   return (
     <section id={id} className="relative py-24 md:py-32 overflow-hidden">
@@ -73,36 +101,45 @@ export default function LeadForm({
             </p>
           </div>
 
-          <form
-            className="grid sm:grid-cols-2 gap-5"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input type="text" placeholder="Full Name" className={inputClass} />
-            <input type="tel" placeholder="Phone Number" className={inputClass} />
-            <input type="email" placeholder="Email" className={inputClass} />
-            <input type="text" placeholder="Street Address" className={inputClass} />
+          <form className="grid sm:grid-cols-2 gap-5" onSubmit={handleSubmit}>
+            <input
+              type="text" placeholder="Full Name" className={inputClass}
+              value={form.name}
+              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+            />
+            <input
+              type="tel" placeholder="Phone Number" className={inputClass}
+              value={form.phone}
+              onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+            />
+            <input
+              type="email" placeholder="Email" className={inputClass}
+              value={form.email}
+              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+            />
+            <input
+              type="text" placeholder="Street Address" className={inputClass}
+              value={form.address}
+              onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
+            />
             <select
-              defaultValue={defaultService}
+              value={form.service}
+              onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))}
               className={`${inputClass} appearance-none bg-white`}
             >
-              <option value="" disabled>
-                Select a service...
-              </option>
+              <option value="" disabled>Select a service...</option>
               {services.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
+                <option key={s} value={s}>{s}</option>
               ))}
             </select>
             <select
-              defaultValue=""
+              value={form.financing}
+              onChange={(e) => setForm((f) => ({ ...f, financing: e.target.value }))}
               className={`${inputClass} appearance-none bg-white`}
             >
-              <option value="" disabled>
-                Interested in financing?
-              </option>
+              <option value="" disabled>Interested in financing?</option>
               {financingOptions.map((o) => (
-                <option key={o}>{o}</option>
+                <option key={o} value={o}>{o}</option>
               ))}
             </select>
 

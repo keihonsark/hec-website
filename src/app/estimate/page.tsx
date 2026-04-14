@@ -17,6 +17,7 @@ import {
   type RoofSegmentInput,
 } from "@/lib/pricingEngine";
 import { generateRoofReport } from "@/lib/generateReport";
+import { postToWebhook } from "@/lib/webhook";
 
 type PageState = "input" | "loading" | "results" | "error";
 
@@ -224,18 +225,34 @@ function ResultsFunnel({
       setSubmitting(true);
       const code = `HEC-${Math.floor(1000 + Math.random() * 9000)}`;
 
-      const leadData = {
-        name: formData.name, phone: formData.phone, email: formData.email, address,
-        roofAreaSqFt: analysis?.totalRoofAreaSqFt ?? 0, roofSegments: analysis?.segmentCount ?? 0,
-        primaryPitch: analysis?.averagePitchRatio ?? "", complexity: analysis?.complexity ?? "",
-        estimateLow: pricing?.low ?? 0, estimateMid: pricing?.mid ?? 0, estimateHigh: pricing?.high ?? 0,
-        hasSolarPanels: solarAnswer === "yes" ? true : solarAnswer === "no" ? false : ("unknown" as const),
-        solarPanelCount: activePanelCount, solarRemovalCost: activePanelCount * SOLAR_COST_PER_PANEL,
-        totalEstimateLow: pricing?.totalLow ?? 0, totalEstimateMid: pricing?.totalMid ?? 0,
-        totalEstimateHigh: pricing?.totalHigh ?? 0,
-        couponCode: code, timestamp: new Date().toISOString(), source: "roof_calculator",
-      };
-      console.log("Lead captured:", leadData);
+      const solarAnswerLabel =
+        solarAnswer === "yes" ? "yes" : solarAnswer === "no" ? "no" : "not sure";
+      const roofSize = analysis?.totalRoofAreaSqFt ?? 0;
+      const estimatedCost = pricing
+        ? `$${pricing.totalLow.toLocaleString()} - $${pricing.totalHigh.toLocaleString()}`
+        : "";
+
+      postToWebhook({
+        type: "calculator_lead",
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        address,
+        roofSize,
+        roofType: analysis?.complexity ?? "",
+        solarPanels: solarAnswerLabel,
+        solarPanelCount: activePanelCount,
+        estimatedCost,
+        estimateLow: pricing?.totalLow ?? 0,
+        estimateMid: pricing?.totalMid ?? 0,
+        estimateHigh: pricing?.totalHigh ?? 0,
+        primaryPitch: analysis?.averagePitchRatio ?? "",
+        roofSegments: analysis?.segmentCount ?? 0,
+        couponCode: code,
+        timestamp: new Date().toISOString(),
+        source: "hecfresno.com",
+        page: "/estimate",
+      });
 
       setTimeout(() => {
         setCouponCode(code);
