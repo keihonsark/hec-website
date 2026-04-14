@@ -70,8 +70,8 @@ export default function ServiceHero({
 
           <div className="flex flex-wrap gap-4">
             <CTAButton href={formAnchor}>Get Free Estimate</CTAButton>
-            <CTAButton variant="outline" href="tel:5597976081">
-              Call (559) 797-6081
+            <CTAButton variant="outline" href="tel:+15592158516">
+              Call (559) 215-8516
             </CTAButton>
           </div>
         </div>

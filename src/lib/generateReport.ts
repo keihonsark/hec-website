@@ -133,7 +133,7 @@ export async function generateRoofReport(data: ReportData): Promise<void> {
   rect(doc, 0, 0, W, 18, NAVY);
   drawLogo(doc, M, 3, 0.9);
   doc.setFontSize(8); tc(doc, MUTED);
-  doc.text("(559) 797-6081", W - M, 9, { align: "right" });
+  doc.text("(559) 215-8516", W - M, 9, { align: "right" });
   doc.text("homeenergyconstruction.com", W - M, 14, { align: "right" });
 
   y = 28;
@@ -362,7 +362,7 @@ export async function generateRoofReport(data: ReportData): Promise<void> {
   y += 9;
 
   [
-    "Call (559) 797-6081 - Schedule your free inspection",
+    "Call (559) 215-8516 - Schedule your free inspection",
     "We visit your home - Verify measurements and inspect your roof",
     "Get your exact quote - Choose materials and financing",
     "We install your new roof - Most jobs done in 1-2 days",
@@ -386,7 +386,7 @@ export async function generateRoofReport(data: ReportData): Promise<void> {
   doc.text("Home Energy Construction", W / 2, fy + 10, { align: "center" });
   doc.setFontSize(9); doc.setFont("helvetica", "normal"); tc(doc, MUTED);
   doc.text("7194 N Abby St, Fresno CA 93720", W / 2, fy + 17, { align: "center" });
-  doc.text("(559) 797-6081  |  homeenergyconstruction.com", W / 2, fy + 23, { align: "center" });
+  doc.text("(559) 215-8516  |  homeenergyconstruction.com", W / 2, fy + 23, { align: "center" });
   doc.text("CA License #1086515", W / 2, fy + 29, { align: "center" });
   let fbX = W / 2 - 45;
   if (imgs.owensCorning) { addImg(doc, imgs.owensCorning, fbX, fy + 33, 25, 8); fbX += 30; }

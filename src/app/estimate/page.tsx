@@ -155,8 +155,8 @@ export default function EstimatePage() {
             >
               Try Another Address
             </CTAButton>
-            <CTAButton variant="outline" href="tel:5597976081">
-              Call (559) 797-6081
+            <CTAButton variant="outline" href="tel:+15592158516">
+              Call (559) 215-8516
             </CTAButton>
           </div>
         </div>
@@ -547,10 +547,10 @@ function ResultsFunnel({
                       {pdfLoading ? "Generating Report..." : "DOWNLOAD ROOF REPORT (PDF)"}
                     </button>
                     <a
-                      href="tel:5597976081"
+                      href="tel:+15592158516"
                       className="w-full flex items-center justify-center gap-2 bg-orange text-white font-bold text-base py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press"
                     >
-                      Call (559) 797-6081
+                      Call (559) 215-8516
                     </a>
                   </div>
 

@@ -50,6 +50,10 @@ export default function RootLayout({
             gtag('config', '${GA_ID}');
           `}
         </Script>
+        <Script
+          src="//cdn.callrail.com/companies/366024590/b40b77871305f3ae0417/12/swap.js"
+          strategy="afterInteractive"
+        />
         <Navbar />
         <main className="flex-1 pt-[74px]">{children}</main>
         <Footer />

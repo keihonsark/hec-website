@@ -48,7 +48,7 @@ export default function SubPageHero({
         <p className="text-white/60 text-base sm:text-lg mb-6 max-w-xl">{subtext}</p>
         <div className="flex flex-wrap gap-3">
           <CTAButton href={formAnchor}>Get Free Estimate</CTAButton>
-          <CTAButton variant="outline" href="tel:5597976081">Call (559) 797-6081</CTAButton>
+          <CTAButton variant="outline" href="tel:+15592158516">Call (559) 215-8516</CTAButton>
         </div>
       </div>
     </section>

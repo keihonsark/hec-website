@@ -29,7 +29,7 @@ export default function CTABanner({
           {subtext}
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <CTAButton href="tel:5597976081">Call (559) 797-6081</CTAButton>
+          <CTAButton href="tel:+15592158516">Call (559) 215-8516</CTAButton>
           <CTAButton variant="outline" href={formAnchor}>
             Get Free Estimate
           </CTAButton>

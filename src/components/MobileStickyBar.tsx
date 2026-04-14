@@ -33,7 +33,7 @@ export default function MobileStickyBar({
         className="mobile-cta-bar md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-4 py-3 flex gap-3 shadow-[0_-4px_12px_rgba(0,0,0,0.1)]"
       >
         <a
-          href="tel:5597976081"
+          href="tel:+15592158516"
           className="flex-1 flex items-center justify-center gap-2 bg-orange text-white py-3 rounded-xl font-bold text-sm cta-press"
         >
           <span>📞</span>
