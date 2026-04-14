@@ -10,7 +10,7 @@ import { postToWebhook } from "@/lib/webhook";
 
 function RoofingEstimateForm() {
   const [form, setForm] = useState({
-    name: "", phone: "", email: "", address: "", service: "", financing: "",
+    firstName: "", lastName: "", phone: "", email: "", address: "", service: "", financing: "",
   });
   const inputCls =
     "w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition";
@@ -19,7 +19,8 @@ function RoofingEstimateForm() {
     e.preventDefault();
     await postToWebhook({
       type: "estimate_request",
-      name: form.name,
+      firstName: form.firstName,
+      lastName: form.lastName,
       email: form.email,
       phone: form.phone,
       message: form.financing ? `Financing interest: ${form.financing}` : "",
@@ -32,13 +33,15 @@ function RoofingEstimateForm() {
 
   return (
     <form className="grid sm:grid-cols-2 gap-5" onSubmit={handleSubmit}>
-      <input type="text" placeholder="Full Name" className={inputCls}
-        value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+      <input type="text" placeholder="First Name" required className={inputCls}
+        value={form.firstName} onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))} />
+      <input type="text" placeholder="Last Name" required className={inputCls}
+        value={form.lastName} onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))} />
       <input type="tel" placeholder="Phone Number" className={inputCls}
         value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
       <input type="email" placeholder="Email" className={inputCls}
         value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
-      <input type="text" placeholder="Street Address" className={inputCls}
+      <input type="text" placeholder="Street Address" className={`${inputCls} sm:col-span-2`}
         value={form.address} onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))} />
       <select
         value={form.service}

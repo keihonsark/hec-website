@@ -196,7 +196,7 @@ function ResultsFunnel({
   const [submitting, setSubmitting] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [couponCode, setCouponCode] = useState("");
-  const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
+  const [formData, setFormData] = useState({ firstName: "", lastName: "", phone: "", email: "" });
 
   // Solar panel state
   const [solarAnswer, setSolarAnswer] = useState<"yes" | "no" | "notsure" | null>(null);
@@ -221,7 +221,7 @@ function ResultsFunnel({
   const handleGateSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (!formData.name || !formData.phone || !formData.email) return;
+      if (!formData.firstName || !formData.lastName || !formData.phone || !formData.email) return;
       setSubmitting(true);
       const code = `HEC-${Math.floor(1000 + Math.random() * 9000)}`;
 
@@ -234,7 +234,8 @@ function ResultsFunnel({
 
       postToWebhook({
         type: "calculator_lead",
-        name: formData.name,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
         phone: formData.phone,
         address,
@@ -431,8 +432,12 @@ function ResultsFunnel({
                   </div>
 
                   <form onSubmit={handleGateSubmit} className="space-y-4">
-                    <input type="text" placeholder="Full Name" required value={formData.name}
-                      onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))} className={inputClass} />
+                    <div className="grid grid-cols-2 gap-4">
+                      <input type="text" placeholder="First Name" required value={formData.firstName}
+                        onChange={(e) => setFormData((d) => ({ ...d, firstName: e.target.value }))} className={inputClass} />
+                      <input type="text" placeholder="Last Name" required value={formData.lastName}
+                        onChange={(e) => setFormData((d) => ({ ...d, lastName: e.target.value }))} className={inputClass} />
+                    </div>
                     <input type="tel" placeholder="Phone Number" required value={formData.phone}
                       onChange={(e) => setFormData((d) => ({ ...d, phone: e.target.value }))} className={inputClass} />
                     <input type="email" placeholder="Email Address" required value={formData.email}
@@ -516,7 +521,7 @@ function ResultsFunnel({
                         setPdfLoading(true);
                         try {
                           await generateRoofReport({
-                            customerName: formData.name, email: formData.email, phone: formData.phone,
+                            customerName: `${formData.firstName} ${formData.lastName}`.trim(), email: formData.email, phone: formData.phone,
                             address, coords, analysis, pricing,
                             hasSolarPanels: solarAnswer === "yes" ? true : solarAnswer === "no" ? false : "unknown",
                             solarPanelCount: activePanelCount, couponCode,

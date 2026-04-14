@@ -42,7 +42,8 @@ export default function LeadForm({
 }: LeadFormProps) {
   const services = serviceOptions || defaultServices;
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     email: "",
     address: "",
@@ -55,7 +56,8 @@ export default function LeadForm({
     const page = typeof window !== "undefined" ? window.location.pathname : "";
     await postToWebhook({
       type: "estimate_request",
-      name: form.name,
+      firstName: form.firstName,
+      lastName: form.lastName,
       email: form.email,
       phone: form.phone,
       message: form.financing
@@ -103,9 +105,14 @@ export default function LeadForm({
 
           <form className="grid sm:grid-cols-2 gap-5" onSubmit={handleSubmit}>
             <input
-              type="text" placeholder="Full Name" className={inputClass}
-              value={form.name}
-              onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+              type="text" placeholder="First Name" required className={inputClass}
+              value={form.firstName}
+              onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
+            />
+            <input
+              type="text" placeholder="Last Name" required className={inputClass}
+              value={form.lastName}
+              onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
             />
             <input
               type="tel" placeholder="Phone Number" className={inputClass}
@@ -118,7 +125,7 @@ export default function LeadForm({
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             />
             <input
-              type="text" placeholder="Street Address" className={inputClass}
+              type="text" placeholder="Street Address" className={`${inputClass} sm:col-span-2`}
               value={form.address}
               onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
             />
