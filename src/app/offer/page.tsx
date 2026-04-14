@@ -5,6 +5,7 @@ import Image from "next/image";
 import Section from "@/components/Section";
 import FAQ from "@/components/FAQ";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import GoogleReviewsCarousel from "@/components/GoogleReviewsCarousel";
 import { postToWebhook } from "@/lib/webhook";
 
 /* ──────────────────────────────────────────────
@@ -98,16 +99,21 @@ function TrustBadgeRow() {
 }
 
 /* ═══ Offer row with big bold value ═══ */
-function OfferRow({ label, value }: { label: string; value: string }) {
+function OfferRow({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
-    <div className="flex items-center gap-4 py-4 border-b border-white/10 last:border-b-0">
-      <div className="w-8 h-8 rounded-full bg-orange/15 flex items-center justify-center flex-shrink-0">
+    <div className="flex items-start gap-4 py-4 border-b border-white/10 last:border-b-0">
+      <div className="w-8 h-8 rounded-full bg-orange/15 flex items-center justify-center flex-shrink-0 mt-0.5">
         <svg className="w-4 h-4 text-orange" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
         </svg>
       </div>
-      <span className="text-white text-[15px] sm:text-base font-medium flex-1">{label}</span>
-      <span className="text-orange text-sm sm:text-base font-extrabold uppercase tracking-wide text-right flex-shrink-0">
+      <div className="flex-1">
+        <span className="text-white text-[15px] sm:text-base font-medium">{label}</span>
+        {note && (
+          <p className="text-white/50 text-xs sm:text-sm mt-1">{note}</p>
+        )}
+      </div>
+      <span className="text-orange text-sm sm:text-base font-extrabold uppercase tracking-wide text-right flex-shrink-0 mt-0.5">
         {value}
       </span>
     </div>
@@ -195,9 +201,14 @@ export default function OfferPage() {
       <div className="sticky top-[74px] z-30 bg-navy-dark border-b border-orange/30 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
           <p className="text-white font-semibold text-xs sm:text-sm">
-            <span className="text-orange font-extrabold">$1,000 Off</span>{" "}
-            <span className="hidden sm:inline">Your New Roof —</span>{" "}
-            <span className="text-white/70">Limited Spots Available</span>
+            <span className="text-orange font-extrabold">$1,000 Off</span>
+            <span className="hidden sm:inline"> Your New Roof</span>
+            <span className="hidden md:inline"> —{" "}
+              <a href="tel:+15592158516" className="text-white hover:text-orange transition-colors font-bold">
+                (559) 215-8516
+              </a>
+            </span>
+            <span className="hidden lg:inline text-white/70"> — Limited Spots</span>
           </p>
           <a href="#claim"
             className="bg-orange text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-lg hover:bg-orange-dark transition-colors cta-press whitespace-nowrap">
@@ -323,7 +334,11 @@ export default function OfferPage() {
             <OfferRow label="Free Satellite Roof Analysis" value="$500 Value" />
             <OfferRow label="Free In-Person Inspection" value="$400 Value" />
             <OfferRow label="$0 Down, 0% Interest for 12 Months" value="On Approved Credit" />
-            <OfferRow label="Solar Panel Removal & Reinstall Handled" value="$1,500+ Value" />
+            <OfferRow
+              label="Solar Panel Removal & Reinstall — We Handle Everything"
+              value="$190/Panel"
+              note="We coordinate removal, storage, and reinstall. No third-party headaches."
+            />
             <OfferRow label="All Permits & City Inspections Included" value="$500+ Value" />
             <OfferRow label="Wood Rot & Decking Replacement Included" value="$1,500+ Value" />
             <OfferRow label="Complete Property Cleanup Guarantee" value="$500 Value" />
@@ -339,7 +354,7 @@ export default function OfferPage() {
               Total Package Value
             </p>
             <p className="text-orange text-6xl sm:text-7xl font-extrabold leading-none mb-4">
-              $7,500+
+              $5,600+
             </p>
             <p className="text-white/70 text-base sm:text-lg">
               In extras — <span className="font-semibold text-white">included at no additional cost</span>
@@ -397,21 +412,7 @@ export default function OfferPage() {
             <p className="text-gray-text text-sm">4.7 stars across 228+ Google reviews</p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-5">
-            {[
-              { text: "Home Energy replaced our 30-year-old roof in just two days. The crew was professional, cleaned up everything, and our energy bill dropped $40/month. Worth every penny.", name: "Maria Gonzalez", city: "Fresno" },
-              { text: "We got quotes from four companies. HEC was the only one that included permits, cleanup, and wood replacement in their price. No surprises. Alex and his team are the real deal.", name: "James Thompson", city: "Clovis" },
-              { text: "Zero out of pocket with their financing. New Owens Corning roof, they handled our solar panels, and the whole thing was done before we expected. Already referred two neighbors.", name: "Robert Kim", city: "Madera" },
-              { text: "Our old roof was leaking every winter. Home Energy came out, gave us an honest assessment, and had a new roof on in 48 hours. Professional from start to finish.", name: "Patricia Davis", city: "Clovis" },
-            ].map((r) => (
-              <div key={r.name} className="bg-light-bg rounded-2xl p-6 border-l-4 border-l-orange">
-                <p className="text-gray-text italic text-[15px] leading-relaxed mb-3">
-                  &ldquo;{r.text}&rdquo;
-                </p>
-                <p className="text-navy font-semibold text-sm">— {r.name}, {r.city}</p>
-              </div>
-            ))}
-          </div>
+          <GoogleReviewsCarousel />
 
           <div className="text-center mt-8">
             <a href="https://www.google.com/search?q=home+energy+construction+fresno+reviews" target="_blank" rel="noopener noreferrer"
@@ -486,7 +487,7 @@ export default function OfferPage() {
             {[
               { other: "Quote for roof only", hec: "Complete package — roof, permits, cleanup, warranty" },
               { other: "Surprise charges for wood rot", hec: "Wood replacement included" },
-              { other: "You deal with solar company", hec: "We handle solar R&R" },
+              { other: "You deal with solar company", hec: "We handle solar panel removal & reinstall" },
               { other: "60-90 day wait", hec: "Installed in 2 weeks" },
               { other: "Basic manufacturer warranty", hec: "Lifetime Owens Corning Platinum" },
               { other: "No financing help", hec: "$0 down, 0% for 12 months" },
@@ -552,16 +553,16 @@ export default function OfferPage() {
 
       {/* ═══ FINAL CTA + FORM ═══ */}
       <section id="claim" className="relative py-12 md:py-16 bg-navy-dark noise-overlay overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-orange/8 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange/8 rounded-full blur-[100px] pointer-events-none" />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <span className="inline-block bg-orange/15 border border-orange/30 text-orange text-xs font-bold uppercase tracking-[0.2em] px-4 py-2 rounded-full mb-5">
+          <div className="text-center mb-6">
+            <span className="inline-block bg-orange/15 border border-orange/30 text-orange text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
               Claim Your Offer
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3">
               Get Your <span className="text-orange">Free Satellite Roof Analysis</span>
             </h2>
-            <p className="text-white/65 text-lg max-w-xl mx-auto">
+            <p className="text-white/65 text-base sm:text-lg max-w-xl mx-auto">
               See your roof from space, get an instant estimate, and lock in your $1,000 discount.
             </p>
           </div>
