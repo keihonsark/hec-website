@@ -47,6 +47,7 @@ export default function LeadForm({
     phone: "",
     email: "",
     address: "",
+    city: "",
     service: defaultService,
     financing: "",
   });
@@ -58,13 +59,13 @@ export default function LeadForm({
       type: "estimate_request",
       firstName: form.firstName,
       lastName: form.lastName,
-      email: form.email,
       phone: form.phone,
-      message: form.financing
-        ? `Financing interest: ${form.financing}`
-        : "",
-      service: form.service,
+      email: form.email,
       address: form.address,
+      city: form.city,
+      service: form.service,
+      message: "",
+      ...(form.financing ? { financingInterest: form.financing } : {}),
       source: "hecfresno.com",
       page,
     });
@@ -125,9 +126,14 @@ export default function LeadForm({
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             />
             <input
-              type="text" placeholder="Street Address" className={`${inputClass} sm:col-span-2`}
+              type="text" placeholder="Street Address" className={inputClass}
               value={form.address}
               onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
+            />
+            <input
+              type="text" placeholder="City" className={inputClass}
+              value={form.city}
+              onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
             />
             <select
               value={form.service}

@@ -38,6 +38,7 @@ interface SolarData {
 export default function EstimatePage() {
   const [state, setState] = useState<PageState>("input");
   const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
   const [coords, setCoords] = useState({ lat: 0, lng: 0 });
   const [analysis, setAnalysis] = useState<RoofAnalysis | null>(null);
   const [pricing, setPricing] = useState<PriceEstimate | null>(null);
@@ -45,8 +46,9 @@ export default function EstimatePage() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleAddressSelect = useCallback(
-    async (result: { lat: number; lng: number; address: string }) => {
+    async (result: { lat: number; lng: number; address: string; city: string }) => {
       setAddress(result.address);
+      setCity(result.city);
       setCoords({ lat: result.lat, lng: result.lng });
       setState("loading");
 
@@ -168,6 +170,7 @@ export default function EstimatePage() {
   return (
     <ResultsFunnel
       address={address}
+      city={city}
       coords={coords}
       analysis={analysis}
       pricing={pricing}
@@ -181,12 +184,14 @@ export default function EstimatePage() {
    ───────────────────────────────────────── */
 function ResultsFunnel({
   address,
+  city,
   coords,
   analysis,
   pricing: basePricing,
   solarData,
 }: {
   address: string;
+  city: string;
   coords: { lat: number; lng: number };
   analysis: RoofAnalysis | null;
   pricing: PriceEstimate | null;
@@ -236,17 +241,18 @@ function ResultsFunnel({
         type: "calculator_lead",
         firstName: formData.firstName,
         lastName: formData.lastName,
-        email: formData.email,
         phone: formData.phone,
+        email: formData.email,
         address,
+        city,
         roofSize,
         roofType: analysis?.complexity ?? "",
         solarPanels: solarAnswerLabel,
         solarPanelCount: activePanelCount,
         estimatedCost,
         estimateLow: pricing?.totalLow ?? 0,
-        estimateMid: pricing?.totalMid ?? 0,
         estimateHigh: pricing?.totalHigh ?? 0,
+        estimateMid: pricing?.totalMid ?? 0,
         primaryPitch: analysis?.averagePitchRatio ?? "",
         roofSegments: analysis?.segmentCount ?? 0,
         couponCode: code,

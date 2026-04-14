@@ -10,7 +10,7 @@ import { postToWebhook } from "@/lib/webhook";
 
 function RoofingEstimateForm() {
   const [form, setForm] = useState({
-    firstName: "", lastName: "", phone: "", email: "", address: "", service: "", financing: "",
+    firstName: "", lastName: "", phone: "", email: "", address: "", city: "", service: "", financing: "",
   });
   const inputCls =
     "w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition";
@@ -21,11 +21,13 @@ function RoofingEstimateForm() {
       type: "estimate_request",
       firstName: form.firstName,
       lastName: form.lastName,
-      email: form.email,
       phone: form.phone,
-      message: form.financing ? `Financing interest: ${form.financing}` : "",
-      service: form.service,
+      email: form.email,
       address: form.address,
+      city: form.city,
+      service: form.service,
+      message: "",
+      ...(form.financing ? { financingInterest: form.financing } : {}),
       source: "hecfresno.com",
       page: "/roofing",
     });
@@ -41,8 +43,10 @@ function RoofingEstimateForm() {
         value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
       <input type="email" placeholder="Email" className={inputCls}
         value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
-      <input type="text" placeholder="Street Address" className={`${inputCls} sm:col-span-2`}
+      <input type="text" placeholder="Street Address" className={inputCls}
         value={form.address} onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))} />
+      <input type="text" placeholder="City" className={inputCls}
+        value={form.city} onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))} />
       <select
         value={form.service}
         onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))}

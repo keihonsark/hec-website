@@ -9,9 +9,32 @@ declare global {
   }
 }
 
+export interface AddressSelection {
+  lat: number;
+  lng: number;
+  address: string;
+  city: string;
+}
+
 interface AddressInputProps {
-  onSelect: (result: { lat: number; lng: number; address: string }) => void;
+  onSelect: (result: AddressSelection) => void;
   loading?: boolean;
+}
+
+function parseCity(
+  components?: google.maps.GeocoderAddressComponent[]
+): string {
+  if (!components) return "";
+  const locality = components.find((c) => c.types.includes("locality"));
+  if (locality) return locality.long_name;
+  const sub = components.find((c) =>
+    c.types.includes("sublocality_level_1")
+  );
+  if (sub) return sub.long_name;
+  const admin2 = components.find((c) =>
+    c.types.includes("administrative_area_level_2")
+  );
+  return admin2?.long_name ?? "";
 }
 
 export default function AddressInput({ onSelect, loading }: AddressInputProps) {
@@ -19,7 +42,7 @@ export default function AddressInput({ onSelect, loading }: AddressInputProps) {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const [ready, setReady] = useState(false);
   const [address, setAddress] = useState("");
-  const selectedRef = useRef<{ lat: number; lng: number; address: string } | null>(null);
+  const selectedRef = useRef<AddressSelection | null>(null);
 
   // Load Google Maps script
   useEffect(() => {
@@ -48,16 +71,17 @@ export default function AddressInput({ onSelect, loading }: AddressInputProps) {
     const ac = new window.google!.maps.places.Autocomplete(inputRef.current, {
       componentRestrictions: { country: "us" },
       types: ["address"],
-      fields: ["geometry", "formatted_address"],
+      fields: ["geometry", "formatted_address", "address_components"],
     });
 
     ac.addListener("place_changed", () => {
       const place = ac.getPlace();
       if (place.geometry?.location && place.formatted_address) {
-        const result = {
+        const result: AddressSelection = {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
           address: place.formatted_address,
+          city: parseCity(place.address_components),
         };
         selectedRef.current = result;
         setAddress(place.formatted_address);
