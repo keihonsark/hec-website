@@ -56,7 +56,7 @@ export interface PriceEstimate {
   totalMonthlyHigh: number;
 }
 
-export const SOLAR_COST_PER_PANEL = 350;
+export const SOLAR_COST_PER_PANEL = 190;
 
 function pitchDegreesToRatio(degrees: number): string {
   const rise = Math.round(Math.tan((degrees * Math.PI) / 180) * 12);
@@ -167,13 +167,13 @@ export function calculatePricing(
   solarPanelCount = 0
 ): PriceEstimate {
   const sq = analysis.totalSquaresWithWaste;
-  const MIN_PRICE = 8000;
+  const MIN_PRICE = 12000;
   const TERM = 180;
 
   const raw = {
-    low: Math.round(sq * 350),
-    mid: Math.round(sq * 450),
-    high: Math.round(sq * 550),
+    low: Math.round(sq * 900),
+    mid: Math.round(sq * 1200),
+    high: Math.round(sq * 1500),
   };
 
   const low = Math.max(raw.low, MIN_PRICE);
