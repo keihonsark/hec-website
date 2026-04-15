@@ -80,10 +80,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@homeenergyconstruction.com"
+                  href="mailto:hello@hecfresno.com"
                   className="text-white/60 hover:text-orange transition-colors"
                 >
-                  info@homeenergyconstruction.com
+                  hello@hecfresno.com
                 </a>
               </li>
               <li className="text-white/60">Mon – Sat: 8:00 AM – 6:00 PM</li>

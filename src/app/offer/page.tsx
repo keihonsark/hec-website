@@ -102,11 +102,16 @@ function TrustBadgeRow() {
 function OfferRow({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
     <div className="flex items-start gap-4 py-4 border-b border-white/10 last:border-b-0">
-      <div className="w-8 h-8 rounded-full bg-orange/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-        <svg className="w-4 h-4 text-orange" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-        </svg>
-      </div>
+      <svg
+        className="w-6 h-6 flex-shrink-0 mt-0.5"
+        style={{ color: "#F5A623" }}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
       <div className="flex-1">
         <span className="text-white text-[15px] sm:text-base font-medium">{label}</span>
         {note && (
@@ -118,6 +123,42 @@ function OfferRow({ label, value, note }: { label: string; value: string; note?:
       </span>
     </div>
   );
+}
+
+/* ═══ Reusable claim form section ═══ */
+function ClaimFormSection({ id, background = "bg-navy" }: { id: string; background?: string }) {
+  return (
+    <section id={id} className={`relative ${background} py-10 md:py-14`}>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-6">
+          <span className="inline-block bg-orange/15 border border-orange/30 text-orange text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
+            Limited Time
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3">
+            Claim Your <span className="text-orange">$1,000 Discount</span>
+          </h2>
+          <p className="text-white/65 text-base sm:text-lg max-w-xl mx-auto">
+            Fill out the form below and our team will call you to schedule your free roof inspection and lock in your discount.
+          </p>
+        </div>
+
+        <LeadCaptureForm />
+
+        <p className="text-white/60 text-center mt-5 text-sm">
+          Or call now:{" "}
+          <a href="tel:+15592158516" className="text-orange font-bold hover:underline">
+            (559) 215-8516
+          </a>{" "}
+          — Our team is standing by
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* Current month name for scarcity line */
+function currentMonthName(): string {
+  return new Date().toLocaleString("en-US", { month: "long" });
 }
 
 /* ═══ Lead capture form ═══ */
@@ -197,26 +238,6 @@ function LeadCaptureForm() {
 export default function OfferPage() {
   return (
     <>
-      {/* ═══ STICKY OFFER BAR (just below site nav) ═══ */}
-      <div className="sticky top-[74px] z-30 bg-navy-dark border-b border-orange/30 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
-          <p className="text-white font-semibold text-xs sm:text-sm">
-            <span className="text-orange font-extrabold">$1,000 Off</span>
-            <span className="hidden sm:inline"> Your New Roof</span>
-            <span className="hidden md:inline"> —{" "}
-              <a href="tel:+15592158516" className="text-white hover:text-orange transition-colors font-bold">
-                (559) 215-8516
-              </a>
-            </span>
-            <span className="hidden lg:inline text-white/70"> — Limited Spots</span>
-          </p>
-          <a href="#claim"
-            className="bg-orange text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-lg hover:bg-orange-dark transition-colors cta-press whitespace-nowrap">
-            CLAIM OFFER →
-          </a>
-        </div>
-      </div>
-
       {/* ═══ HERO ═══ */}
       <section className="relative py-16 md:py-20 overflow-hidden min-h-[520px] flex items-center">
         {/* Background home image */}
@@ -254,7 +275,7 @@ export default function OfferPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
             </span>
-            Only 12 installation spots available this month
+            Only 12 installation spots available in {currentMonthName()}
           </p>
           <div className="mt-10">
             <TrustBadgeRow />
@@ -262,60 +283,8 @@ export default function OfferPage() {
         </div>
       </section>
 
-      {/* ═══ PROBLEM ═══ */}
-      <Section className="py-12 md:py-16 bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy text-center mb-10">
-            Your Old Roof Is <span className="text-orange">Costing You</span> Every Month
-          </h2>
-          <div className="grid md:grid-cols-3 gap-5 mb-10">
-            {[
-              {
-                title: "Wasted Energy",
-                desc: "Poor insulation and ventilation force your AC to work harder — you pay the difference every month.",
-                bg: "bg-orange",
-                icon: (
-                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                  </svg>
-                ),
-              },
-              {
-                title: "Hidden Damage",
-                desc: "Small issues become expensive ones. Every month you wait, damage spreads to decking, framing, and interior.",
-                bg: "bg-red-500",
-                icon: (
-                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
-                  </svg>
-                ),
-              },
-              {
-                title: "Incomplete Quotes",
-                desc: "Five different companies, five different estimates — each one leaving out permits, cleanup, or wood replacement.",
-                bg: "bg-navy",
-                icon: (
-                  <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clipRule="evenodd" />
-                    <path fillRule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375z" clipRule="evenodd" />
-                  </svg>
-                ),
-              },
-            ].map((p) => (
-              <div key={p.title} className="bg-light-bg rounded-2xl p-6 border border-gray-100">
-                <div className={`w-12 h-12 rounded-xl ${p.bg} flex items-center justify-center text-white mb-4 shadow-md`}>
-                  {p.icon}
-                </div>
-                <h3 className="text-lg font-bold text-navy mb-2">{p.title}</h3>
-                <p className="text-gray-text text-sm leading-relaxed">{p.desc}</p>
-              </div>
-            ))}
-          </div>
-          <p className="text-center text-navy text-xl sm:text-2xl font-semibold max-w-3xl mx-auto leading-snug">
-            What if <span className="text-orange">one company</span> handled everything — roof, permits, cleanup, warranty, financing — with zero surprises?
-          </p>
-        </div>
-      </Section>
+      {/* ═══ FORM (TOP) ═══ */}
+      <ClaimFormSection id="claim" />
 
       {/* ═══ OFFER STACK ═══ */}
       <Section className="relative py-12 md:py-16 bg-navy-dark noise-overlay">
@@ -336,8 +305,8 @@ export default function OfferPage() {
             <OfferRow label="$0 Down, 0% Interest for 12 Months" value="On Approved Credit" />
             <OfferRow
               label="Solar Panel Removal & Reinstall — We Handle Everything"
-              value="$190/Panel"
-              note="We coordinate removal, storage, and reinstall. No third-party headaches."
+              value="We Handle It"
+              note="R&R at $190/panel — no third-party coordination needed."
             />
             <OfferRow label="All Permits & City Inspections Included" value="$500+ Value" />
             <OfferRow label="Wood Rot & Decking Replacement Included" value="$1,500+ Value" />
@@ -363,6 +332,49 @@ export default function OfferPage() {
               className="inline-flex items-center gap-2 mt-8 bg-orange text-white font-extrabold text-base sm:text-lg px-8 py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-xl shadow-orange/30 cursor-pointer">
               CLAIM THIS OFFER →
             </a>
+          </div>
+        </div>
+      </Section>
+
+      {/* ═══ COMPARISON ═══ */}
+      <Section className="py-12 md:py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy text-center mb-10">
+            Why HEC vs <span className="text-orange">Everyone Else</span>
+          </h2>
+
+          <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+            <div className="grid grid-cols-2">
+              <div className="bg-gray-200 p-4 sm:p-5 text-center">
+                <p className="text-gray-600 font-bold text-sm uppercase tracking-wider">Other Roofers</p>
+              </div>
+              <div className="bg-orange p-4 sm:p-5 text-center">
+                <p className="text-white font-extrabold text-sm uppercase tracking-wider">HEC</p>
+              </div>
+            </div>
+            {[
+              { other: "Quote for roof only", hec: "Complete package — roof, permits, cleanup, warranty" },
+              { other: "Surprise charges for wood rot", hec: "Wood replacement included" },
+              { other: "You deal with solar company", hec: "We handle solar panel removal & reinstall" },
+              { other: "60-90 day wait", hec: "Installed in 2 weeks" },
+              { other: "Basic manufacturer warranty", hec: "Lifetime Owens Corning Platinum" },
+              { other: "No financing help", hec: "$0 down, 0% for 12 months" },
+            ].map((row, i) => (
+              <div key={i} className="grid grid-cols-2 border-t border-gray-100">
+                <div className="p-4 sm:p-5 bg-white text-gray-text text-sm leading-relaxed flex items-start gap-2">
+                  <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  {row.other}
+                </div>
+                <div className="p-4 sm:p-5 bg-orange/5 text-navy text-sm font-semibold leading-relaxed flex items-start gap-2">
+                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  {row.hec}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </Section>
@@ -466,48 +478,32 @@ export default function OfferPage() {
         </div>
       </Section>
 
-      {/* ═══ COMPARISON ═══ */}
-      <Section className="py-12 md:py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy text-center mb-10">
-            Why HEC vs <span className="text-orange">Everyone Else</span>
+      {/* ═══ PROBLEM (compressed) ═══ */}
+      <Section className="py-8 md:py-10 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-navy text-center mb-6">
+            Your Old Roof Is <span className="text-orange">Costing You</span> Every Month
           </h2>
-
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-100">
-            {/* Header */}
-            <div className="grid grid-cols-2">
-              <div className="bg-gray-200 p-4 sm:p-5 text-center">
-                <p className="text-gray-600 font-bold text-sm uppercase tracking-wider">Other Roofers</p>
-              </div>
-              <div className="bg-orange p-4 sm:p-5 text-center">
-                <p className="text-white font-extrabold text-sm uppercase tracking-wider">HEC</p>
-              </div>
-            </div>
-            {/* Rows */}
+          <div className="grid sm:grid-cols-3 gap-3 mb-6 max-w-4xl mx-auto">
             {[
-              { other: "Quote for roof only", hec: "Complete package — roof, permits, cleanup, warranty" },
-              { other: "Surprise charges for wood rot", hec: "Wood replacement included" },
-              { other: "You deal with solar company", hec: "We handle solar panel removal & reinstall" },
-              { other: "60-90 day wait", hec: "Installed in 2 weeks" },
-              { other: "Basic manufacturer warranty", hec: "Lifetime Owens Corning Platinum" },
-              { other: "No financing help", hec: "$0 down, 0% for 12 months" },
-            ].map((row, i) => (
-              <div key={i} className="grid grid-cols-2 border-t border-gray-100">
-                <div className="p-4 sm:p-5 bg-white text-gray-text text-sm leading-relaxed flex items-start gap-2">
-                  <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  {row.other}
-                </div>
-                <div className="p-4 sm:p-5 bg-orange/5 text-navy text-sm font-semibold leading-relaxed flex items-start gap-2">
-                  <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  {row.hec}
+              { title: "Wasted Energy", desc: "Poor insulation forces your AC to work harder." },
+              { title: "Hidden Damage", desc: "Small issues become expensive ones as damage spreads." },
+              { title: "Incomplete Quotes", desc: "Other roofers leave out permits, cleanup, or wood replacement." },
+            ].map((p) => (
+              <div key={p.title} className="bg-light-bg rounded-xl px-4 py-3 flex items-start gap-3 border border-gray-100">
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: "#F5A623" }} fill="currentColor" viewBox="0 0 24 24">
+                  <path fillRule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+                </svg>
+                <div>
+                  <h3 className="text-sm font-bold text-navy mb-0.5">{p.title}</h3>
+                  <p className="text-gray-text text-xs leading-snug">{p.desc}</p>
                 </div>
               </div>
             ))}
           </div>
+          <p className="text-center text-navy text-lg sm:text-xl font-semibold max-w-3xl mx-auto leading-snug">
+            What if <span className="text-orange">one company</span> handled everything — with zero surprises?
+          </p>
         </div>
       </Section>
 
@@ -551,32 +547,8 @@ export default function OfferPage() {
         ]}
       />
 
-      {/* ═══ FINAL CTA + FORM ═══ */}
-      <section id="claim" className="relative bg-navy py-10 md:py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-6">
-            <span className="inline-block bg-orange/15 border border-orange/30 text-orange text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
-              Limited Time
-            </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-3">
-              Claim Your <span className="text-orange">$1,000 Discount</span>
-            </h2>
-            <p className="text-white/65 text-base sm:text-lg max-w-xl mx-auto">
-              Fill out the form below and our team will call you to schedule your free roof inspection and lock in your discount.
-            </p>
-          </div>
-
-          <LeadCaptureForm />
-
-          <p className="text-white/60 text-center mt-5 text-sm">
-            Or call now:{" "}
-            <a href="tel:+15592158516" className="text-orange font-bold hover:underline">
-              (559) 215-8516
-            </a>{" "}
-            — Our team is standing by
-          </p>
-        </div>
-      </section>
+      {/* ═══ FORM (BOTTOM) ═══ */}
+      <ClaimFormSection id="claim-bottom" background="bg-navy-dark" />
 
       <MobileStickyBar formAnchor="#claim" />
     </>
