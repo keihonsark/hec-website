@@ -161,6 +161,64 @@ function currentMonthName(): string {
   return new Date().toLocaleString("en-US", { month: "long" });
 }
 
+/* ═══ FAQ content — shared by visible accordion and JSON-LD schema ═══ */
+const FAQ_ITEMS: { q: string; a: string }[] = [
+  {
+    q: "What's included in the Complete Roof Transformation Package?",
+    a: "Everything you need for a new roof — premium Owens Corning Duration shingles, all permits and inspections, complete tear-off and cleanup, wood rot replacement, synthetic underlayment, new drip edge and flashing, proper ventilation, and lifetime manufacturer warranty. Plus free satellite analysis, free in-person inspection, solar panel removal and reinstall, and $0 down financing.",
+  },
+  {
+    q: "How does $0 down financing work?",
+    a: "We partner with multiple lenders to offer financing with no money down. On approved credit, you can get 0% interest for 12 months (same as cash) or extend payments over 15 years with rates as low as 7.9% APR. Checking your rate won't affect your credit score.",
+  },
+  {
+    q: "Do you handle solar panels?",
+    a: "Yes. Most roofers leave solar removal to you — we handle it all. Our crew coordinates with certified solar technicians to safely remove your panels, replace your roof, and reinstall the panels. $190 per panel included in your quote, no third parties to manage.",
+  },
+  {
+    q: "How long does installation take?",
+    a: "Most residential re-roofs are completed in 1-2 days. Larger homes or complex roofs may take 3-4 days. With priority scheduling, we can typically have your new roof installed within 2 weeks of signing.",
+  },
+  {
+    q: "What about permits and inspections?",
+    a: "Included. Every roof we install is fully permitted with the city and passes inspection. This protects you, your warranty, and your home's resale value. No shortcuts, no cash deals.",
+  },
+  {
+    q: "What if my roof has wood rot or damage?",
+    a: "Unlike other roofers who surprise you with change orders for damaged decking, we include wood replacement in our package. If we find rot or damaged plywood during tear-off, we replace it as part of the job — no surprise charges.",
+  },
+  {
+    q: "Why is HEC more expensive than other quotes?",
+    a: "We include everything other companies leave out — permits, wood replacement, solar handling, cleanup, and lifetime warranty. When you compare apples to apples, our total cost is often lower because there are zero surprise charges.",
+  },
+  {
+    q: "Is the $1,000 discount real?",
+    a: "Yes. This is a limited-time offer for homeowners who book their free satellite analysis through this page. The $1,000 comes off your final roofing package price and is locked in when you schedule your free inspection.",
+  },
+];
+
+/* FAQPage JSON-LD schema for SEO rich results */
+function FAQSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 /* ═══ Lead capture form ═══ */
 function LeadCaptureForm() {
   const [form, setForm] = useState({ firstName: "", lastName: "", phone: "", email: "", address: "" });
@@ -508,44 +566,8 @@ export default function OfferPage() {
       </Section>
 
       {/* ═══ FAQ ═══ */}
-      <FAQ
-        label="FAQ"
-        headline="Common Questions"
-        items={[
-          {
-            q: "What's included in the Complete Roof Transformation Package?",
-            a: "Everything you need for a new roof — premium Owens Corning Duration shingles, all permits and inspections, complete tear-off and cleanup, wood rot replacement, synthetic underlayment, new drip edge and flashing, proper ventilation, and lifetime manufacturer warranty. Plus free satellite analysis, free in-person inspection, solar panel removal and reinstall, and $0 down financing.",
-          },
-          {
-            q: "How does $0 down financing work?",
-            a: "We partner with multiple lenders to offer financing with no money down. On approved credit, you can get 0% interest for 12 months (same as cash) or extend payments over 15 years with rates as low as 7.9% APR. Checking your rate won't affect your credit score.",
-          },
-          {
-            q: "Do you handle solar panels?",
-            a: "Yes. Most roofers leave solar removal to you — we handle it all. Our crew coordinates with certified solar technicians to safely remove your panels, replace your roof, and reinstall the panels. $190 per panel included in your quote, no third parties to manage.",
-          },
-          {
-            q: "How long does installation take?",
-            a: "Most residential re-roofs are completed in 1-2 days. Larger homes or complex roofs may take 3-4 days. With priority scheduling, we can typically have your new roof installed within 2 weeks of signing.",
-          },
-          {
-            q: "What about permits and inspections?",
-            a: "Included. Every roof we install is fully permitted with the city and passes inspection. This protects you, your warranty, and your home's resale value. No shortcuts, no cash deals.",
-          },
-          {
-            q: "What if my roof has wood rot or damage?",
-            a: "Unlike other roofers who surprise you with change orders for damaged decking, we include wood replacement in our package. If we find rot or damaged plywood during tear-off, we replace it as part of the job — no surprise charges.",
-          },
-          {
-            q: "Why is HEC more expensive than other quotes?",
-            a: "We include everything other companies leave out — permits, wood replacement, solar handling, cleanup, and lifetime warranty. When you compare apples to apples, our total cost is often lower because there are zero surprise charges.",
-          },
-          {
-            q: "Is the $1,000 discount real?",
-            a: "Yes. This is a limited-time offer for homeowners who book their free satellite analysis through this page. The $1,000 comes off your final roofing package price and is locked in when you schedule your free inspection.",
-          },
-        ]}
-      />
+      <FAQSchema />
+      <FAQ label="FAQ" headline="Common Questions" items={FAQ_ITEMS} />
 
       {/* ═══ FORM (BOTTOM) ═══ */}
       <ClaimFormSection id="claim-bottom" background="bg-navy-dark" />
