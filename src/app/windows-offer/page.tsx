@@ -107,8 +107,8 @@ function LeadForm() {
       <h2 className="text-2xl font-extrabold text-navy mb-1 font-heading">
         Get Your Free Quote
       </h2>
-      <p className="text-gray-text text-sm mb-5">
-        Takes 30 seconds. No obligation.
+      <p className="text-gray-text text-sm mb-5 leading-relaxed">
+        Takes 30 seconds. We&apos;ll text within 1 hour to schedule your free in-home estimate. No spam, no pressure, no obligation.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -204,6 +204,18 @@ function FAQAccordion() {
         );
       })}
     </div>
+  );
+}
+
+/* ═══ Google G icon ═══ */
+function GoogleG({ size = 24, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={size} height={size} className={className} aria-hidden="true">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+    </svg>
   );
 }
 
@@ -309,6 +321,7 @@ export default function WindowsOfferPage() {
               sizes="45vw"
               className="object-cover"
             />
+            <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-[#1B2D4F] to-transparent pointer-events-none z-10" />
           </div>
         </div>
       </section>
@@ -317,33 +330,78 @@ export default function WindowsOfferPage() {
       <section className="bg-light-bg py-6 border-y border-gray-200/60">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
-            <div className="flex flex-col items-center text-center gap-1">
-              <svg className="w-7 h-7 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75zM12 3.75v16.5M3.75 12h16.5" />
-              </svg>
-              <span className="text-navy text-sm font-bold">Anlin Certified</span>
+            <div className="flex flex-col items-center text-center gap-2">
+              <div className="relative h-10 w-28">
+                <Image
+                  src="/images/logos/anlin-logo.png"
+                  alt="Anlin Windows logo"
+                  fill
+                  sizes="112px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-navy text-sm font-bold">Anlin Certified Installer</span>
             </div>
-            <div className="flex flex-col items-center text-center gap-1">
-              <div className="w-7 h-7 rounded-full bg-[#005596] flex items-center justify-center text-white font-extrabold text-[10px]">BBB</div>
-              <span className="text-navy text-sm font-bold">A+ Rated</span>
+            <div className="flex flex-col items-center text-center gap-2">
+              <div className="relative h-10 w-28">
+                <Image
+                  src="/images/logos/bbb-logo.png"
+                  alt="BBB Accredited Business logo"
+                  fill
+                  sizes="112px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-navy text-sm font-bold">BBB A+ Rated</span>
             </div>
-            <div className="flex flex-col items-center text-center gap-1">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-4 h-4 text-[#FFC107]" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
+            <div className="flex flex-col items-center text-center gap-2">
+              <div className="flex items-center gap-2 h-10">
+                <GoogleG size={28} />
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="w-4 h-4 text-[#FFC107]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
               </div>
               <span className="text-navy text-sm font-bold">4.7★ Google · 228+ Reviews</span>
             </div>
-            <div className="flex flex-col items-center text-center gap-1">
-              <svg className="w-7 h-7 text-orange" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-              </svg>
+            <div className="flex flex-col items-center text-center gap-2">
+              <div className="relative h-10 w-28">
+                <Image
+                  src="/images/logos/CSLB_logo.png"
+                  alt="California Contractors State License Board logo"
+                  fill
+                  sizes="112px"
+                  className="object-contain"
+                />
+              </div>
               <span className="text-navy text-sm font-bold">CA Licensed #1086515</span>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ═══ LOCAL FRESNO PROOF STRIP ═══ */}
+      <section className="bg-white py-4">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-navy font-medium text-sm text-center flex flex-wrap justify-center gap-x-2 gap-y-1">
+            <span className="text-gray-text">Recently serving:</span>
+            <span>Fresno</span>
+            <span className="text-orange">·</span>
+            <span>Clovis</span>
+            <span className="text-orange">·</span>
+            <span>Visalia</span>
+            <span className="text-orange">·</span>
+            <span>Hanford</span>
+            <span className="text-orange">·</span>
+            <span>Madera</span>
+            <span className="text-orange">·</span>
+            <span>Tulare</span>
+            <span className="text-orange">·</span>
+            <span>Sacramento</span>
+          </p>
         </div>
       </section>
 
@@ -355,7 +413,7 @@ export default function WindowsOfferPage() {
               Why Central Valley Homeowners Are Replacing Their Windows Now
             </h2>
             <p className="text-[#374151] text-base sm:text-lg leading-relaxed">
-              Single-pane and aging double-pane windows are the #1 source of summer heat gain in Fresno-area homes. Modern Anlin double-pane windows with Low-E coatings and argon-gas insulation cut cooling loads by 25-30% — meaning a quieter, more comfortable home and lower energy bills every month.
+              Fresno summers hit 110°F. Most homes were built with single-pane or aging aluminum-frame windows that lose massive amounts of cooling energy every month — driving PG&amp;E bills through the roof. Anlin double-pane windows with Low-E coatings and argon-gas insulation cut cooling loads 25-30% on average, and up to 50% for older single-pane homes. The result: a quieter, more comfortable home — and a noticeably smaller PG&amp;E bill every summer.
             </p>
           </div>
 
@@ -363,7 +421,7 @@ export default function WindowsOfferPage() {
             {[
               { Icon: Thermometer, title: "Up to 50% Lower Summer Cooling Bills", desc: "Older single-pane homes see the biggest drop after upgrading to Anlin double-pane" },
               { Icon: VolumeX, title: "Significantly Quieter Home", desc: "Dual-pane construction reduces outside noise" },
-              { Icon: ShieldCheck, title: "Lifetime Warranty", desc: "Anlin's industry-leading warranty backs every install" },
+              { Icon: ShieldCheck, title: "Double Lifetime Warranty", desc: "Anlin's Limited Double Lifetime Warranty backs every install" },
             ].map((c) => (
               <div key={c.title} className="bg-light-bg rounded-2xl p-7 border border-gray-100 text-center">
                 <c.Icon size={48} color="#F5A623" strokeWidth={1.75} className="mx-auto mb-4" />
@@ -434,17 +492,14 @@ export default function WindowsOfferPage() {
             {[
               {
                 name: "Elizabeth Myers",
-                badge: "Local Guide",
                 text: "We had our windows installed by Home Energy Construction and couldn't be happier. The installation was clean and efficient, and they treated our home with real care. The new windows look amazing and our home is quieter and more energy-efficient. Highly recommend them to anyone looking to upgrade their windows or improve their home's energy efficiency!",
               },
               {
                 name: "Edward R.",
-                badge: null,
                 text: "We recently had new windows and a sliding glass door installed, and the experience was absolutely fantastic from start to finish. The quality of the windows is top-notch — they not only look beautiful but also provide excellent insulation, significantly improving the comfort and energy efficiency of our home. We've noticed a dramatic difference in temperature consistency and noise reduction.",
               },
               {
                 name: "Becky M.",
-                badge: null,
                 text: "We are so thankful for the smooth transformation of our mom's 35-year-old home with the installation of Anlin windows, French doors, and screens. From start to finish, Tony presented a confident, informative review of beautiful windows. A team of 6 good men transformed old windows and sliders into a new, modern, breathtaking home! Complete professionals from beginning to end.",
               },
             ].map((r) => (
@@ -459,13 +514,34 @@ export default function WindowsOfferPage() {
                 <p className="text-[#374151] italic text-[15px] leading-relaxed mb-4">
                   &ldquo;{r.text}&rdquo;
                 </p>
-                <p className="text-navy font-semibold text-sm">
+                <p className="text-navy font-semibold text-sm mb-2">
                   — {r.name}
-                  {r.badge && <span className="text-orange text-xs font-bold ml-2 uppercase">{r.badge}</span>}
                 </p>
+                <div className="flex items-center gap-1.5 text-[#374151] text-xs font-medium">
+                  <GoogleG size={14} />
+                  <span>Verified Google Review</span>
+                </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ═══ SATISFACTION GUARANTEE ═══ */}
+      <section className="bg-[#1B2D4F] py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em]">
+            Our Promise to You
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mt-2 leading-tight">
+            100% Satisfaction Guaranteed
+          </h2>
+          <p className="text-white/80 text-base sm:text-lg leading-relaxed mt-4">
+            If you&apos;re not 100% satisfied with your installation, we&apos;ll come back and make it right — free of charge. No paperwork. No runaround. We don&apos;t consider the job done until you&apos;re happy.
+          </p>
+          <p className="italic text-orange text-sm sm:text-base mt-6">
+            Add that to Anlin&apos;s Double Lifetime Warranty and you&apos;re covered for life.
+          </p>
         </div>
       </section>
 
@@ -490,7 +566,7 @@ export default function WindowsOfferPage() {
               When We Show Up, You&apos;ll Know It&apos;s Us.
             </h2>
             <p className="text-[#374151] text-base sm:text-lg leading-relaxed mb-6">
-              Home Energy Construction has served the Central Valley for over a decade. Every window crew is HEC employees — never subcontractors — trained and certified on Anlin products. Branded uniforms, branded trucks, and a clean job site every time.
+              Home Energy Construction has served the Central Valley for over a decade. Every window crew is HEC employees — never subcontractors — trained and certified on Anlin products. Fully insured, fully accountable to you — not a contractor middleman.
             </p>
 
             <div className="grid grid-cols-2 gap-3 max-w-md">
@@ -529,7 +605,7 @@ export default function WindowsOfferPage() {
                 "Dual-pane insulated glass — 40% better thermal performance",
                 "ENERGY STAR® certified for Western US climate",
                 "STC-rated for noise reduction",
-                "Lifetime transferable warranty — adds resale value",
+                "Double Lifetime transferable warranty — adds resale value",
               ].map((feat) => (
                 <li key={feat} className="flex items-start gap-3 text-[#374151] text-[15px] sm:text-base leading-snug">
                   <svg
@@ -647,17 +723,46 @@ export default function WindowsOfferPage() {
 
       {/* ═══ PG&E BILL REVIEW ═══ */}
       <section className="bg-white py-16">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em]">
-            Real Data. Real Numbers.
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mt-2 leading-tight">
-            Bring Your Last 3 PG&amp;E Bills
-          </h2>
-          <p className="text-[#374151] text-base sm:text-lg leading-relaxed mt-4">
-            At your free in-home consultation, our energy specialist will review your actual PG&amp;E bills and project exactly how much your cooling costs could drop with Anlin double-pane windows. No generic calculators. No marketing math. Real numbers based on your home, your usage, and Central Valley climate data.
-          </p>
-          <p className="italic text-gray-500 text-sm mt-6 leading-relaxed">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em]">
+              Real Data. Real Numbers.
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mt-2 leading-tight">
+              Bring Your Last 3 PG&amp;E Bills
+            </h2>
+            <p className="text-[#374151] text-base sm:text-lg leading-relaxed mt-4">
+              At your free in-home consultation, our energy specialist will review your actual PG&amp;E bills and project exactly how much your cooling costs could drop with Anlin double-pane windows. No generic calculators. No marketing math. Real numbers based on your home, your usage, and Central Valley climate data.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-5 mt-10">
+            {[
+              { n: "1", title: "Bring Your Bills", desc: "Pull your last 3 months of PG&E statements. We need both summer and shoulder months to see your full usage pattern." },
+              { n: "2", title: "We Analyze Usage", desc: "Our energy specialist reviews your actual cooling consumption, home size, current windows, and HVAC efficiency — line by line." },
+              { n: "3", title: "Get Real Numbers", desc: "We project specific monthly savings for your home — not generic averages. You see real dollar amounts before you decide." },
+            ].map((step) => (
+              <div key={step.n} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                <div className="text-orange text-5xl font-extrabold leading-none mb-3">{step.n}</div>
+                <h3 className="text-lg font-bold text-navy mb-2">{step.title}</h3>
+                <p className="text-gray-text text-sm leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <a
+              href="#quote-form"
+              className="inline-flex items-center gap-2 bg-orange text-navy font-extrabold text-base px-8 py-4 rounded-xl hover:bg-orange-dark hover:text-white transition-colors cta-press shadow-xl shadow-orange/30 min-h-[52px]"
+            >
+              Schedule My Free Bill Analysis
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+          </div>
+
+          <p className="italic text-gray-500 text-sm mt-8 leading-relaxed text-center max-w-3xl mx-auto">
             Most homeowners see a measurable drop in their cooling-season bills the first summer after installation. Results vary based on home characteristics, climate, and usage patterns.
           </p>
         </div>
@@ -714,8 +819,8 @@ export default function WindowsOfferPage() {
               { item: "Free PG&E Bill Analysis & Energy Assessment", value: "$199 value" },
               { item: "$200 Off Per Window Installed", value: "instant savings" },
               { item: "$500 Off Per Sliding Glass Door", value: "instant savings" },
-              { item: "12-Month Same-As-Cash Financing", value: "$0 down" },
-              { item: "Lifetime Anlin Transferable Warranty", value: "$2,000+ value" },
+              { item: "Multiple Financing Options: 6-Month No Interest + 12-Month Same-As-Cash", value: "$0 down" },
+              { item: "Anlin Double Lifetime Warranty (Transferable)", value: "$2,000+ value" },
               { item: "Old Windows Hauled Away Free", value: "$200 value" },
             ].map((row) => (
               <ValueRow key={row.item} item={row.item} value={row.value} />
@@ -777,20 +882,22 @@ export default function WindowsOfferPage() {
         </div>
       </section>
 
+      {/* Spacer to prevent the sticky bar from covering content on mobile */}
+      <div className="md:hidden h-[60px]" aria-hidden="true" />
+
       {/* ═══ MOBILE STICKY CTA ═══ */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-3 py-2.5 flex gap-2 shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 h-[60px] flex shadow-2xl border-t border-gray-200">
         <a
           href="#quote-form"
-          className="flex-1 flex items-center justify-center bg-orange text-white py-3 rounded-xl font-bold text-sm cta-press min-h-[48px]"
+          className="flex-1 flex items-center justify-center bg-orange text-navy font-bold text-sm cta-press"
         >
-          Get Quote
+          Get Free Quote
         </a>
         <a
           href={PHONE_HREF}
-          className="flex-1 flex items-center justify-center gap-1 bg-navy text-white py-3 rounded-xl font-bold text-sm cta-press min-h-[48px]"
+          className="flex-1 flex items-center justify-center bg-navy text-white font-bold text-sm cta-press"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-          Call Now
+          Call {PHONE_DISPLAY}
         </a>
       </div>
     </>
