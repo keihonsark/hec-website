@@ -83,16 +83,24 @@ function LeadForm() {
     if (submitting) return;
     setError(null);
     setSubmitting(true);
+
+    const trimmedName = form.fullName.trim();
+    const firstSpace = trimmedName.indexOf(" ");
+    const firstName = firstSpace === -1 ? trimmedName : trimmedName.slice(0, firstSpace);
+    const lastName = firstSpace === -1 ? "" : trimmedName.slice(firstSpace + 1).trim();
+    const phoneDigits = form.phone.replace(/\D/g, "");
+
     const ok = await postToWebhook({
       type: "estimate_request",
-      lead_name: form.fullName,
-      phone: form.phone,
+      firstName,
+      lastName,
+      phone: phoneDigits,
+      email: "",
       city: form.city,
-      service_needed: "Windows & Doors",
-      source: "Website (Organic)",
-      page_url: "/windows-offer",
-      window_count: form.windowCount,
-      submitted_at: new Date().toISOString(),
+      service: "Windows & Doors",
+      financingInterest: "",
+      message: `Windows count: ${form.windowCount}`,
+      page: "/windows-offer",
     });
     if (ok) {
       router.push("/thank-you");
