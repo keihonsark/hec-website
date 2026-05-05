@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(npx tsc *)",
-      "Bash(echo \"EXIT=$?\")"
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react'] || 'not installed'\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react']\\)\")"
     ]
   }
 }

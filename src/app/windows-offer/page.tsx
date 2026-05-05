@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Thermometer, VolumeX, ShieldCheck } from "lucide-react";
 import { postToWebhook } from "@/lib/webhook";
 
 const PHONE_DISPLAY = "559-272-3992";
@@ -16,6 +17,10 @@ const FAQ_ITEMS = [
   {
     q: "What's the minimum project size?",
     a: "Our window replacement projects start at 5 windows. This lets us deliver the best pricing, warranty coverage, and installation efficiency for your home.",
+  },
+  {
+    q: "How much will I actually save on my energy bill?",
+    a: "It depends on your current windows. Older Central Valley homes with single-pane or aluminum-frame windows often see summer cooling bills drop 30-50% after upgrading to Anlin double-pane — the bigger the gap between your old windows and modern Anlin glass, the bigger the savings. Newer homes with existing double-pane windows typically see 10-25% in summer cooling savings.\n\nAnnual total energy savings vary based on home size, insulation, HVAC efficiency, and usage patterns. At your free in-home consultation, we'll review your last 3 months of PG&E bills and project specific monthly savings for your home — real numbers based on your home, your usage, and Central Valley climate data.\n\nResults vary based on home characteristics, climate, and usage patterns.",
   },
   {
     q: "How does the discount work?",
@@ -64,8 +69,6 @@ function LeadForm() {
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
-    email: "",
-    address: "",
     city: "",
     windowCount: "",
   });
@@ -84,8 +87,6 @@ function LeadForm() {
       type: "estimate_request",
       lead_name: form.fullName,
       phone: form.phone,
-      email: form.email,
-      address: form.address,
       city: form.city,
       service_needed: "Windows & Doors",
       source: "Website (Organic)",
@@ -122,18 +123,6 @@ function LeadForm() {
           className={inputCls}
           value={form.phone}
           onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-        />
-        <input
-          type="email" name="email" placeholder="Email" required
-          className={inputCls}
-          value={form.email}
-          onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-        />
-        <input
-          type="text" name="address" placeholder="Street Address" required
-          className={inputCls}
-          value={form.address}
-          onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
         />
         <input
           type="text" name="city" placeholder="City" required
@@ -204,8 +193,12 @@ function FAQAccordion() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </button>
-            <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-60 pb-5" : "max-h-0"}`}>
-              <p className="text-[#374151] text-[15px] leading-relaxed">{item.a}</p>
+            <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[800px] pb-5" : "max-h-0"}`}>
+              <div className="text-[#374151] text-[15px] leading-relaxed space-y-3">
+                {item.a.split("\n\n").map((para, j) => (
+                  <p key={j}>{para}</p>
+                ))}
+              </div>
             </div>
           </div>
         );
@@ -368,12 +361,12 @@ export default function WindowsOfferPage() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { icon: "🌡️", title: "25-30% Lower Cooling Costs", desc: "Low-E + argon-gas insulation blocks summer heat" },
-              { icon: "🔇", title: "Significantly Quieter Home", desc: "Dual-pane construction reduces outside noise" },
-              { icon: "🛡️", title: "Lifetime Warranty", desc: "Anlin's industry-leading warranty backs every install" },
+              { Icon: Thermometer, title: "Up to 50% Lower Summer Cooling Bills", desc: "Older single-pane homes see the biggest drop after upgrading to Anlin double-pane" },
+              { Icon: VolumeX, title: "Significantly Quieter Home", desc: "Dual-pane construction reduces outside noise" },
+              { Icon: ShieldCheck, title: "Lifetime Warranty", desc: "Anlin's industry-leading warranty backs every install" },
             ].map((c) => (
               <div key={c.title} className="bg-light-bg rounded-2xl p-7 border border-gray-100 text-center">
-                <div className="text-4xl mb-3">{c.icon}</div>
+                <c.Icon size={48} color="#F5A623" strokeWidth={1.75} className="mx-auto mb-4" />
                 <h3 className="text-lg font-bold text-navy mb-2">{c.title}</h3>
                 <p className="text-[#374151] text-sm leading-relaxed">{c.desc}</p>
               </div>
@@ -567,6 +560,62 @@ export default function WindowsOfferPage() {
         </div>
       </section>
 
+      {/* ═══ CERTIFICATIONS ═══ */}
+      <section className="bg-[#F8F9FA] py-16">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em]">
+            Tested. Certified. Verified.
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mt-2 leading-tight">
+            Independently Tested. Industry Certified.
+          </h2>
+          <p className="text-[#374151] text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mt-4">
+            Every Anlin window we install is tested and certified by three independent authorities: the National Fenestration Rating Council (NFRC), the American Architectural Manufacturers Association (AAMA), and ENERGY STAR®. Anlin earns all three certificates of the AAMA Gold Label — Air/Water/Structural, Forced Entry Resistance, and Thermal Performance — the highest standard in the industry.
+          </p>
+
+          <div className="mt-12 flex flex-col md:flex-row md:justify-around items-center gap-10 md:gap-6">
+            <div className="flex flex-col items-center">
+              <div className="relative w-[180px] h-[80px] md:h-[100px]">
+                <Image
+                  src="/images/logos/nfrc-logo.png"
+                  alt="National Fenestration Rating Council certification logo"
+                  fill
+                  sizes="180px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-navy font-semibold text-sm mt-3">NFRC Certified</span>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="relative w-[180px] h-[80px] md:h-[100px]">
+                <Image
+                  src="/images/logos/aama-logo-blue.png"
+                  alt="American Architectural Manufacturers Association Gold Label logo"
+                  fill
+                  sizes="180px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-navy font-semibold text-sm mt-3">AAMA Gold Label</span>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="relative w-[180px] h-[80px] md:h-[100px]">
+                <Image
+                  src="/images/logos/Energy_Star_logo.svg"
+                  alt="ENERGY STAR certified product logo"
+                  fill
+                  sizes="180px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-navy font-semibold text-sm mt-3">ENERGY STAR® Certified</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ LIFESTYLE FULL-BLEED ═══ */}
       <section className="relative w-full min-h-[320px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
         <Image
@@ -593,6 +642,24 @@ export default function WindowsOfferPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
           </a>
+        </div>
+      </section>
+
+      {/* ═══ PG&E BILL REVIEW ═══ */}
+      <section className="bg-white py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em]">
+            Real Data. Real Numbers.
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mt-2 leading-tight">
+            Bring Your Last 3 PG&amp;E Bills
+          </h2>
+          <p className="text-[#374151] text-base sm:text-lg leading-relaxed mt-4">
+            At your free in-home consultation, our energy specialist will review your actual PG&amp;E bills and project exactly how much your cooling costs could drop with Anlin double-pane windows. No generic calculators. No marketing math. Real numbers based on your home, your usage, and Central Valley climate data.
+          </p>
+          <p className="italic text-gray-500 text-sm mt-6 leading-relaxed">
+            Most homeowners see a measurable drop in their cooling-season bills the first summer after installation. Results vary based on home characteristics, climate, and usage patterns.
+          </p>
         </div>
       </section>
 
@@ -644,7 +711,7 @@ export default function WindowsOfferPage() {
           <div className="max-w-3xl mx-auto bg-light-bg rounded-2xl p-6 sm:p-8 border border-gray-100 mb-8">
             {[
               { item: "Free In-Home Consultation", value: "$299 value" },
-              { item: "Free Energy Assessment", value: "$199 value" },
+              { item: "Free PG&E Bill Analysis & Energy Assessment", value: "$199 value" },
               { item: "$200 Off Per Window Installed", value: "instant savings" },
               { item: "$500 Off Per Sliding Glass Door", value: "instant savings" },
               { item: "12-Month Same-As-Cash Financing", value: "$0 down" },
