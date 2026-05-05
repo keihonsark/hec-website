@@ -264,19 +264,21 @@ export default function WindowsOfferPage() {
           style={{ objectPosition: "center right" }}
         />
 
-        {/* Dark overlay — heavy on mobile, gradient navy→translucent on desktop */}
-        <div className="absolute inset-0 z-[1] bg-[#1B2D4F]/80 md:bg-gradient-to-r md:from-[#1B2D4F] md:via-[#1B2D4F]/85 md:to-[#1B2D4F]/40" />
+        {/* Dark overlay — vertical fade on mobile, lighter horizontal gradient on desktop */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#1B2D4F] via-[#1B2D4F]/80 to-[#1B2D4F]/60 md:bg-gradient-to-r md:from-[#1B2D4F] md:from-30% md:via-[#1B2D4F]/60 md:via-60% md:to-[#1B2D4F]/10" />
 
         {/* Content */}
         <div className="relative z-[2] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="md:max-w-[560px] flex flex-col gap-7">
+            <div className="md:max-w-[560px] lg:max-w-[640px] flex flex-col gap-7">
               <div>
                 <span className="inline-block bg-orange/20 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-5">
                   Limited Time Offer
                 </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.05] mb-5">
-                  Save <span className="text-orange">$200</span> Per Window. <span className="text-orange">$500</span> Per Sliding Door.
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-5">
+                  Save <span className="text-orange">$200</span> Per Window.
+                  <br />
+                  <span className="text-orange">$500</span> Per Sliding Door.
                 </h1>
                 <p className="text-white/85 text-lg leading-relaxed mb-6">
                   Anlin-certified replacement windows that cut cooling bills and keep Central Valley summers outside where they belong.
