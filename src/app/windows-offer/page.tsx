@@ -264,6 +264,7 @@ export default function WindowsOfferPage() {
                 priority
                 sizes="100vw"
                 className="object-cover"
+                style={{ objectPosition: "70% center" }}
               />
             </div>
           </div>
@@ -320,8 +321,9 @@ export default function WindowsOfferPage() {
               priority
               sizes="45vw"
               className="object-cover"
+              style={{ objectPosition: "70% center" }}
             />
-            <div className="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-[#1B2D4F] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#1B2D4F] via-[#1B2D4F]/60 to-transparent pointer-events-none z-10" />
           </div>
         </div>
       </section>
@@ -386,21 +388,9 @@ export default function WindowsOfferPage() {
       {/* ═══ LOCAL FRESNO PROOF STRIP ═══ */}
       <section className="bg-white py-4">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-navy font-medium text-sm text-center flex flex-wrap justify-center gap-x-2 gap-y-1">
-            <span className="text-gray-text">Recently serving:</span>
-            <span>Fresno</span>
-            <span className="text-orange">·</span>
-            <span>Clovis</span>
-            <span className="text-orange">·</span>
-            <span>Visalia</span>
-            <span className="text-orange">·</span>
-            <span>Hanford</span>
-            <span className="text-orange">·</span>
-            <span>Madera</span>
-            <span className="text-orange">·</span>
-            <span>Tulare</span>
-            <span className="text-orange">·</span>
-            <span>Sacramento</span>
+          <p className="text-sm text-center font-medium">
+            <span className="text-gray-600">Recently serving:</span>{" "}
+            <span className="text-[#1B2D4F]">Fresno · Clovis · Visalia · Hanford · Madera · Tulare · Sacramento</span>
           </p>
         </div>
       </section>
