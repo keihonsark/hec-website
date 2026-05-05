@@ -103,7 +103,7 @@ function LeadForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border-t-4 border-orange p-6 sm:p-8">
+    <div className="bg-white rounded-2xl shadow-2xl border-t-4 border-orange p-6 sm:p-8">
       <h2 className="text-2xl font-extrabold text-navy mb-1 font-heading">
         Get Your Free Quote
       </h2>
@@ -269,51 +269,50 @@ export default function WindowsOfferPage() {
 
         {/* Content */}
         <div className="relative z-[2] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="md:max-w-[560px] lg:max-w-[640px] flex flex-col gap-7">
-              <div>
-                <span className="inline-block bg-orange/20 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-5">
-                  Limited Time Offer
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-8 lg:gap-12 items-center">
+            {/* LEFT: Content */}
+            <div>
+              <span className="inline-block bg-orange/20 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-5">
+                Limited Time Offer
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-5">
+                Save <span className="text-orange">$200</span> Per Window.
+                <br />
+                <span className="text-orange">$500</span> Per Sliding Door.
+              </h1>
+              <p className="text-white/85 text-lg leading-relaxed mb-6">
+                Anlin-certified replacement windows that cut cooling bills and keep Central Valley summers outside where they belong.
+              </p>
+
+              <ul className="space-y-2.5 mb-5">
+                {[
+                  "Anlin Certified Installer",
+                  "BBB A+ Rated",
+                  "4.7★ on Google (228+ reviews)",
+                  "CA Licensed #1086515",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-white font-medium text-[15px]">
+                    <svg className="w-5 h-5 flex-shrink-0" style={{ color: "#F5A623" }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-orange text-sm font-semibold flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
                 </span>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-5">
-                  Save <span className="text-orange">$200</span> Per Window.
-                  <br />
-                  <span className="text-orange">$500</span> Per Sliding Door.
-                </h1>
-                <p className="text-white/85 text-lg leading-relaxed mb-6">
-                  Anlin-certified replacement windows that cut cooling bills and keep Central Valley summers outside where they belong.
-                </p>
-
-                <ul className="space-y-2.5 mb-5">
-                  {[
-                    "Anlin Certified Installer",
-                    "BBB A+ Rated",
-                    "4.7★ on Google (228+ reviews)",
-                    "CA Licensed #1086515",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-white font-medium text-[15px]">
-                      <svg className="w-5 h-5 flex-shrink-0" style={{ color: "#F5A623" }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                      </svg>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
-                <p className="text-orange text-sm font-semibold flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
-                  </span>
-                  Offer ends May 31, 2026
-                </p>
-              </div>
-
-              <div id="quote-form">
-                <LeadForm />
-              </div>
+                Offer ends May 31, 2026
+              </p>
             </div>
-            {/* Right column intentionally empty on desktop so the photo bleeds through */}
+
+            {/* RIGHT: Form card */}
+            <div id="quote-form">
+              <LeadForm />
+            </div>
           </div>
         </div>
       </section>
