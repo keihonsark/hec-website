@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { postToWebhook } from "@/lib/webhook";
 
@@ -17,8 +18,8 @@ const FAQ_ITEMS = [
     a: "Our window replacement projects start at 5 windows. This lets us deliver the best pricing, warranty coverage, and installation efficiency for your home.",
   },
   {
-    q: "How does the $500 discount work?",
-    a: "$500 is applied to your total project quote. Promotion ends May 31, 2026. Mention this offer when you book your free in-home consultation.",
+    q: "How does the discount work?",
+    a: "$200 is applied per window installed and $500 per sliding glass door. The more you replace, the more you save. Mention this offer when you book your free in-home consultation. Promotion ends May 31, 2026.",
   },
   {
     q: "What financing options do you offer?",
@@ -164,7 +165,7 @@ function LeadForm() {
         >
           {submitting ? "Submitting..." : (
             <>
-              Claim My $500 Off
+              Claim My Estimate
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
@@ -213,6 +214,30 @@ function FAQAccordion() {
   );
 }
 
+/* ═══ Value stack row ═══ */
+function ValueRow({ item, value }: { item: string; value: string }) {
+  return (
+    <div className="flex items-center gap-3 sm:gap-4 py-3 border-b border-dashed border-gray-200 last:border-0">
+      <svg
+        className="w-6 h-6 flex-shrink-0"
+        style={{ color: "#F5A623" }}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+      <span className="text-navy font-bold text-[15px] sm:text-base flex-1 leading-snug">
+        {item}
+      </span>
+      <span className="bg-orange text-navy font-semibold text-xs sm:text-sm rounded-full px-3 py-1 whitespace-nowrap">
+        {value}
+      </span>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════
    PAGE
    ═══════════════════════════════════════════ */
@@ -222,48 +247,75 @@ export default function WindowsOfferPage() {
       <FAQSchema />
 
       {/* ═══ HERO ═══ */}
-      <section className="bg-gradient-to-br from-navy-dark via-navy to-navy-light min-h-[85vh] md:min-h-[calc(100vh-74px)] flex items-center py-12 md:py-20">
-        <div className="max-w-7xl mx-auto px-6 w-full grid md:grid-cols-2 gap-10 lg:gap-14 items-center">
-          {/* Left */}
-          <div>
-            <span className="inline-block bg-orange/15 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-5">
-              Limited Time Offer
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.05] mb-5">
-              Save $500 On Your <span className="text-orange">New Windows</span>
-            </h1>
-            <p className="text-white/75 text-lg sm:text-xl leading-relaxed mb-7">
-              Anlin-certified replacement windows that cut your cooling bills and keep Central Valley summers outside where they belong.
-            </p>
-
-            <ul className="space-y-3 mb-6">
-              {[
-                "Anlin Certified Installer",
-                "BBB A+ Rated",
-                "4.7★ on Google (228+ reviews)",
-                "CA Licensed #1086515",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-white text-[15px]">
-                  <svg className="w-5 h-5 flex-shrink-0" style={{ color: "#F5A623" }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            <p className="text-orange text-sm font-semibold flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
-              </span>
-              $500 off expires May 31, 2026
-            </p>
+      <section className="bg-gradient-to-br from-navy-dark via-navy to-navy-light py-10 md:py-20">
+        <div className="max-w-7xl mx-auto px-6 w-full grid md:grid-cols-[55%_45%] gap-8 lg:gap-12 items-stretch">
+          {/* Mobile-only: hero image first */}
+          <div className="md:hidden">
+            <div className="relative w-full h-[280px] rounded-xl overflow-hidden shadow-lg">
+              <Image
+                src="/images/windows/hero-house.png"
+                alt="Anlin replacement windows on a Central Valley home"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
 
-          {/* Right - Form */}
-          <div id="quote-form">
-            <LeadForm />
+          {/* Left column: copy + form */}
+          <div className="flex flex-col gap-7">
+            <div>
+              <span className="inline-block bg-orange/15 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-5">
+                Limited Time Offer
+              </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-white leading-[1.05] mb-5">
+                Save <span className="text-orange">$200</span> Per Window. <span className="text-orange">$500</span> Per Sliding Door.
+              </h1>
+              <p className="text-white/75 text-lg leading-relaxed mb-6">
+                Anlin-certified replacement windows that cut cooling bills and keep Central Valley summers outside where they belong.
+              </p>
+
+              <ul className="space-y-2.5 mb-5">
+                {[
+                  "Anlin Certified Installer",
+                  "BBB A+ Rated",
+                  "4.7★ on Google (228+ reviews)",
+                  "CA Licensed #1086515",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-3 text-white text-[15px]">
+                    <svg className="w-5 h-5 flex-shrink-0" style={{ color: "#F5A623" }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <p className="text-orange text-sm font-semibold flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
+                </span>
+                Offer ends May 31, 2026
+              </p>
+            </div>
+
+            <div id="quote-form">
+              <LeadForm />
+            </div>
+          </div>
+
+          {/* Right column: hero image (desktop only) */}
+          <div className="hidden md:block relative rounded-xl overflow-hidden shadow-2xl self-stretch min-h-[600px]">
+            <Image
+              src="/images/windows/hero-house.png"
+              alt="Anlin replacement windows on a Central Valley home"
+              fill
+              priority
+              sizes="45vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
@@ -330,6 +382,51 @@ export default function WindowsOfferPage() {
         </div>
       </section>
 
+      {/* ═══ BEFORE / AFTER ═══ */}
+      <section className="bg-white py-12 md:py-20 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-3 leading-tight">
+              See the Difference
+            </h2>
+            <p className="text-gray-text text-base sm:text-lg">
+              Same house. Same wall. Before and after Anlin.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+            <div className="relative rounded-xl overflow-hidden shadow-md aspect-[4/3]">
+              <Image
+                src="/images/windows/before-windows.png"
+                alt="Old aluminum windows before replacement"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <span className="absolute bottom-3 left-3 bg-black/70 text-white text-xs font-bold uppercase tracking-wider rounded-full px-3 py-1">
+                Before
+              </span>
+            </div>
+            <div className="relative rounded-xl overflow-hidden shadow-md aspect-[4/3]">
+              <Image
+                src="/images/windows/after-windows.png"
+                alt="New Anlin double-pane windows after installation"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <span className="absolute bottom-3 left-3 bg-orange text-navy text-xs font-bold uppercase tracking-wider rounded-full px-3 py-1">
+                After
+              </span>
+            </div>
+          </div>
+
+          <p className="text-center text-[#374151] text-base sm:text-lg max-w-3xl mx-auto mt-8 leading-relaxed">
+            Single-pane and old aluminum windows lose up to 30% of your home&apos;s cooling energy. Anlin double-pane windows eliminate that.
+          </p>
+        </div>
+      </section>
+
       {/* ═══ SOCIAL PROOF ═══ */}
       <section className="bg-light-bg py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -379,6 +476,162 @@ export default function WindowsOfferPage() {
         </div>
       </section>
 
+      {/* ═══ CREW / TRUST ═══ */}
+      <section className="bg-[#F8F9FA] py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-[55%_45%] gap-8 lg:gap-12 items-center">
+          <div className="relative rounded-xl overflow-hidden shadow-lg aspect-[4/3] order-1">
+            <Image
+              src="/images/windows/crew-install.png"
+              alt="HEC install crew at work on a Fresno home"
+              fill
+              sizes="(max-width: 768px) 100vw, 55vw"
+              className="object-cover"
+            />
+          </div>
+
+          <div className="order-2">
+            <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em] mb-3">
+              Local Team. Zero Subcontractors.
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-5 leading-tight">
+              When We Show Up, You&apos;ll Know It&apos;s Us.
+            </h2>
+            <p className="text-[#374151] text-base sm:text-lg leading-relaxed mb-6">
+              Home Energy Construction has served the Central Valley for over a decade. Every window crew is HEC employees — never subcontractors — trained and certified on Anlin products. Branded uniforms, branded trucks, and a clean job site every time.
+            </p>
+
+            <div className="grid grid-cols-2 gap-3 max-w-md">
+              {[
+                "Anlin Certified Dealer",
+                "Owens Corning Preferred",
+                "BBB A+ Rated",
+                "CA Lic #1086515",
+              ].map((pill) => (
+                <span
+                  key={pill}
+                  className="border border-navy/20 text-navy font-semibold text-sm rounded-full px-4 py-2 text-center bg-white"
+                >
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ WHY ANLIN / PRODUCT DETAIL ═══ */}
+      <section className="bg-white py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="order-2 md:order-1">
+            <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em] mb-3">
+              Anlin Windows
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-6 leading-tight">
+              Built for California Heat
+            </h2>
+            <ul className="space-y-3.5">
+              {[
+                "Triple-sealed frame — zero air infiltration",
+                "Low-E glass blocks up to 99% of UV rays",
+                "Dual-pane insulated glass — 40% better thermal performance",
+                "ENERGY STAR® certified for Western US climate",
+                "STC-rated for noise reduction",
+                "Lifetime transferable warranty — adds resale value",
+              ].map((feat) => (
+                <li key={feat} className="flex items-start gap-3 text-[#374151] text-[15px] sm:text-base leading-snug">
+                  <svg
+                    className="w-6 h-6 flex-shrink-0 mt-0.5"
+                    style={{ color: "#F5A623" }}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="order-1 md:order-2 relative rounded-xl overflow-hidden shadow-md aspect-[4/3]">
+            <Image
+              src="/images/windows/window-detail.png"
+              alt="Anlin window frame and glass detail"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ LIFESTYLE FULL-BLEED ═══ */}
+      <section className="relative w-full min-h-[320px] md:min-h-[400px] flex items-center justify-center overflow-hidden">
+        <Image
+          src="/images/windows/interior-light.png"
+          alt="Sunlit interior with new Anlin windows"
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="relative z-10 max-w-3xl mx-auto px-6 py-16 text-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
+            Your Home. Cooler, Quieter, Worth More.
+          </h2>
+          <p className="text-white/85 text-base sm:text-lg mb-7 leading-relaxed">
+            New windows are one of the highest-ROI upgrades you can make to a Central Valley home.
+          </p>
+          <a
+            href="#quote-form"
+            className="inline-flex items-center gap-2 bg-orange text-white font-extrabold text-base px-8 py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-xl shadow-orange/30 min-h-[52px]"
+          >
+            Get My Free Estimate
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      {/* ═══ SLIDING DOOR CALLOUT ═══ */}
+      <section className="bg-[#FFF7E6] py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="order-2 md:order-1">
+            <span className="inline-block text-orange text-xs font-bold uppercase tracking-[0.2em] mb-3">
+              Don&apos;t Forget the Patio
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-5 leading-tight">
+              Save $500 On Every Sliding Glass Door
+            </h2>
+            <p className="text-[#374151] text-base sm:text-lg leading-relaxed mb-7">
+              Most Fresno homes lose as much energy through sliding glass doors as they do through three windows combined. Upgrade yours to Anlin and seal the biggest gap in your home&apos;s envelope.
+            </p>
+            <a
+              href="#quote-form"
+              className="inline-flex items-center gap-2 border-2 border-orange text-orange bg-transparent hover:bg-orange hover:text-white font-extrabold text-base px-8 py-4 rounded-xl transition-colors cta-press min-h-[52px]"
+            >
+              Include a Sliding Door
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+          </div>
+
+          <div className="order-1 md:order-2 relative rounded-xl overflow-hidden shadow-md aspect-[4/3]">
+            <Image
+              src="/images/windows/sliding-glass-door.png"
+              alt="New Anlin sliding glass patio door"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ═══ VALUE STACK ═══ */}
       <section className="bg-white py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-6">
@@ -388,22 +641,22 @@ export default function WindowsOfferPage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto mb-10">
+          <div className="max-w-3xl mx-auto bg-light-bg rounded-2xl p-6 sm:p-8 border border-gray-100 mb-8">
             {[
-              "Free in-home consultation & quote",
-              "Anlin-certified products & installation",
-              "$500 off your project (limited time)",
-              "Multiple financing options: 12 months same-as-cash, $0 down, longer terms available",
-              "Lifetime warranty on Anlin windows",
-              "No-pressure, no-obligation quotes",
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3 bg-light-bg rounded-xl p-5 border border-gray-100">
-                <svg className="w-6 h-6 flex-shrink-0 mt-0.5" style={{ color: "#F5A623" }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-                <span className="text-navy font-medium text-[15px] leading-snug">{item}</span>
-              </div>
+              { item: "Free In-Home Consultation", value: "$299 value" },
+              { item: "Free Energy Assessment", value: "$199 value" },
+              { item: "$200 Off Per Window Installed", value: "instant savings" },
+              { item: "$500 Off Per Sliding Glass Door", value: "instant savings" },
+              { item: "12-Month Same-As-Cash Financing", value: "$0 down" },
+              { item: "Lifetime Anlin Transferable Warranty", value: "$2,000+ value" },
+              { item: "Old Windows Hauled Away Free", value: "$200 value" },
+            ].map((row) => (
+              <ValueRow key={row.item} item={row.item} value={row.value} />
             ))}
+          </div>
+
+          <div className="max-w-3xl mx-auto bg-orange text-navy rounded-xl p-6 text-center font-bold text-lg sm:text-xl mb-10 shadow-lg">
+            Total Value: $4,698+ — Yours When You Book This Month
           </div>
 
           <div className="text-center">
@@ -434,7 +687,7 @@ export default function WindowsOfferPage() {
       <section className="bg-navy py-12 md:py-20 text-center">
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
-            Ready to Save $500 On Your <span className="text-orange">New Windows?</span>
+            Ready to Save On Your <span className="text-orange">New Windows?</span>
           </h2>
           <p className="text-white/70 text-base sm:text-lg mb-8">
             Free in-home consultation. No obligation. Quote in under an hour.

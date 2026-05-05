@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Save $500 on New Windows | Home Energy Construction Fresno",
+  title: "Save $200 Per Window | Home Energy Construction Fresno",
   description:
-    "Anlin-certified replacement windows. $500 off limited time. Serving Fresno, Clovis, Visalia, Madera and Central Valley. Free quote — call (559) 272-3992.",
+    "Anlin replacement windows. Save $200 per window and $500 per sliding glass door. Serving Fresno, Visalia, Hanford, Clovis & Sacramento. Free quote — call (559) 272-3992.",
   robots: {
     index: false,
     follow: false,
@@ -11,5 +11,47 @@ export const metadata: Metadata = {
 };
 
 export default function WindowsOfferLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {/* Hide the global Footer for this paid-traffic landing page */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html:
+            "body:has(#windows-offer-root) > footer{display:none!important}",
+        }}
+      />
+      <div id="windows-offer-root">
+        {children}
+        <footer className="bg-[#0F1D33] text-white py-8">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-sm">
+              <span className="text-white/70">
+                © 2026 Home Energy Construction · CA License #1086515
+              </span>
+              <span className="text-white/70">
+                <a href="tel:+15592723992" className="hover:text-orange transition-colors">
+                  (559) 272-3992
+                </a>
+                {" · "}
+                <a href="mailto:hello@hecfresno.com" className="hover:text-orange transition-colors">
+                  hello@hecfresno.com
+                </a>
+              </span>
+            </div>
+            <div className="mt-3 text-center text-white/40 text-xs">
+              Powered by{" "}
+              <a
+                href="https://sark.agency"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-orange transition-colors"
+              >
+                SARK Agency
+              </a>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </>
+  );
 }
