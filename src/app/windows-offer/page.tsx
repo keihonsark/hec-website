@@ -268,30 +268,33 @@ export default function WindowsOfferPage() {
         <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#1B2D4F] via-[#1B2D4F]/80 to-[#1B2D4F]/60 md:bg-gradient-to-r md:from-[#1B2D4F] md:from-30% md:via-[#1B2D4F]/60 md:via-60% md:to-[#1B2D4F]/10" />
 
         {/* Content */}
-        <div className="relative z-[2] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-8 lg:gap-12 items-center">
-            {/* LEFT: Content */}
-            <div>
-              <span className="inline-block bg-orange/20 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full mb-5">
+        <div className="relative z-[2] max-w-7xl mx-auto px-4 md:px-8 py-12 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+
+            {/* LEFT COLUMN — Content (no card, sits on overlay) */}
+            <div className="space-y-6 text-white">
+              <div className="inline-block bg-orange/20 border border-orange/40 text-orange text-xs font-bold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full">
                 Limited Time Offer
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-5">
-                Save <span className="text-orange">$200</span> Per Window.
+              </div>
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1]">
+                Save <span className="text-[#F5A623]">$200</span> Per Window.
                 <br />
-                <span className="text-orange">$500</span> Per Sliding Door.
+                <span className="text-[#F5A623]">$500</span> Per Sliding Door.
               </h1>
-              <p className="text-white/85 text-lg leading-relaxed mb-6">
+
+              <p className="text-lg text-white/85 leading-relaxed max-w-xl">
                 Anlin-certified replacement windows that cut cooling bills and keep Central Valley summers outside where they belong.
               </p>
 
-              <ul className="space-y-2.5 mb-5">
+              <ul className="space-y-2.5">
                 {[
                   "Anlin Certified Installer",
                   "BBB A+ Rated",
                   "4.7★ on Google (228+ reviews)",
                   "CA Licensed #1086515",
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-white font-medium text-[15px]">
+                  <li key={item} className="flex items-center gap-3 font-medium text-[15px]">
                     <svg className="w-5 h-5 flex-shrink-0" style={{ color: "#F5A623" }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
@@ -300,19 +303,20 @@ export default function WindowsOfferPage() {
                 ))}
               </ul>
 
-              <p className="text-orange text-sm font-semibold flex items-center gap-2">
+              <div className="text-orange text-sm font-semibold flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
                 </span>
                 Offer ends May 31, 2026
-              </p>
+              </div>
             </div>
 
-            {/* RIGHT: Form card */}
-            <div id="quote-form">
+            {/* RIGHT COLUMN — Form card */}
+            <div id="quote-form" className="w-full">
               <LeadForm />
             </div>
+
           </div>
         </div>
       </section>
