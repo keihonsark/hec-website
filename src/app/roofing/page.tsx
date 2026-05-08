@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
 import ReviewCard from "@/components/ReviewCard";
@@ -9,15 +10,20 @@ import BeforeAfter from "@/components/BeforeAfter";
 import { postToWebhook } from "@/lib/webhook";
 
 function RoofingEstimateForm() {
+  const router = useRouter();
   const [form, setForm] = useState({
     firstName: "", lastName: "", phone: "", email: "", address: "", city: "", service: "", financing: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const inputCls =
     "w-full px-5 py-3.5 rounded-xl border border-gray-200 text-navy placeholder:text-gray-text/60 focus:outline-none focus:ring-2 focus:ring-orange/40 focus:border-orange transition";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await postToWebhook({
+    setSubmitting(true);
+    setError(null);
+    const ok = await postToWebhook({
       type: "estimate_request",
       firstName: form.firstName,
       lastName: form.lastName,
@@ -31,6 +37,14 @@ function RoofingEstimateForm() {
       source: "homeenergyconstruction.com",
       page: "/roofing",
     });
+    if (ok) {
+      router.push("/thank-you");
+    } else {
+      setSubmitting(false);
+      setError(
+        "Something went wrong submitting your request. Please try again or call (559) 215-8516."
+      );
+    }
   };
 
   return (
@@ -73,9 +87,15 @@ function RoofingEstimateForm() {
       </select>
       <div className="sm:col-span-2">
         <button type="submit"
-          className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer">
-          GET MY FREE ESTIMATE →
+          disabled={submitting}
+          className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed">
+          {submitting ? "Submitting..." : "GET MY FREE ESTIMATE →"}
         </button>
+        {error && (
+          <p className="text-red-600 text-sm text-center mt-3" role="alert">
+            {error}
+          </p>
+        )}
         <p className="text-gray-text text-sm text-center mt-3">
           No obligation. No pressure. Just honest answers.
         </p>
