@@ -11,7 +11,36 @@ import CTABanner from "@/components/CTABanner";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import FAQSection from "@/components/FAQSection";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const paintFAQ = [
+  {
+    question: "How long does exterior painting take?",
+    answer:
+      "Most single-family homes are completed in 3-5 days, weather permitting. That includes prep work (sanding, caulking, priming), full painting, and cleanup. We don't cut corners on prep — that's where most paint jobs fail.",
+  },
+  {
+    question: "What kind of paint do you use?",
+    answer:
+      "Premium exterior coatings with industrial-grade UV protection — engineered specifically for high-heat climates like Central Valley summers. Standard wall paint fades fast in our sun. Ours is built to last decades, not years.",
+  },
+  {
+    question: "Will the paint hold up in Central Valley heat?",
+    answer:
+      "Yes — that's exactly what our coating is designed for. UV protection, color-fade resistance, and flexibility for thermal expansion. Our exterior paint commonly outlasts the standard 7-10 year painting cycle by 1.5-2x.",
+  },
+  {
+    question: "What about prep work?",
+    answer:
+      "Prep is 70% of a quality paint job. We pressure wash, scrape loose paint, sand rough surfaces, caulk gaps, prime bare wood and stains, and mask everything that shouldn't get painted. No shortcuts.",
+  },
+  {
+    question: "What's the warranty?",
+    answer:
+      "Lifetime Plus coating carries a transferable manufacturer warranty. HEC backs every paint job with our own workmanship warranty as well. We stand behind the work for the long haul.",
+  },
+];
 
 const serviceSchema = buildServiceSchema({
   serviceType: "Exterior Painting",
@@ -199,6 +228,7 @@ export default function PaintPage() {
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#paint-estimate" />
       <ReviewsCarousel />
+      <FAQSection title="Exterior Paint Questions, Answered" items={paintFAQ} />
       <CTABanner
         headline="Ready to Refresh Your Exterior?"
         formAnchor="#paint-estimate"

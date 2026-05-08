@@ -12,7 +12,41 @@ import CredentialsGrid from "@/components/CredentialsGrid";
 import OfferBanner from "@/components/OfferBanner";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import FAQSection from "@/components/FAQSection";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const windowsFAQ = [
+  {
+    question: "How much do new windows cost?",
+    answer:
+      "Window replacement varies by size, frame, and style. Most full-home projects with our premium Anlin vinyl windows fall between $8,000 and $25,000 — but with $0 down financing, monthly payments start around $75. We provide a free in-home estimate so you get an exact number for your home, not a ballpark.",
+  },
+  {
+    question: "How long does window replacement take?",
+    answer:
+      "Most jobs are completed in 1-2 days for a full home. We arrive on time, lay protective coverings inside, and clean up everything before we leave. You'll be enjoying your new windows the same week.",
+  },
+  {
+    question: "Will new windows actually lower my energy bills?",
+    answer:
+      "Yes — typically by 20-30%. Anlin windows feature dual-pane low-E glass with argon gas insulation, which significantly reduces heat transfer. In Central Valley summers and winters, that translates to less HVAC strain and lower bills year-round.",
+  },
+  {
+    question: "What window brand do you install?",
+    answer:
+      "We're a certified Anlin dealer. Anlin is a California-based manufacturer with one of the strongest lifetime warranties in the industry — fully transferable if you ever sell your home. Their windows are engineered specifically for Western U.S. climates.",
+  },
+  {
+    question: "Do you offer financing?",
+    answer:
+      "Yes. We offer multiple financing options including $0 down, 0% interest for 12 months, deferred payment plans, and low monthly payment terms. Most homeowners qualify and we handle the application during your free estimate.",
+  },
+  {
+    question: "What's the warranty?",
+    answer:
+      "Anlin's lifetime warranty covers the windows themselves — frames, glass, hardware. HEC backs every installation with our own workmanship warranty. Both transfer to a new owner if you ever sell.",
+  },
+];
 
 const serviceSchema = buildServiceSchema({
   serviceType: "Window Replacement",
@@ -188,6 +222,7 @@ export default function WindowsPage() {
       <CredentialsGrid />
       <FinancingSection formAnchor="#windows-estimate" />
       <ReviewsCarousel />
+      <FAQSection title="Window Replacement Questions, Answered" items={windowsFAQ} />
       <CTABanner headline="Ready for New Windows?" formAnchor="#windows-estimate" />
       <LeadForm id="windows-estimate" headline="Get Your Free Window Estimate" defaultService="Windows & Doors" />
       <MobileStickyBar formAnchor="#windows-estimate" />

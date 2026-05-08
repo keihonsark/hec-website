@@ -11,7 +11,36 @@ import CTABanner from "@/components/CTABanner";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import FAQSection from "@/components/FAQSection";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const insulationFAQ = [
+  {
+    question: "Will new insulation really lower my energy bills?",
+    answer:
+      "Yes, often dramatically. Most Central Valley homes built before 2000 are dramatically under-insulated by today's standards. Adding proper attic and wall insulation typically reduces heating and cooling costs by 15-30%.",
+  },
+  {
+    question: "What type of insulation do you install?",
+    answer:
+      "Primarily blown-in fiberglass and cellulose for attics, batts for walls, and spray foam for hard-to-reach areas. We choose based on the application — there's no single 'best' insulation, only the right one for each space.",
+  },
+  {
+    question: "How do I know if my insulation is bad?",
+    answer:
+      "Signs include: rooms that won't stay cool/warm, ice dams in winter, high energy bills, drafts near outlets/baseboards, or you can see attic floor joists peeking through the insulation. Free attic inspection during your estimate.",
+  },
+  {
+    question: "How much does insulation cost?",
+    answer:
+      "Attic insulation upgrades typically run $1,500-$5,000 for a single-family home. Wall insulation (when needed) is more involved. The investment usually pays back in 3-7 years through lower utility bills.",
+  },
+  {
+    question: "Do you remove old insulation?",
+    answer:
+      "When needed — yes. If old insulation is contaminated by rodents, mold, or moisture damage, we remove and dispose of it properly before installing new. Otherwise, we top off existing insulation to current R-value standards.",
+  },
+];
 
 const serviceSchema = buildServiceSchema({
   serviceType: "Insulation Services",
@@ -142,6 +171,7 @@ export default function InsulationPage() {
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#insulation-estimate" />
       <ReviewsCarousel />
+      <FAQSection title="Insulation Questions, Answered" items={insulationFAQ} />
       <CTABanner headline="Ready to Lower Your Energy Bills?" formAnchor="#insulation-estimate" />
       <LeadForm id="insulation-estimate" headline="Get Your Free Insulation Estimate" defaultService="Insulation" />
       <MobileStickyBar formAnchor="#insulation-estimate" />

@@ -10,7 +10,36 @@ import CTABanner from "@/components/CTABanner";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import FAQSection from "@/components/FAQSection";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const outdoorFAQ = [
+  {
+    question: "How much does a patio cover cost?",
+    answer:
+      "Alumawood patio covers typically run $4,500-$15,000 depending on size, design, and features (lighting, fans, ceiling treatments). We do free design consultations so you see exactly what you'll get and what it'll cost.",
+  },
+  {
+    question: "Why alumawood instead of wood?",
+    answer:
+      "Alumawood looks like real wood but won't rot, warp, splinter, or need staining. It handles Central Valley sun without fading, holds up in heat, and carries a manufacturer warranty wood can't match. We don't install wood patios for this reason.",
+  },
+  {
+    question: "How long does installation take?",
+    answer:
+      "Most patio covers are installed in 2-4 days from permits through completion. Larger projects with electrical, lighting, or fan installs run a bit longer. We handle permits and inspections.",
+  },
+  {
+    question: "Do you do landscaping too?",
+    answer:
+      "Yes — full-project landscape installs including sod, artificial turf, irrigation, drainage, hardscape, and retaining walls. We don't take irrigation-only or drainage-only jobs — we do complete outdoor projects.",
+  },
+  {
+    question: "Can I customize the design?",
+    answer:
+      "Absolutely. Every patio cover is custom — size, color, lighting, ceiling treatment, integrated fans. We'll design something that fits your backyard, your style, and your budget.",
+  },
+];
 
 const serviceSchema = buildServiceSchema({
   serviceType: "Outdoor Living Construction",
@@ -150,6 +179,7 @@ export default function OutdoorPage() {
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#outdoor-estimate" />
       <ReviewsCarousel />
+      <FAQSection title="Outdoor Living Questions, Answered" items={outdoorFAQ} />
       <CTABanner headline="Ready to Transform Your Backyard?" formAnchor="#outdoor-estimate" />
       <LeadForm id="outdoor-estimate" headline="Get Your Free Outdoor Living Estimate" defaultService="Outdoor Living" />
       <MobileStickyBar formAnchor="#outdoor-estimate" />

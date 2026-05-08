@@ -11,7 +11,41 @@ import CTABanner from "@/components/CTABanner";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import FAQSection from "@/components/FAQSection";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const hvacFAQ = [
+  {
+    question: "When should I replace my HVAC system?",
+    answer:
+      "Most systems last 12-15 years. If yours is older than that, struggling to keep up in 110° summers, requiring frequent repairs, or driving up your bills, replacement usually pays for itself within a few years through energy savings.",
+  },
+  {
+    question: "How much does a new HVAC system cost?",
+    answer:
+      "A complete system replacement (AC + furnace) typically runs $8,000-$18,000 depending on size, efficiency rating, and home layout. Higher SEER (efficiency) units cost more upfront but save thousands over their lifetime in energy bills.",
+  },
+  {
+    question: "What size system does my home need?",
+    answer:
+      "We perform a Manual J load calculation during your free estimate — factoring in square footage, insulation, window count, ceiling height, and sun exposure. Oversized systems cycle too often; undersized ones run constantly. Right-sizing matters.",
+  },
+  {
+    question: "Do you service all brands?",
+    answer:
+      "We install and service all major brands including Carrier, Lennox, Trane, Goodman, and Rheem. We'll recommend the system that fits your home and budget — not whichever brand has the highest commission.",
+  },
+  {
+    question: "How long does HVAC installation take?",
+    answer:
+      "Most full-system replacements are done in 1 day. Complex installs with new ductwork or commercial-grade equipment may take 2-3 days. Your home stays comfortable during the process.",
+  },
+  {
+    question: "Do you offer financing on HVAC?",
+    answer:
+      "Yes — same financing options as our other services: $0 down, 0% APR plans, deferred payments, and low monthly terms. Many systems pay for themselves in energy savings within 4-7 years.",
+  },
+];
 
 const serviceSchema = buildServiceSchema({
   serviceType: "HVAC Installation",
@@ -138,6 +172,7 @@ export default function HVACPage() {
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#hvac-estimate" />
       <ReviewsCarousel />
+      <FAQSection title="HVAC Questions, Answered" items={hvacFAQ} />
       <CTABanner headline="Ready for a New HVAC System?" formAnchor="#hvac-estimate" />
       <LeadForm id="hvac-estimate" headline="Get Your Free HVAC Estimate" defaultService="HVAC" />
       <MobileStickyBar formAnchor="#hvac-estimate" />

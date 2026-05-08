@@ -9,8 +9,42 @@ import ReviewCard from "@/components/ReviewCard";
 import BeforeAfter from "@/components/BeforeAfter";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import OfferBanner from "@/components/OfferBanner";
+import FAQSection from "@/components/FAQSection";
 import { postToWebhook } from "@/lib/webhook";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const roofingFAQ = [
+  {
+    question: "How much does a new roof cost?",
+    answer:
+      "A typical asphalt shingle roof in the Central Valley runs $12,000-$30,000 depending on size, pitch, and material. Premium options like architectural or designer shingles run higher. Free in-home estimates give you exact numbers — no surprises.",
+  },
+  {
+    question: "How long does roof replacement take?",
+    answer:
+      "Most homes are fully reroofed in 1-2 days. Larger or more complex roofs may take 3-4 days. We tarp landscaping, magnetically sweep for nails, and leave the property cleaner than we found it.",
+  },
+  {
+    question: "What roofing materials do you use?",
+    answer:
+      "We're an Owens Corning Preferred Contractor — we install their TruDefinition Duration shingles as our standard, with upgrade options including Designer and Premium lines. We also do tile roofs, metal roofs, and flat roof systems on request.",
+  },
+  {
+    question: "How long is the warranty?",
+    answer:
+      "Owens Corning shingles carry up to a 50-year limited material warranty. Owens Corning Preferred status means we can offer enhanced warranty coverage on labor and workmanship — significantly stronger than what non-certified contractors can provide.",
+  },
+  {
+    question: "Do you handle insurance claims?",
+    answer:
+      "Yes. If your roof was damaged by storm, hail, or other covered events, we'll meet with your insurance adjuster on-site, document everything properly, and work directly with the insurance company so you don't have to navigate it alone.",
+  },
+  {
+    question: "Do you do roof repairs or only replacements?",
+    answer:
+      "We focus on full replacements rather than patch repairs. If your roof is more than 15 years old or showing widespread wear, replacement is almost always the better long-term value. We'll tell you honestly during your free inspection.",
+  },
+];
 
 const serviceSchema = buildServiceSchema({
   serviceType: "Roofing Replacement",
@@ -197,103 +231,6 @@ const reviews = [
     city: "Clovis",
   },
 ];
-
-/* ─── FAQ data ─── */
-const faqs = [
-  {
-    q: "How do I know if my roof needs to be replaced?",
-    a: "If your roof is over 15-20 years old, has visible damage like curling or missing shingles, or you're experiencing leaks, it's time for an inspection. We offer free, no-pressure inspections to give you an honest assessment.",
-  },
-  {
-    q: "How much does a new roof cost in Fresno?",
-    a: "Most residential roof replacements in the Fresno area range from $15,000 to $40,000 depending on size, materials, and complexity. We provide detailed quotes with no hidden fees — and with $0 down financing, you can get started with nothing out of pocket.",
-  },
-  {
-    q: "What roofing materials do you use?",
-    a: "We're an Owens Corning Preferred Contractor, which means we use premium Duration and TruDefinition shingles backed by manufacturer warranties. We also install tile, metal, and flat roofing systems.",
-  },
-  {
-    q: "How long does a roof replacement take?",
-    a: "Most residential roof replacements are completed in 1-2 days. Larger or more complex projects may take 3-4 days. We'll give you a clear timeline before any work begins.",
-  },
-  {
-    q: "Do you offer financing?",
-    a: "Yes — we offer multiple financing options including $0 down, deferred payments up to 18 months, and low monthly payment plans. We work with multiple lenders to find the right fit for every credit profile.",
-  },
-];
-
-function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add("visible");
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <section ref={ref} className="fade-in-section py-24 md:py-32 bg-light-bg">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <SectionLabel>FAQ</SectionLabel>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
-            Common Questions About Roofing
-          </h2>
-        </div>
-
-        <div className="divide-y divide-gray-200">
-          {faqs.map((faq, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div key={i}>
-                <button
-                  className="w-full flex items-center justify-between py-5 text-left cursor-pointer group"
-                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                  aria-expanded={isOpen}
-                >
-                  <span className="text-navy font-semibold text-[15px] sm:text-base pr-4 group-hover:text-orange transition-colors">
-                    {faq.q}
-                  </span>
-                  <span className="text-orange flex-shrink-0">
-                    <svg
-                      className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </span>
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? "max-h-60 pb-5" : "max-h-0"
-                  }`}
-                >
-                  <p className="text-gray-text text-[15px] leading-relaxed">
-                    {faq.a}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ═══════════════════════════════════════════
    ROOFING LANDING PAGE
@@ -838,8 +775,7 @@ export default function RoofingPage() {
         </div>
       </Section>
 
-      {/* ════════════════ FAQ ════════════════ */}
-      <FAQSection />
+      <FAQSection title="Roofing Questions, Answered" items={roofingFAQ} />
 
       {/* ════════════════ CTA BANNER ════════════════ */}
       <Section className="relative py-24 md:py-28 bg-navy-dark noise-overlay overflow-hidden">
