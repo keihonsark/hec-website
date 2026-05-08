@@ -8,12 +8,26 @@ import SectionLabel from "@/components/SectionLabel";
 import FinancingSection from "@/components/FinancingSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import CTABanner from "@/components/CTABanner";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const serviceSchema = buildServiceSchema({
+  serviceType: "Insulation Services",
+  name: "Insulation Services in Fresno, CA",
+  description:
+    "GreenFiber insulation upgrades that reduce air infiltration, lower your energy bills, and keep your home at the perfect temperature.",
+  path: "/insulation",
+});
 
 export default function InsulationPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
+      />
       <ServiceHero
         image="/images/about/insulation-interior.png"
         imageAlt="Insulation installation by Home Energy Construction in Fresno"
@@ -125,6 +139,7 @@ export default function InsulationPage() {
         </div>
       </Section>
 
+      <CredentialsGrid compact />
       <FinancingSection formAnchor="#insulation-estimate" />
       <ReviewsCarousel />
       <CTABanner headline="Ready to Lower Your Energy Bills?" formAnchor="#insulation-estimate" />

@@ -8,8 +8,18 @@ import SectionLabel from "@/components/SectionLabel";
 import FinancingSection from "@/components/FinancingSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import CTABanner from "@/components/CTABanner";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const serviceSchema = buildServiceSchema({
+  serviceType: "Exterior Painting",
+  name: "Exterior Painting in Fresno, CA",
+  description:
+    "Premium exterior coatings engineered for Central Valley heat — protect and beautify your home for decades.",
+  path: "/paint",
+});
 
 const benefits = [
   {
@@ -70,6 +80,10 @@ const whyHec = [
 export default function PaintPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
+      />
       <ServiceHero
         image="/images/about/paint-exterior.png"
         imageAlt="Freshly painted home exterior by Home Energy Construction"
@@ -182,6 +196,7 @@ export default function PaintPage() {
         </div>
       </Section>
 
+      <CredentialsGrid compact />
       <FinancingSection formAnchor="#paint-estimate" />
       <ReviewsCarousel />
       <CTABanner

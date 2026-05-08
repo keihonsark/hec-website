@@ -7,7 +7,18 @@ import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
 import ReviewCard from "@/components/ReviewCard";
 import BeforeAfter from "@/components/BeforeAfter";
+import CredentialsGrid from "@/components/CredentialsGrid";
+import OfferBanner from "@/components/OfferBanner";
 import { postToWebhook } from "@/lib/webhook";
+import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const serviceSchema = buildServiceSchema({
+  serviceType: "Roofing Replacement",
+  name: "Roofing Replacement in Fresno, CA",
+  description:
+    "Fresno's trusted roofing experts. Premium Owens Corning materials. Flexible financing for every budget.",
+  path: "/roofing",
+});
 
 function RoofingEstimateForm() {
   const router = useRouter();
@@ -307,6 +318,10 @@ export default function RoofingPage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
+      />
       {/* ════════════════ HERO ════════════════ */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <Image
@@ -362,6 +377,12 @@ export default function RoofingPage() {
           </div>
         </div>
       </section>
+
+      <OfferBanner
+        offerText="$1,000 Off Your New Roof"
+        subtext="Limited time. Stackable with $0 down financing."
+        ctaHref="#roofing-estimate"
+      />
 
       {/* ════════════════ TRUST STRIP ════════════════ */}
       <section className="bg-white py-6 border-y border-gray-200/60">
@@ -846,6 +867,8 @@ export default function RoofingPage() {
           </div>
         </div>
       </Section>
+
+      <CredentialsGrid compact />
 
       {/* ════════════════ LEAD CAPTURE FORM ════════════════ */}
       <div ref={formSentinel} className="h-1" />

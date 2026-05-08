@@ -8,12 +8,27 @@ import SectionLabel from "@/components/SectionLabel";
 import FinancingSection from "@/components/FinancingSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import CTABanner from "@/components/CTABanner";
+import CredentialsGrid from "@/components/CredentialsGrid";
+import OfferBanner from "@/components/OfferBanner";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const serviceSchema = buildServiceSchema({
+  serviceType: "Window Replacement",
+  name: "Window Replacement in Fresno, CA",
+  description:
+    "Premium Anlin windows and doors that reduce energy costs, block UV rays, and transform your home's comfort.",
+  path: "/windows",
+});
 
 export default function WindowsPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
+      />
       <ServiceHero
         image="/images/windows/windows-interior.png"
         imageAlt="Anlin window replacement by Home Energy Construction in Fresno"
@@ -24,6 +39,12 @@ export default function WindowsPage() {
       />
 
       <TrustStrip />
+
+      <OfferBanner
+        offerText="$200 Off Per Window + $500 Off Sliding Doors"
+        subtext="Limited time. Stackable with $0 down financing."
+        ctaHref="#windows-estimate"
+      />
 
       {/* ════════ KEY BENEFITS ════════ */}
       <Section className="py-24 md:py-32 bg-white">
@@ -164,6 +185,7 @@ export default function WindowsPage() {
         </div>
       </Section>
 
+      <CredentialsGrid />
       <FinancingSection formAnchor="#windows-estimate" />
       <ReviewsCarousel />
       <CTABanner headline="Ready for New Windows?" formAnchor="#windows-estimate" />

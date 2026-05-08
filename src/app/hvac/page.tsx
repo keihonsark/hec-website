@@ -8,12 +8,26 @@ import SectionLabel from "@/components/SectionLabel";
 import FinancingSection from "@/components/FinancingSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import CTABanner from "@/components/CTABanner";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const serviceSchema = buildServiceSchema({
+  serviceType: "HVAC Installation",
+  name: "HVAC Installation in Fresno, CA",
+  description:
+    "Energy-efficient HVAC systems built for Central Valley's extreme temperatures. $0 down financing available.",
+  path: "/hvac",
+});
 
 export default function HVACPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
+      />
       <ServiceHero
         image="/images/hvac/hvac-unit.png"
         imageAlt="HVAC installation by Home Energy Construction in Fresno"
@@ -121,6 +135,7 @@ export default function HVACPage() {
         </div>
       </Section>
 
+      <CredentialsGrid compact />
       <FinancingSection formAnchor="#hvac-estimate" />
       <ReviewsCarousel />
       <CTABanner headline="Ready for a New HVAC System?" formAnchor="#hvac-estimate" />

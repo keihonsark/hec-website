@@ -7,12 +7,26 @@ import SectionLabel from "@/components/SectionLabel";
 import FinancingSection from "@/components/FinancingSection";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import CTABanner from "@/components/CTABanner";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
+import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const serviceSchema = buildServiceSchema({
+  serviceType: "Outdoor Living Construction",
+  name: "Outdoor Living Construction in Fresno, CA",
+  description:
+    "Custom patios, pergolas, and gazebos that transform your backyard into a year-round retreat.",
+  path: "/outdoor",
+});
 
 export default function OutdoorPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
+      />
       <ServiceHero
         image="/images/outdoor/outdoor-patio.png"
         imageAlt="Custom patio cover by Home Energy Construction in Fresno"
@@ -133,6 +147,7 @@ export default function OutdoorPage() {
         </div>
       </Section>
 
+      <CredentialsGrid compact />
       <FinancingSection formAnchor="#outdoor-estimate" />
       <ReviewsCarousel />
       <CTABanner headline="Ready to Transform Your Backyard?" formAnchor="#outdoor-estimate" />

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Thermometer, VolumeX, ShieldCheck } from "lucide-react";
 import CredentialsGrid from "@/components/CredentialsGrid";
+import OfferBanner from "@/components/OfferBanner";
 import { postToWebhook } from "@/lib/webhook";
 
 const PHONE_DISPLAY = "559-272-3992";
@@ -329,6 +330,12 @@ export default function WindowsOfferPage() {
           </div>
         </div>
       </section>
+
+      <OfferBanner
+        offerText="$200 Off Per Window + $500 Off Sliding Doors"
+        subtext="Limited time. Stackable with $0 down financing."
+        ctaHref="#quote-form"
+      />
 
       {/* ═══ TRUST BAR ═══ */}
       <section className="bg-light-bg py-6 border-y border-gray-200/60">
