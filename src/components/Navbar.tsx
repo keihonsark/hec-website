@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import Logo from "./Logo";
+import GoogleG from "./icons/GoogleG";
 
 /* Routes that should display a minimal nav (logo + click-to-call only) */
 const MINIMAL_NAV_ROUTES = ["/windows-offer"];
@@ -13,19 +15,58 @@ const PHONE_OVERRIDES: Record<string, { display: string; href: string }> = {
   "/windows-offer": { display: "(559) 272-3992", href: "tel:+15592723992" },
 };
 
-const navLinks = [
+const flatNavLinks = [
   { label: "Windows", href: "/windows" },
   { label: "Roofing", href: "/roofing" },
   { label: "HVAC", href: "/hvac" },
   { label: "Insulation", href: "/insulation" },
   { label: "Outdoor Living", href: "/outdoor" },
   { label: "Paint", href: "/paint" },
-  { label: "About", href: "/about" },
 ];
+
+interface AboutChild {
+  label: string;
+  href: string;
+  desc: string;
+  showGoogleG?: boolean;
+}
+
+const aboutChildren: AboutChild[] = [
+  {
+    label: "Our Story",
+    href: "/about",
+    desc: "Who we are & what we stand for",
+  },
+  {
+    label: "Reviews",
+    href: "/reviews",
+    desc: "228+ verified Google reviews",
+    showGoogleG: true,
+  },
+];
+
+function ChevronDown({ className }: { className: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [mobileAboutExpanded, setMobileAboutExpanded] = useState(false);
+  const aboutTriggerRef = useRef<HTMLButtonElement>(null);
+  const aboutItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const pathname = usePathname() || "";
   const isMinimal = MINIMAL_NAV_ROUTES.some((r) => pathname.startsWith(r));
   const phone = PHONE_OVERRIDES[pathname] ?? { display: "(559) 215-8516", href: "tel:+15592158516" };
@@ -40,6 +81,42 @@ export default function Navbar() {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setAboutOpen(true);
+      // focus first item after the panel renders
+      requestAnimationFrame(() => aboutItemRefs.current[0]?.focus());
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setAboutOpen((v) => !v);
+    } else if (e.key === "Escape") {
+      setAboutOpen(false);
+    }
+  };
+
+  const handleItemKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>, idx: number) => {
+    const len = aboutChildren.length;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      aboutItemRefs.current[(idx + 1) % len]?.focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      aboutItemRefs.current[(idx - 1 + len) % len]?.focus();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setAboutOpen(false);
+      aboutTriggerRef.current?.focus();
+    } else if (e.key === "Tab") {
+      // Tabbing past the last item closes the dropdown
+      if (idx === len - 1 && !e.shiftKey) {
+        setAboutOpen(false);
+      } else if (idx === 0 && e.shiftKey) {
+        setAboutOpen(false);
+      }
+    }
+  };
 
   /* ─── Minimal nav for focused landing pages ─── */
   if (isMinimal) {
@@ -75,7 +152,7 @@ export default function Navbar() {
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center gap-6 lg:gap-8">
-              {navLinks.map((link) => (
+              {flatNavLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -84,6 +161,63 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
+
+              {/* About dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setAboutOpen(true)}
+                onMouseLeave={() => setAboutOpen(false)}
+              >
+                <button
+                  ref={aboutTriggerRef}
+                  type="button"
+                  onClick={() => setAboutOpen((v) => !v)}
+                  onKeyDown={handleTriggerKeyDown}
+                  aria-haspopup="true"
+                  aria-expanded={aboutOpen}
+                  className="flex items-center gap-1 text-navy/80 hover:text-orange font-medium text-[15px] transition-colors cursor-pointer"
+                >
+                  About
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      aboutOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Bridge + panel — pt-2 keeps cursor "inside" parent during gap traversal */}
+                <div
+                  className={`absolute top-full left-0 pt-2 transition-opacity duration-150 ${
+                    aboutOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                  }`}
+                  role="menu"
+                  aria-label="About"
+                >
+                  <div className="bg-white rounded-lg shadow-xl border border-gray-100 py-2 min-w-[220px]">
+                    {aboutChildren.map((item, i) => (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        ref={(el) => {
+                          aboutItemRefs.current[i] = el;
+                        }}
+                        onClick={() => setAboutOpen(false)}
+                        onKeyDown={(e) => handleItemKeyDown(e, i)}
+                        role="menuitem"
+                        className="block px-5 py-3 text-navy font-medium text-sm hover:bg-gray-50 hover:text-orange transition-colors"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span>{item.label}</span>
+                          {item.showGoogleG && <GoogleG className="w-4 h-4" />}
+                        </span>
+                        <span className="block text-gray-500 text-xs font-normal mt-0.5">
+                          {item.desc}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Desktop right */}
@@ -110,8 +244,8 @@ export default function Navbar() {
         {/* Mobile drawer */}
         <div className={`md:hidden fixed inset-0 top-[74px] bg-white z-40 overflow-y-auto transform transition-transform duration-300 ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}>
           <div className="flex flex-col p-6 gap-2">
-            {/* Nav links */}
-            {navLinks.map((link) => (
+            {/* Flat nav links */}
+            {flatNavLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
@@ -121,6 +255,43 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+
+            {/* About expandable section */}
+            <div>
+              <button
+                type="button"
+                onClick={() => setMobileAboutExpanded((v) => !v)}
+                aria-expanded={mobileAboutExpanded}
+                className="w-full flex items-center justify-between text-navy font-semibold text-lg py-3 border-b border-gray-100 cursor-pointer"
+              >
+                <span>About</span>
+                <ChevronDown
+                  className={`w-5 h-5 text-orange transition-transform duration-200 ${
+                    mobileAboutExpanded ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {mobileAboutExpanded && (
+                <div className="pl-6 py-2 border-b border-gray-100">
+                  {aboutChildren.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="block py-2.5"
+                    >
+                      <span className="flex items-center gap-2 text-navy/85 font-medium text-base">
+                        <span>{item.label}</span>
+                        {item.showGoogleG && <GoogleG className="w-4 h-4" />}
+                      </span>
+                      <span className="block text-gray-500 text-xs mt-0.5">
+                        {item.desc}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <a href="/#financing" className="text-navy font-semibold text-lg py-3 border-b border-gray-100" onClick={() => setMobileOpen(false)}>$0 Down Financing</a>
             <a href="/#estimate-form" className="text-orange font-semibold text-lg py-3 border-b border-gray-100" onClick={() => setMobileOpen(false)}>Free Estimate</a>
