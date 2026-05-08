@@ -32,10 +32,6 @@ export default function WindowsOfferLayout({ children }: { children: React.React
                 <a href="tel:+15592723992" className="hover:text-orange transition-colors">
                   (559) 272-3992
                 </a>
-                {" · "}
-                <a href="mailto:hello@homeenergyconstruction.com" className="hover:text-orange transition-colors">
-                  hello@homeenergyconstruction.com
-                </a>
               </span>
             </div>
             <div className="mt-3 text-center text-white/40 text-xs">
