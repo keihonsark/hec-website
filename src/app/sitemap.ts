@@ -11,6 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: baseUrl + '/hvac', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: baseUrl + '/insulation', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
     { url: baseUrl + '/outdoor', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: baseUrl + '/paint', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    { url: baseUrl + '/about', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: baseUrl + '/contact', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: baseUrl + '/estimate', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: baseUrl + '/offer', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
   ]
