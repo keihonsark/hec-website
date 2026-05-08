@@ -110,6 +110,8 @@ interface ServiceSchemaInput {
   name: string;
   description: string;
   path: string;
+  /** Override the default full-Valley city list (e.g. for city-specific landing pages) */
+  areaServed?: object | object[];
 }
 
 export function buildServiceSchema({
@@ -117,6 +119,7 @@ export function buildServiceSchema({
   name,
   description,
   path,
+  areaServed,
 }: ServiceSchemaInput) {
   return {
     "@context": "https://schema.org",
@@ -125,7 +128,7 @@ export function buildServiceSchema({
     name,
     description,
     provider,
-    areaServed: cityList,
+    areaServed: areaServed ?? cityList,
     url: `${SITE_URL}${path}`,
   };
 }
