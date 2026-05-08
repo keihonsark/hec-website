@@ -37,7 +37,7 @@ export default function Footer() {
       {/* Trust strip — clickable, links to /reviews */}
       <a
         href="/reviews"
-        className="block bg-white/5 border-b border-white/10 hover:bg-white/[0.07] transition-colors"
+        className="block bg-white/5 hover:bg-white/[0.07] transition-colors"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-wrap items-center justify-center gap-3 text-center">

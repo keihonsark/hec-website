@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Smile } from "lucide-react";
 import Section from "@/components/Section";
 import SectionLabel from "@/components/SectionLabel";
 import GoogleG from "@/components/icons/GoogleG";
@@ -65,7 +66,7 @@ function StarRow({ size = "w-5 h-5" }: { size?: string }) {
 }
 
 const featuredReview = testimonials[0]; // Maria G., Fresno, Roofing
-const backReview = testimonials[2]; // Sarah L., Fresno, Windows
+const backReview = testimonials[1]; // James T., Clovis, HVAC
 
 const stats = [
   {
@@ -81,11 +82,7 @@ const stats = [
   {
     value: "95%+",
     label: "Satisfaction",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />
-      </svg>
-    ),
+    icon: <Smile className="w-10 h-10" strokeWidth={1.75} />,
   },
   {
     value: "20+",
@@ -106,6 +103,7 @@ function MockGoogleReviewCard({
   timeAgo,
   text,
   helpful,
+  avatarBg = "bg-orange",
   className = "",
   style,
 }: {
@@ -115,6 +113,7 @@ function MockGoogleReviewCard({
   timeAgo: string;
   text: string;
   helpful: number;
+  avatarBg?: string;
   className?: string;
   style?: React.CSSProperties;
 }) {
@@ -125,7 +124,7 @@ function MockGoogleReviewCard({
     >
       <div className="flex items-start justify-between gap-3 mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-orange flex items-center justify-center text-white font-bold text-base flex-shrink-0">
+          <div className={`w-10 h-10 rounded-full ${avatarBg} flex items-center justify-center text-white font-bold text-base flex-shrink-0`}>
             {initial}
           </div>
           <div className="leading-tight">
@@ -222,24 +221,29 @@ export default function ReviewsPage() {
             </div>
 
             {/* RIGHT — Mock Google review cards */}
-            <div className="relative h-[420px] lg:h-[460px]">
-              {/* Back card — offset, rotated, dimmed */}
-              <MockGoogleReviewCard
-                className="absolute inset-0 max-w-md"
+            <div className="relative max-w-md mx-auto lg:mx-0">
+              {/* Back card — absolute, peeks behind the front card */}
+              <div
+                className="absolute top-0 left-0 right-0"
                 style={{
-                  transform: "rotate(3deg) translate(16px, 16px)",
+                  transform: "rotate(4deg) translate(2rem, 2rem)",
                   opacity: 0.55,
                   zIndex: 1,
                 }}
-                initial={backReview.name.charAt(0)}
-                name={backReview.name}
-                meta="Verified Google Review"
-                timeAgo="1 month ago"
-                text={backReview.text}
-                helpful={8}
-              />
-              {/* Front card */}
-              <div className="relative z-10 max-w-md">
+                aria-hidden="true"
+              >
+                <MockGoogleReviewCard
+                  initial={backReview.name.charAt(0)}
+                  name={backReview.name}
+                  meta="Local Guide · 23 reviews"
+                  timeAgo="1 month ago"
+                  text={backReview.text}
+                  helpful={8}
+                  avatarBg="bg-navy"
+                />
+              </div>
+              {/* Front card — normal flow, on top */}
+              <div className="relative z-10">
                 <MockGoogleReviewCard
                   initial={featuredReview.name.charAt(0)}
                   name={featuredReview.name}
@@ -333,11 +337,8 @@ export default function ReviewsPage() {
 
       <ServiceArea />
 
-      {/* ════════ FINAL CTA + FORM ════════ */}
-      <section
-        id="reviews-estimate"
-        className="relative py-24 md:py-32 bg-navy-dark noise-overlay overflow-hidden"
-      >
+      {/* ════════ FINAL CTA — heading band ════════ */}
+      <section className="relative py-20 md:py-24 bg-navy-dark noise-overlay overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
@@ -345,7 +346,7 @@ export default function ReviewsPage() {
               "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(245,166,35,0.3) 40px, rgba(245,166,35,0.3) 41px)",
           }}
         />
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">
             Ready to Join Our{" "}
             <span className="text-orange">Five-Star Customers?</span>
@@ -354,14 +355,14 @@ export default function ReviewsPage() {
             Free estimate. Honest answers. No high-pressure sales.
           </p>
         </div>
-        <div className="relative">
-          <LeadForm
-            id="reviews-form"
-            headline="Get Your Free Estimate"
-            defaultService="Windows & Doors"
-          />
-        </div>
       </section>
+
+      {/* ════════ LEAD FORM ════════ */}
+      <LeadForm
+        id="reviews-estimate"
+        headline="Get Your Free Estimate"
+        defaultService="Windows & Doors"
+      />
 
       <MobileStickyBar formAnchor="#reviews-estimate" />
     </>
