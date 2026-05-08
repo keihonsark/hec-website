@@ -257,7 +257,7 @@ function ResultsFunnel({
         roofSegments: analysis?.segmentCount ?? 0,
         couponCode: code,
         timestamp: new Date().toISOString(),
-        source: "hecfresno.com",
+        source: "homeenergyconstruction.com",
         page: "/estimate",
       });
 
