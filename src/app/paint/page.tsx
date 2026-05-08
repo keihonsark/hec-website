@@ -14,6 +14,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
 import ProcessSteps from "@/components/ProcessSteps";
 import ServiceArea from "@/components/ServiceArea";
+import BeforeAfter from "@/components/BeforeAfter";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
 
 const paintSteps = [
@@ -123,8 +124,8 @@ export default function PaintPage() {
         dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
       />
       <ServiceHero
-        image="/images/about/paint-exterior.png"
-        imageAlt="Freshly painted home exterior by Home Energy Construction"
+        image="/images/paint/paint-hero.png"
+        imageAlt="Home Energy Construction painter completing an exterior paint project"
         headlineWhite="Paint That"
         headlineOrange="Outlasts the Sun."
         subtext="Premium exterior coatings engineered for Central Valley heat — protect and beautify your home for decades."
@@ -230,6 +231,30 @@ export default function PaintPage() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════ REAL RESULTS ════════ */}
+      <Section className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <SectionLabel>Real Results</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
+              See the Difference
+            </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              Sun-faded to factory-fresh.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <BeforeAfter
+              beforeLabel="Before"
+              afterLabel="After"
+              caption="Full exterior repaint — Central Valley"
+              beforeImage="/images/before-after/before-paint-1.png"
+              afterImage="/images/before-after/after-paint-1.png"
+            />
           </div>
         </div>
       </Section>

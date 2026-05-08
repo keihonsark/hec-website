@@ -14,6 +14,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
 import ProcessSteps from "@/components/ProcessSteps";
 import ServiceArea from "@/components/ServiceArea";
+import BeforeAfter from "@/components/BeforeAfter";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
 
 const hvacSteps = [
@@ -72,8 +73,8 @@ export default function HVACPage() {
         dangerouslySetInnerHTML={{ __html: jsonLd(serviceSchema) }}
       />
       <ServiceHero
-        image="/images/hvac/hvac-unit.png"
-        imageAlt="HVAC installation by Home Energy Construction in Fresno"
+        image="/images/hvac/hvac-hero.png"
+        imageAlt="Family enjoying a comfortable home with HVAC system installed by Home Energy Construction"
         headlineWhite="Stay Cool."
         headlineOrange="Stay Comfortable."
         subtext="Energy-efficient HVAC systems built for Central Valley's extreme temperatures. $0 down financing available."
@@ -174,6 +175,30 @@ export default function HVACPage() {
                 className="object-cover"
               />
             </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════ REAL RESULTS ════════ */}
+      <Section className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <SectionLabel>Real Results</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
+              See the Difference
+            </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              Old units overworked. New systems engineered for Valley heat.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <BeforeAfter
+              beforeLabel="Before"
+              afterLabel="After"
+              caption="AC system replacement — Central Valley"
+              beforeImage="/images/before-after/before-hvac-1.png"
+              afterImage="/images/before-after/after-hvac-1.png"
+            />
           </div>
         </div>
       </Section>

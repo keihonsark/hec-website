@@ -13,6 +13,7 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
 import ProcessSteps from "@/components/ProcessSteps";
 import ServiceArea from "@/components/ServiceArea";
+import BeforeAfter from "@/components/BeforeAfter";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
 
 const outdoorSteps = [
@@ -181,6 +182,30 @@ export default function OutdoorPage() {
                 <p className="text-gray-text text-[15px] leading-relaxed">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════ REAL RESULTS ════════ */}
+      <Section className="py-24 md:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <SectionLabel>Real Results</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
+              See the Difference
+            </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              Bare backyard to favorite room.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <BeforeAfter
+              beforeLabel="Before"
+              afterLabel="After"
+              caption="Custom alumawood patio + landscape — Central Valley"
+              beforeImage="/images/before-after/before-outdoor-1.png"
+              afterImage="/images/before-after/after-outdoor-1.png"
+            />
           </div>
         </div>
       </Section>

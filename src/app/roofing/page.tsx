@@ -469,19 +469,17 @@ export default function RoofingPage() {
         </div>
       </Section>
 
-      <ProcessSteps
-        subtitle="Most homes fully reroofed in 1-2 days."
-        steps={roofingSteps}
-      />
-
-      {/* ════════════════ BEFORE / AFTER ════════════════ */}
+      {/* ════════════════ REAL RESULTS ════════════════ */}
       <Section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-14">
             <SectionLabel>Real Results</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
               See the Difference
             </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              From storm-worn to showroom-ready.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-10">
@@ -502,6 +500,11 @@ export default function RoofingPage() {
           </div>
         </div>
       </Section>
+
+      <ProcessSteps
+        subtitle="Most homes fully reroofed in 1-2 days."
+        steps={roofingSteps}
+      />
 
       {/* ════════════════ FINANCING DEEP DIVE ════════════════ */}
       <Section className="relative py-24 md:py-32 bg-navy noise-overlay">
