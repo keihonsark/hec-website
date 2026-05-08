@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Thermometer, VolumeX, ShieldCheck } from "lucide-react";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import { postToWebhook } from "@/lib/webhook";
 
 const PHONE_DISPLAY = "559-272-3992";
@@ -835,6 +836,8 @@ export default function WindowsOfferPage() {
           </div>
         </div>
       </section>
+
+      <CredentialsGrid compact />
 
       {/* ═══ FAQ ═══ */}
       <section className="bg-light-bg py-12 md:py-20">

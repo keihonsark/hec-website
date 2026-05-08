@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
 import ReviewCard from "@/components/ReviewCard";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import { postToWebhook } from "@/lib/webhook";
 
 function HomeEstimateForm() {
@@ -484,6 +485,8 @@ export default function HomePage() {
           </div>
         </div>
       </Section>
+
+      <CredentialsGrid compact />
 
       {/* ════════════════ 6. FINANCING ════════════════ */}
       <Section id="financing" className="relative py-24 md:py-32 bg-navy noise-overlay">

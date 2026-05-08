@@ -5,42 +5,10 @@ import Section from "@/components/Section";
 import SectionLabel from "@/components/SectionLabel";
 import CTAButton from "@/components/CTAButton";
 import GoogleG from "@/components/GoogleG";
+import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import CTABanner from "@/components/CTABanner";
 import MobileStickyBar from "@/components/MobileStickyBar";
-
-const credentials = [
-  {
-    logo: "/images/logos/bbb-logo.png",
-    title: "BBB A+ Rated",
-    desc: "Top accreditation from the Better Business Bureau.",
-  },
-  {
-    logo: "/images/logos/owens-preferred-logo.png",
-    title: "Owens Corning Preferred Contractor",
-    desc: "Top tier shingle warranty + workmanship.",
-  },
-  {
-    logo: "/images/logos/anlin-logo.png",
-    title: "Anlin Certified Dealer",
-    desc: "Premium California-made energy-efficient windows.",
-  },
-  {
-    logo: "/images/logos/CSLB_logo.png",
-    title: "CA Licensed #1086515",
-    desc: "Bonded, insured, and state licensed.",
-  },
-  {
-    logo: "/images/logos/Energy_Star_logo.svg",
-    title: "Energy Star Partner",
-    desc: "Products that meet federal energy efficiency standards.",
-  },
-  {
-    logo: "/images/logos/nfrc-logo.png",
-    title: "NFRC Certified",
-    desc: "Independent ratings on every window we install.",
-  },
-];
 
 const cities = [
   "Fresno",
@@ -170,40 +138,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* ════════ CREDENTIALS ════════ */}
-      <Section className="py-24 md:py-32 bg-light-bg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <SectionLabel>Credentials &amp; Trust</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
-              Certified. Accredited. Proven.
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {credentials.map((c) => (
-              <div
-                key={c.title}
-                className="bg-white border border-gray-100 rounded-2xl p-7 shadow-sm card-lift text-center"
-              >
-                <div className="h-20 flex items-center justify-center mb-5">
-                  <Image
-                    src={c.logo}
-                    alt={c.title}
-                    width={200}
-                    height={80}
-                    className="max-h-20 w-auto object-contain"
-                  />
-                </div>
-                <h3 className="text-lg font-bold text-navy mb-2">{c.title}</h3>
-                <p className="text-gray-text text-[15px] leading-relaxed">
-                  {c.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
+      <CredentialsGrid />
 
       {/* ════════ SERVICE AREA ════════ */}
       <Section className="relative py-24 md:py-32 bg-navy noise-overlay">
