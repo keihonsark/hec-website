@@ -1,5 +1,5 @@
 import Image from "next/image";
-import GoogleG from "./GoogleG";
+import GoogleG from "./icons/GoogleG";
 
 export default function TrustStrip() {
   return (

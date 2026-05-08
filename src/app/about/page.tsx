@@ -4,7 +4,7 @@ import Image from "next/image";
 import Section from "@/components/Section";
 import SectionLabel from "@/components/SectionLabel";
 import CTAButton from "@/components/CTAButton";
-import GoogleG from "@/components/GoogleG";
+import GoogleG from "@/components/icons/GoogleG";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import ServiceArea from "@/components/ServiceArea";
 import LeadForm from "@/components/LeadForm";

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Section from "@/components/Section";
 import SectionLabel from "@/components/SectionLabel";
-import GoogleG from "@/components/GoogleG";
+import GoogleG from "@/components/icons/GoogleG";
+import ReviewCard from "@/components/ReviewCard";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import ServiceArea from "@/components/ServiceArea";
 import LeadForm from "@/components/LeadForm";
@@ -49,7 +49,7 @@ const reviewsSchema = {
 
 function StarRow({ size = "w-5 h-5" }: { size?: string }) {
   return (
-    <div className="flex gap-1">
+    <span className="inline-flex gap-1">
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
@@ -60,16 +60,97 @@ function StarRow({ size = "w-5 h-5" }: { size?: string }) {
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
-    </div>
+    </span>
   );
 }
 
+const featuredReview = testimonials[0]; // Maria G., Fresno, Roofing
+const backReview = testimonials[2]; // Sarah L., Fresno, Windows
+
 const stats = [
-  { value: "4.7 / 5", label: "Average Rating" },
-  { value: "228+", label: "Google Reviews" },
-  { value: "95%+", label: "Satisfaction" },
-  { value: "20+", label: "Cities Served" },
+  {
+    value: "4.7 / 5",
+    label: "Average Rating",
+    icon: (
+      <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ),
+  },
+  { value: "228+", label: "Google Reviews", isGoogle: true },
+  {
+    value: "95%+",
+    label: "Satisfaction",
+    icon: (
+      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5" />
+      </svg>
+    ),
+  },
+  {
+    value: "20+",
+    label: "Cities Served",
+    icon: (
+      <svg className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+      </svg>
+    ),
+  },
 ];
+
+function MockGoogleReviewCard({
+  initial,
+  name,
+  meta,
+  timeAgo,
+  text,
+  helpful,
+  className = "",
+  style,
+}: {
+  initial: string;
+  name: string;
+  meta: string;
+  timeAgo: string;
+  text: string;
+  helpful: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      className={`bg-white rounded-xl shadow-2xl p-6 ${className}`}
+      style={style}
+    >
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-orange flex items-center justify-center text-white font-bold text-base flex-shrink-0">
+            {initial}
+          </div>
+          <div className="leading-tight">
+            <p className="text-navy font-semibold text-sm">{name}</p>
+            <p className="text-gray-500 text-xs">{meta}</p>
+          </div>
+        </div>
+        <GoogleG className="w-6 h-6 flex-shrink-0" />
+      </div>
+      <div className="flex items-center gap-2 mb-3">
+        <StarRow size="w-4 h-4" />
+        <span className="text-gray-500 text-xs">{timeAgo}</span>
+      </div>
+      <p className="text-gray-800 text-[15px] leading-relaxed mb-4">
+        &ldquo;{text}&rdquo;
+      </p>
+      <p className="flex items-center gap-1.5 text-gray-500 text-xs">
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
+        </svg>
+        Helpful ({helpful})
+      </p>
+    </div>
+  );
+}
 
 export default function ReviewsPage() {
   return (
@@ -80,57 +161,112 @@ export default function ReviewsPage() {
       />
 
       {/* ════════ HERO ════════ */}
-      <section className="relative bg-navy-dark noise-overlay py-24 md:py-32 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange/8 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <SectionLabel>Customer Reviews</SectionLabel>
+      <section
+        className="relative py-20 lg:py-28 overflow-hidden"
+        style={{
+          background:
+            "linear-gradient(135deg, #1B2D4F 0%, #0F1D33 100%)",
+        }}
+      >
+        {/* Subtle orange radial glow top-right */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(245,166,35,0.10) 0%, transparent 70%)",
+          }}
+        />
 
-          <div className="flex flex-col items-center gap-3 mb-6">
-            <div className="text-7xl sm:text-8xl font-extrabold text-orange leading-none">
-              4.7
-            </div>
-            <StarRow size="w-7 h-7" />
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.1] mb-5">
-            228+ Five-Star Reviews from{" "}
-            <span className="text-orange">Central Valley Homeowners</span>
-          </h1>
-          <p className="text-white/70 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
-            Real reviews from real homeowners across Fresno, Visalia, Sacramento, and surrounding areas.
-          </p>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className="bg-white/10 border border-white/15 rounded-xl px-4 py-3 flex items-center gap-2">
-              <Image
-                src="/images/logos/bbb-logo.png"
-                alt="BBB A+ Accredited Business"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-              />
-            </div>
-            <div className="bg-white/10 border border-white/15 rounded-xl px-4 py-3 flex items-center gap-2.5">
-              <GoogleG className="w-7 h-7" />
-              <span className="text-white font-semibold text-sm">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* LEFT */}
+            <div>
+              <span className="inline-block text-orange text-sm font-bold uppercase tracking-[0.2em] mb-5">
                 Google Reviews
               </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.05] mb-6">
+                Trusted by 228+ Central Valley Homeowners
+              </h1>
+
+              <div className="flex items-center gap-4 mb-6">
+                <StarRow size="w-7 h-7" />
+                <span className="text-orange text-4xl font-extrabold leading-none">
+                  4.7
+                </span>
+              </div>
+
+              <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-xl">
+                Real reviews from real homeowners across Fresno, Visalia,
+                Sacramento, and surrounding communities. Every review verified
+                on Google.
+              </p>
+
+              <div className="flex flex-wrap gap-3 mb-5">
+                <a
+                  href="/windows-offer"
+                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg font-semibold text-base tracking-wide bg-orange text-white hover:bg-orange-dark shadow-lg shadow-orange/20 transition-all duration-200 cta-press"
+                >
+                  Get Free Estimate
+                </a>
+                <a
+                  href="https://www.google.com/search?q=Home+Energy+Construction+Fresno"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg font-semibold text-base tracking-wide border-2 border-white text-white hover:bg-white/10 transition-all duration-200 cta-press"
+                >
+                  See All Reviews on Google
+                </a>
+              </div>
+
+              <p className="text-white/60 text-xs sm:text-sm">
+                Verified on Google · BBB A+ Rated · 228+ Five-Star Reviews
+              </p>
+            </div>
+
+            {/* RIGHT — Mock Google review cards */}
+            <div className="relative h-[420px] lg:h-[460px]">
+              {/* Back card — offset, rotated, dimmed */}
+              <MockGoogleReviewCard
+                className="absolute inset-0 max-w-md"
+                style={{
+                  transform: "rotate(3deg) translate(16px, 16px)",
+                  opacity: 0.55,
+                  zIndex: 1,
+                }}
+                initial={backReview.name.charAt(0)}
+                name={backReview.name}
+                meta="Verified Google Review"
+                timeAgo="1 month ago"
+                text={backReview.text}
+                helpful={8}
+              />
+              {/* Front card */}
+              <div className="relative z-10 max-w-md">
+                <MockGoogleReviewCard
+                  initial={featuredReview.name.charAt(0)}
+                  name={featuredReview.name}
+                  meta="Local Guide · 47 reviews · 12 photos"
+                  timeAgo="2 weeks ago"
+                  text={featuredReview.text}
+                  helpful={12}
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ════════ STATS STRIP ════════ */}
-      <section className="bg-white py-10 md:py-14 border-y border-gray-200/60">
+      <section className="bg-[#0F1D33] py-12 md:py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {stats.map((stat) => (
-              <div key={stat.label}>
-                <div className="text-3xl sm:text-4xl font-extrabold text-navy">
+              <div key={stat.label} className="flex flex-col items-center">
+                <span className="text-orange mb-3 inline-flex items-center justify-center">
+                  {stat.isGoogle ? <GoogleG className="w-10 h-10" /> : stat.icon}
+                </span>
+                <div className="text-4xl lg:text-5xl font-bold text-white">
                   {stat.value}
                 </div>
-                <div className="text-gray-text text-sm font-medium uppercase tracking-wider mt-2">
+                <div className="text-white/60 text-xs uppercase tracking-wider mt-2 font-semibold">
                   {stat.label}
                 </div>
               </div>
@@ -139,7 +275,7 @@ export default function ReviewsPage() {
         </div>
       </section>
 
-      {/* ════════ FEATURED REVIEWS ════════ */}
+      {/* ════════ FEATURED REVIEWS GRID ════════ */}
       <Section className="py-24 md:py-32 bg-light-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
@@ -151,26 +287,14 @@ export default function ReviewsPage() {
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {testimonials.map((t) => (
-              <div
+              <ReviewCard
                 key={`${t.name}-${t.city}`}
-                className="relative bg-white rounded-2xl p-7 shadow-sm border border-gray-100 border-l-4 border-l-orange overflow-hidden"
-              >
-                <span className="absolute top-3 right-5 text-orange/[0.07] text-[80px] font-serif leading-none pointer-events-none select-none">
-                  &ldquo;
-                </span>
-                {t.service && (
-                  <span className="inline-block bg-navy text-white text-xs font-bold uppercase tracking-wider rounded-full px-3 py-1 mb-3">
-                    {t.service}
-                  </span>
-                )}
-                <StarRow />
-                <p className="relative text-gray-text italic text-[15px] leading-relaxed my-4">
-                  &ldquo;{t.text}&rdquo;
-                </p>
-                <p className="text-navy font-semibold text-sm">
-                  — {t.name}, {t.city}
-                </p>
-              </div>
+                text={t.text}
+                name={t.name}
+                city={t.city}
+                service={t.service}
+                grid
+              />
             ))}
           </div>
         </div>

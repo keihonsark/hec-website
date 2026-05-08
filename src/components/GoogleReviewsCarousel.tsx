@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import GoogleG from "./GoogleG";
+import GoogleG from "./icons/GoogleG";
 
 interface Review {
   author_name: string;

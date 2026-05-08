@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import CTAButton from "./CTAButton";
-import GoogleG from "./GoogleG";
+import GoogleG from "./icons/GoogleG";
 
 interface ServiceHeroProps {
   image: string;

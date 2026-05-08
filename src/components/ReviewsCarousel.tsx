@@ -1,15 +1,20 @@
 import Section from "./Section";
 import SectionLabel from "./SectionLabel";
 import ReviewCard from "./ReviewCard";
-import GoogleG from "./GoogleG";
-import { testimonials } from "@/data/testimonials";
+import GoogleG from "./icons/GoogleG";
+import { testimonials, type Testimonial } from "@/data/testimonials";
 
 interface ReviewsCarouselProps {
-  reviews?: { text: string; name: string; city: string }[];
+  reviews?: Testimonial[];
+  /** Hide the "See All Reviews" CTA at the bottom (e.g. on /reviews itself) */
+  hideCta?: boolean;
 }
 
-export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
-  const data = reviews || testimonials;
+export default function ReviewsCarousel({
+  reviews,
+  hideCta = false,
+}: ReviewsCarouselProps) {
+  const data = reviews ?? testimonials;
 
   return (
     <Section className="py-24 md:py-32 bg-light-bg">
@@ -36,10 +41,30 @@ export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
         <div className="overflow-hidden">
           <div className="flex gap-6 reviews-carousel w-max pl-4">
             {[...data, ...data].map((r, i) => (
-              <ReviewCard key={`${r.name}-${i}`} text={r.text} name={r.name} city={r.city} />
+              <ReviewCard
+                key={`${r.name}-${i}`}
+                text={r.text}
+                name={r.name}
+                city={r.city}
+                service={r.service}
+              />
             ))}
           </div>
         </div>
+
+        {!hideCta && (
+          <div className="text-center mt-12">
+            <a
+              href="/reviews"
+              className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg font-semibold text-base tracking-wide bg-white text-navy border-2 border-navy hover:bg-navy hover:text-white transition-colors cta-press"
+            >
+              See All 228+ Reviews →
+            </a>
+            <p className="text-gray-500 text-xs mt-3 uppercase tracking-wider font-semibold">
+              Verified on Google Business Profile
+            </p>
+          </div>
+        )}
       </div>
     </Section>
   );
