@@ -453,27 +453,25 @@ export default function HomePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { image: "/images/services/windows.png", title: "Windows & Doors", desc: "Premium Anlin windows that cut energy costs and quiet the noise.", href: "/windows" },
-              { image: "/images/services/roofing.png", title: "Roofing", desc: "Owens Corning certified roofs built to handle Valley weather.", href: "/roofing" },
-              { image: "/images/services/hvac.png", title: "HVAC", desc: "Energy-efficient cooling and heating engineered for 110° summers.", href: "/hvac" },
-              { image: "/images/services/insulation.png", title: "Insulation", desc: "Better insulation. Lower bills. Year-round comfort in every room.", href: "/insulation" },
-              { image: "/images/services/outdoor.png", title: "Outdoor Living", desc: "Custom patios and pergolas that make the backyard the favorite room.", href: "/outdoor" },
-              { image: "/images/services/paint.png", title: "Paint", desc: "Lifetime Plus exterior coating that protects and beautifies for decades.", href: "/paint" },
+              { image: "/images/windows/hero-house.png", title: "Windows & Doors", desc: "Premium Anlin windows that cut energy costs and quiet the noise.", href: "/windows" },
+              { image: "/images/roofing/roofing-crew.png", title: "Roofing", desc: "Owens Corning certified roofs built to handle Valley weather.", href: "/roofing" },
+              { image: "/images/hvac/hvac-unit.png", title: "HVAC", desc: "Energy-efficient cooling and heating engineered for 110° summers.", href: "/hvac" },
+              { image: "/images/about/insulation-interior.png", title: "Insulation", desc: "Better insulation. Lower bills. Year-round comfort in every room.", href: "/insulation" },
+              { image: "/images/outdoor/outdoor-patio.png", title: "Outdoor Living", desc: "Custom patios and pergolas that make the backyard the favorite room.", href: "/outdoor" },
+              { image: "/images/about/paint-exterior.png", title: "Paint", desc: "Lifetime Plus exterior coating that protects and beautifies for decades.", href: "/paint" },
             ].map(({ image, title, desc, href }) => (
               <a
                 key={title}
                 href={href}
                 className="group bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 hover:border-orange/40 transition-all"
               >
-                <div className="relative w-full aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={image}
-                    alt={`${title} by Home Energy Construction`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
+                <Image
+                  src={image}
+                  alt={`${title} by Home Energy Construction`}
+                  width={600}
+                  height={450}
+                  className="w-full aspect-[4/3] object-cover rounded-t-2xl group-hover:scale-105 transition-transform duration-500"
+                />
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-navy mb-2">{title}</h3>
                   <p className="text-gray-text text-[15px] leading-relaxed mb-4">{desc}</p>
