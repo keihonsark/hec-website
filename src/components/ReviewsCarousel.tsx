@@ -2,41 +2,14 @@ import Section from "./Section";
 import SectionLabel from "./SectionLabel";
 import ReviewCard from "./ReviewCard";
 import GoogleG from "./GoogleG";
-
-const defaultReviews = [
-  {
-    text: "They replaced our entire roof in two days. The crew was professional, cleaned up everything, and our energy bill dropped immediately. Best contractor experience we've ever had.",
-    name: "Maria G.",
-    city: "Fresno",
-  },
-  {
-    text: "Our HVAC was struggling with the valley heat. Home Energy installed a new system with $0 down. The difference is incredible — our house actually stays cool now.",
-    name: "James T.",
-    city: "Clovis",
-  },
-  {
-    text: "We got new Anlin windows throughout the house. The noise reduction alone was worth it. Professional installation and the financing made it painless.",
-    name: "Sarah L.",
-    city: "Fresno",
-  },
-  {
-    text: "Built us a beautiful patio cover that completely transformed our backyard. From design to completion they were communicative, on time, and the quality is outstanding.",
-    name: "Robert & Linda K.",
-    city: "Madera",
-  },
-  {
-    text: "Home Energy replaced all our windows and the difference in our energy bill was immediate. From the estimate to install, everything was smooth and professional.",
-    name: "David R.",
-    city: "Madera",
-  },
-];
+import { testimonials } from "@/data/testimonials";
 
 interface ReviewsCarouselProps {
   reviews?: { text: string; name: string; city: string }[];
 }
 
 export default function ReviewsCarousel({ reviews }: ReviewsCarouselProps) {
-  const data = reviews || defaultReviews;
+  const data = reviews || testimonials;
 
   return (
     <Section className="py-24 md:py-32 bg-light-bg">
