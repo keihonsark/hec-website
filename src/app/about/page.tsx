@@ -11,49 +11,34 @@ import MobileStickyBar from "@/components/MobileStickyBar";
 
 const credentials = [
   {
-    title: "Owens Corning Preferred",
-    desc: "Top-tier roofing certification with extended warranty access.",
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Anlin Certified Dealer",
-    desc: "Authorized installer of Anlin's California-built replacement windows.",
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75zM12 3.75v16.5M3.75 12h16.5" />
-      </svg>
-    ),
-  },
-  {
+    logo: "/images/logos/bbb-logo.png",
     title: "BBB A+ Rated",
-    desc: "Accredited and trusted by the Better Business Bureau.",
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-      </svg>
-    ),
+    desc: "Top accreditation from the Better Business Bureau.",
   },
   {
-    title: "4.7 Stars · 228+ Reviews",
-    desc: "Real reviews from real Central Valley homeowners on Google.",
-    icon: (
-      <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-      </svg>
-    ),
+    logo: "/images/logos/owens-preferred-logo.png",
+    title: "Owens Corning Preferred Contractor",
+    desc: "Top tier shingle warranty + workmanship.",
   },
   {
-    title: "CA License #1086515",
-    desc: "Fully licensed, bonded, and insured general contractor.",
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-      </svg>
-    ),
+    logo: "/images/logos/anlin-logo.png",
+    title: "Anlin Certified Dealer",
+    desc: "Premium California-made energy-efficient windows.",
+  },
+  {
+    logo: "/images/logos/CSLB_logo.png",
+    title: "CA Licensed #1086515",
+    desc: "Bonded, insured, and state licensed.",
+  },
+  {
+    logo: "/images/logos/Energy_Star_logo.svg",
+    title: "Energy Star Partner",
+    desc: "Products that meet federal energy efficiency standards.",
+  },
+  {
+    logo: "/images/logos/nfrc-logo.png",
+    title: "NFRC Certified",
+    desc: "Independent ratings on every window we install.",
   },
 ];
 
@@ -80,8 +65,8 @@ export default function AboutPage() {
       {/* ════════ HERO — Full-bleed background ════════ */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <Image
-          src="/images/about/contractor-portrait.png"
-          alt="Home Energy Construction — locally owned Central Valley contractor"
+          src="/images/windows/crew-install.png"
+          alt="Home Energy Construction crew on a Central Valley jobsite"
           fill
           sizes="100vw"
           className="object-cover"
@@ -199,10 +184,16 @@ export default function AboutPage() {
             {credentials.map((c) => (
               <div
                 key={c.title}
-                className="bg-white border border-gray-100 rounded-2xl p-7 shadow-sm card-lift"
+                className="bg-white border border-gray-100 rounded-2xl p-7 shadow-sm card-lift text-center"
               >
-                <div className="w-14 h-14 rounded-xl bg-orange/10 flex items-center justify-center text-orange mb-5">
-                  {c.icon}
+                <div className="h-20 flex items-center justify-center mb-5">
+                  <Image
+                    src={c.logo}
+                    alt={c.title}
+                    width={200}
+                    height={80}
+                    className="max-h-20 w-auto object-contain"
+                  />
                 </div>
                 <h3 className="text-lg font-bold text-navy mb-2">{c.title}</h3>
                 <p className="text-gray-text text-[15px] leading-relaxed">
