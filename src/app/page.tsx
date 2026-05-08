@@ -3,11 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { AppWindow, Home as HomeIcon, Wind, Layers, Trees, PaintBucket } from "lucide-react";
 import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
-import ServiceCard from "@/components/ServiceCard";
 import ReviewCard from "@/components/ReviewCard";
-import BeforeAfter from "@/components/BeforeAfter";
 import { postToWebhook } from "@/lib/webhook";
 
 function HomeEstimateForm() {
@@ -146,40 +145,6 @@ function Section({
   );
 }
 
-/* ─── Inline SVG icons for services ─── */
-const icons = {
-  roofing: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5M3.75 21V8.25l8.25-6 8.25 6V21M8.25 21V13.5h7.5V21" />
-    </svg>
-  ),
-  hvac: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-    </svg>
-  ),
-  windows: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75zM12 3.75v16.5M3.75 12h16.5" />
-    </svg>
-  ),
-  outdoor: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3l9 4.5V21H3V7.5L12 3zM3 10.5h18M8.25 21V10.5M15.75 21V10.5" />
-    </svg>
-  ),
-  insulation: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-    </svg>
-  ),
-  paint: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
-    </svg>
-  ),
-};
-
 /* ─── Review data ─── */
 const reviews = [
   {
@@ -299,8 +264,8 @@ export default function HomePage() {
 
             {/* Subheadline */}
             <p className="text-white/65 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg">
-              Roofing. HVAC. Windows. Outdoor Living. All with $0 down
-              financing.
+              Windows. Roofing. HVAC. Insulation. Outdoor Living. Paint. All
+              with $0 down financing.
             </p>
 
             {/* CTAs */}
@@ -310,6 +275,28 @@ export default function HomePage() {
                 Call (559) 215-8516
               </CTAButton>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════ PROMO STRIP ════════════════ */}
+      <section className="bg-navy-dark border-y border-orange/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-8 text-center md:text-left">
+            {[
+              "$200 Off Per Window",
+              "$1,000 Off Roofing",
+              "$0 Down Financing on All Projects",
+            ].map((label) => (
+              <div key={label} className="flex items-center justify-center md:justify-start gap-3">
+                <span className="flex-shrink-0 w-7 h-7 rounded-full bg-orange/15 text-orange flex items-center justify-center">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </span>
+                <span className="text-white text-sm sm:text-[15px] font-semibold tracking-tight">{label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -366,64 +353,7 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ════════════════ 3. SERVICES GRID ════════════════ */}
-      <Section className="py-24 md:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <SectionLabel>What We Do</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
-              Complete Home Improvement.{" "}
-              <span className="text-orange">One Trusted Team.</span>
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ServiceCard
-              icon={icons.roofing}
-              title="Roofing"
-              description="Full roof replacements and repairs with Owens Corning certified materials and lifetime warranties."
-              image="/images/roofing/roofing-crew.png"
-              href="/roofing"
-            />
-            <ServiceCard
-              icon={icons.hvac}
-              title="HVAC"
-              description="Energy-efficient heating and cooling systems built to handle Central Valley's extreme temperatures."
-              image="/images/hvac/hvac-unit.png"
-              href="/hvac"
-            />
-            <ServiceCard
-              icon={icons.windows}
-              title="Windows & Doors"
-              description="Premium Anlin windows and doors that reduce energy costs and enhance curb appeal."
-              image="/images/windows/windows-interior.png"
-              href="/windows"
-            />
-            <ServiceCard
-              icon={icons.outdoor}
-              title="Outdoor Living"
-              description="Custom patios, pergolas, and gazebos that transform your backyard into a year-round retreat."
-              image="/images/outdoor/outdoor-patio.png"
-              href="/outdoor"
-            />
-            <ServiceCard
-              icon={icons.insulation}
-              title="Insulation"
-              description="Upgraded insulation solutions that keep your home comfortable and your energy bills low."
-              image="/images/about/insulation-interior.png"
-              href="/insulation"
-            />
-            <ServiceCard
-              icon={icons.paint}
-              title="Paint"
-              description="Lifetime Plus exterior coating that protects and beautifies your home for decades."
-              image="/images/about/paint-exterior.png"
-            />
-          </div>
-        </div>
-      </Section>
-
-      {/* ════════════════ 4. WHY US ════════════════ */}
+      {/* ════════════════ 3. WHY US ════════════════ */}
       <Section className="relative py-24 md:py-32 bg-navy noise-overlay">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
@@ -508,31 +438,44 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ════════════════ 5. BEFORE / AFTER ════════════════ */}
+      {/* ════════════════ 4. SERVICES GRID ════════════════ */}
       <Section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <SectionLabel>Real Results</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
-              See the Difference
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <SectionLabel>Our Services</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
+              Complete Home Upgrades
             </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              From energy-efficient windows to full roof replacements — one
+              trusted team for every project.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10">
-            <BeforeAfter
-              beforeLabel="Before"
-              afterLabel="After"
-              caption="Complete roof replacement — Fresno, CA"
-              beforeImage="/images/before-after/before-roof-1.png"
-              afterImage="/images/before-after/after-roof-1.png"
-            />
-            <BeforeAfter
-              beforeLabel="Before"
-              afterLabel="After"
-              caption="Full roof restoration — Clovis, CA"
-              beforeImage="/images/before-after/before-roof-2.png"
-              afterImage="/images/before-after/after-roof-2.png"
-            />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { Icon: AppWindow, title: "Windows & Doors", desc: "Premium Anlin windows that cut energy costs and quiet the noise.", href: "/windows" },
+              { Icon: HomeIcon, title: "Roofing", desc: "Owens Corning certified roofs built to handle Valley weather.", href: "/roofing" },
+              { Icon: Wind, title: "HVAC", desc: "Energy-efficient cooling and heating engineered for 110° summers.", href: "/hvac" },
+              { Icon: Layers, title: "Insulation", desc: "Better insulation. Lower bills. Year-round comfort in every room.", href: "/insulation" },
+              { Icon: Trees, title: "Outdoor Living", desc: "Custom patios and pergolas that make the backyard the favorite room.", href: "/outdoor" },
+              { Icon: PaintBucket, title: "Paint", desc: "Lifetime Plus exterior coating that protects and beautifies for decades.", href: "/paint" },
+            ].map(({ Icon, title, desc, href }) => (
+              <a
+                key={title}
+                href={href}
+                className="group bg-white border border-gray-200 rounded-2xl p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-orange/40 transition-all"
+              >
+                <div className="w-14 h-14 rounded-xl bg-orange/10 text-orange flex items-center justify-center mb-5 group-hover:bg-orange group-hover:text-white transition-colors">
+                  <Icon className="w-7 h-7" strokeWidth={1.5} />
+                </div>
+                <h3 className="text-xl font-bold text-navy mb-2">{title}</h3>
+                <p className="text-gray-text text-[15px] leading-relaxed mb-4">{desc}</p>
+                <span className="inline-flex items-center gap-1 text-orange font-semibold text-sm group-hover:gap-2 transition-all">
+                  Learn More →
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </Section>
@@ -544,11 +487,11 @@ export default function HomePage() {
             <div>
               <SectionLabel>Financing</SectionLabel>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-                A New Roof Shouldn&apos;t Break the Bank
+                Home Upgrades Shouldn&apos;t Break the Bank
               </h2>
               <p className="text-gray-300 text-lg mt-4">
-                We offer multiple financing options so every family can afford
-                the upgrades they need.
+                Multiple financing options so every family can afford the
+                upgrades they need.
               </p>
             </div>
             <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden ring-2 ring-orange/30 shadow-2xl">

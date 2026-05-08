@@ -5,7 +5,11 @@
       "Bash(npx tsc *)",
       "Bash(echo \"EXIT=$?\")",
       "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react'] || 'not installed'\\)\")",
-      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react']\\)\")"
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react']\\)\")",
+      "Bash(npm ls *)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/lucide-react/package.json'\\).version\\)\")",
+      "Bash(node -e \"const lr = require\\('./node_modules/lucide-react'\\); const keys = Object.keys\\(lr\\); console.log\\('Total exports:', keys.length\\); console.log\\('Has AppWindow:', 'AppWindow' in lr\\); console.log\\('Has Home:', 'Home' in lr\\); console.log\\('Has Wind:', 'Wind' in lr\\); console.log\\('Has Layers:', 'Layers' in lr\\); console.log\\('Has Trees:', 'Trees' in lr\\); console.log\\('Has PaintBucket:', 'PaintBucket' in lr\\);\")",
+      "Bash(node -e \"const pj = require\\('./node_modules/lucide-react/package.json'\\); console.log\\('name:', pj.name\\); console.log\\('version:', pj.version\\); console.log\\('description:', pj.description\\);\")"
     ]
   }
 }
