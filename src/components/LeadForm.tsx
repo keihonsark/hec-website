@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import SectionLabel from "./SectionLabel";
 import { postToWebhook } from "@/lib/webhook";
 
@@ -40,6 +41,7 @@ export default function LeadForm({
   defaultService = "",
   serviceOptions,
 }: LeadFormProps) {
+  const router = useRouter();
   const services = serviceOptions || defaultServices;
   const [form, setForm] = useState({
     firstName: "",
@@ -51,11 +53,15 @@ export default function LeadForm({
     service: defaultService,
     financing: "",
   });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    setError(null);
     const page = typeof window !== "undefined" ? window.location.pathname : "";
-    await postToWebhook({
+    const ok = await postToWebhook({
       type: "estimate_request",
       firstName: form.firstName,
       lastName: form.lastName,
@@ -69,6 +75,14 @@ export default function LeadForm({
       source: "homeenergyconstruction.com",
       page,
     });
+    if (ok) {
+      router.push("/thank-you");
+    } else {
+      setSubmitting(false);
+      setError(
+        "Something went wrong submitting your request. Please try again or call (559) 215-8516."
+      );
+    }
   };
 
   return (
@@ -159,10 +173,16 @@ export default function LeadForm({
             <div className="sm:col-span-2">
               <button
                 type="submit"
-                className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer"
+                disabled={submitting}
+                className="w-full bg-orange text-white font-bold text-lg py-4 rounded-xl hover:bg-orange-dark transition-colors cta-press shadow-lg shadow-orange/20 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                GET MY FREE ESTIMATE →
+                {submitting ? "Submitting..." : "GET MY FREE ESTIMATE →"}
               </button>
+              {error && (
+                <p className="text-red-600 text-sm text-center mt-3" role="alert">
+                  {error}
+                </p>
+              )}
               <p className="text-gray-text text-sm text-center mt-3">
                 No obligation. No pressure. Just honest answers.
               </p>
