@@ -13,7 +13,16 @@ import OfferBanner from "@/components/OfferBanner";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
+import ProcessSteps from "@/components/ProcessSteps";
+import ServiceArea from "@/components/ServiceArea";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const windowsSteps = [
+  { number: "01", title: "Free In-Home Estimate", description: "We measure every window, talk through your goals, and give you an exact quote — no pressure, no gimmicks." },
+  { number: "02", title: "Custom Order", description: "Anlin manufactures your windows to spec. Custom sizes, frames, and glass for your home." },
+  { number: "03", title: "Professional Install", description: "Our crew installs in 1-2 days. We protect floors, clean up daily, and treat your home like our own." },
+  { number: "04", title: "Lifetime Warranty", description: "Anlin's lifetime warranty + HEC workmanship guarantee. Both transfer if you ever sell." },
+];
 
 const windowsFAQ = [
   {
@@ -219,10 +228,15 @@ export default function WindowsPage() {
         </div>
       </Section>
 
+      <ProcessSteps
+        subtitle="From measurement to install — most homes done in 1-2 days."
+        steps={windowsSteps}
+      />
       <CredentialsGrid />
       <FinancingSection formAnchor="#windows-estimate" />
       <ReviewsCarousel />
       <FAQSection title="Window Replacement Questions, Answered" items={windowsFAQ} />
+      <ServiceArea />
       <CTABanner headline="Ready for New Windows?" formAnchor="#windows-estimate" />
       <LeadForm id="windows-estimate" headline="Get Your Free Window Estimate" defaultService="Windows & Doors" />
       <MobileStickyBar formAnchor="#windows-estimate" />

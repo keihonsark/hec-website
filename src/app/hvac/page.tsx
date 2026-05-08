@@ -12,7 +12,16 @@ import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
+import ProcessSteps from "@/components/ProcessSteps";
+import ServiceArea from "@/components/ServiceArea";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const hvacSteps = [
+  { number: "01", title: "Home Assessment", description: "Manual J load calculation — square footage, insulation, sun exposure, ductwork. We size right, not big." },
+  { number: "02", title: "System Recommendation", description: "We present 2-3 options at different efficiency tiers and explain the long-term cost of each. You pick what fits." },
+  { number: "03", title: "Installation", description: "Our HVAC techs handle removal, installation, and startup in a single day. Your home stays comfortable throughout." },
+  { number: "04", title: "Test & Tune", description: "We commission the system, verify performance, and walk you through the new thermostat. Manufacturer + workmanship warranty." },
+];
 
 const hvacFAQ = [
   {
@@ -169,10 +178,15 @@ export default function HVACPage() {
         </div>
       </Section>
 
+      <ProcessSteps
+        subtitle="Most full systems installed in one day."
+        steps={hvacSteps}
+      />
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#hvac-estimate" />
       <ReviewsCarousel />
       <FAQSection title="HVAC Questions, Answered" items={hvacFAQ} />
+      <ServiceArea />
       <CTABanner headline="Ready for a New HVAC System?" formAnchor="#hvac-estimate" />
       <LeadForm id="hvac-estimate" headline="Get Your Free HVAC Estimate" defaultService="HVAC" />
       <MobileStickyBar formAnchor="#hvac-estimate" />

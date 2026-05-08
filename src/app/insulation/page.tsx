@@ -12,7 +12,16 @@ import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
+import ProcessSteps from "@/components/ProcessSteps";
+import ServiceArea from "@/components/ServiceArea";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const insulationSteps = [
+  { number: "01", title: "Free Attic Inspection", description: "We climb your attic, measure existing R-value, and identify gaps, contamination, or pest damage." },
+  { number: "02", title: "Custom Recommendation", description: "Right insulation type for your home — blown-in, batts, or spray foam — and a clear cost breakdown." },
+  { number: "03", title: "Install", description: "Old insulation removed if needed. New material installed to current code. Minimal disruption to your home." },
+  { number: "04", title: "Lower Bills", description: "Most homeowners see noticeably lower energy bills the very next month. ROI typically 3-7 years." },
+];
 
 const insulationFAQ = [
   {
@@ -168,10 +177,15 @@ export default function InsulationPage() {
         </div>
       </Section>
 
+      <ProcessSteps
+        subtitle="From inspection to installed in days, not weeks."
+        steps={insulationSteps}
+      />
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#insulation-estimate" />
       <ReviewsCarousel />
       <FAQSection title="Insulation Questions, Answered" items={insulationFAQ} />
+      <ServiceArea />
       <CTABanner headline="Ready to Lower Your Energy Bills?" formAnchor="#insulation-estimate" />
       <LeadForm id="insulation-estimate" headline="Get Your Free Insulation Estimate" defaultService="Insulation" />
       <MobileStickyBar formAnchor="#insulation-estimate" />

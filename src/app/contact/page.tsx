@@ -3,6 +3,7 @@
 import Section from "@/components/Section";
 import SectionLabel from "@/components/SectionLabel";
 import LeadForm from "@/components/LeadForm";
+import ServiceArea from "@/components/ServiceArea";
 import MobileStickyBar from "@/components/MobileStickyBar";
 
 const trustItems = [
@@ -159,6 +160,8 @@ export default function ContactPage() {
           </div>
         </div>
       </Section>
+
+      <ServiceArea />
 
       <MobileStickyBar formAnchor="#contact-form" />
     </>

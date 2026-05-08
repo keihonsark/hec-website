@@ -12,7 +12,16 @@ import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
+import ProcessSteps from "@/components/ProcessSteps";
+import ServiceArea from "@/components/ServiceArea";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const paintSteps = [
+  { number: "01", title: "Color Consultation", description: "We help you choose colors that complement your home, neighborhood, and Central Valley sun exposure." },
+  { number: "02", title: "Surface Prep", description: "Pressure wash, scrape, sand, caulk, prime. The 70% of the job most contractors rush — we don't." },
+  { number: "03", title: "Premium Paint", description: "Lifetime Plus exterior coating engineered for high-heat climates. Two coats minimum on every surface." },
+  { number: "04", title: "Cleanup & Warranty", description: "Site cleaned, materials hauled away, manufacturer warranty + HEC workmanship guarantee in writing." },
+];
 
 const paintFAQ = [
   {
@@ -225,10 +234,15 @@ export default function PaintPage() {
         </div>
       </Section>
 
+      <ProcessSteps
+        subtitle="Prep done right. Paint that lasts decades."
+        steps={paintSteps}
+      />
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#paint-estimate" />
       <ReviewsCarousel />
       <FAQSection title="Exterior Paint Questions, Answered" items={paintFAQ} />
+      <ServiceArea />
       <CTABanner
         headline="Ready to Refresh Your Exterior?"
         formAnchor="#paint-estimate"

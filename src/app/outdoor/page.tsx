@@ -11,7 +11,16 @@ import CredentialsGrid from "@/components/CredentialsGrid";
 import LeadForm from "@/components/LeadForm";
 import MobileStickyBar from "@/components/MobileStickyBar";
 import FAQSection from "@/components/FAQSection";
+import ProcessSteps from "@/components/ProcessSteps";
+import ServiceArea from "@/components/ServiceArea";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const outdoorSteps = [
+  { number: "01", title: "Free Design Consult", description: "We come to your home, measure the space, and show you what's possible — including 3D renderings of patio covers." },
+  { number: "02", title: "Custom Design", description: "Size, color, lighting, fans, ceiling treatment — we design to your style and budget." },
+  { number: "03", title: "Permits & Build", description: "We handle permits and inspections. Most patio covers complete in 2-4 days." },
+  { number: "04", title: "Enjoy It", description: "Manufacturer warranty on the cover + workmanship guarantee from HEC. Built to last decades." },
+];
 
 const outdoorFAQ = [
   {
@@ -176,10 +185,15 @@ export default function OutdoorPage() {
         </div>
       </Section>
 
+      <ProcessSteps
+        subtitle="From design to enjoying your new space."
+        steps={outdoorSteps}
+      />
       <CredentialsGrid compact />
       <FinancingSection formAnchor="#outdoor-estimate" />
       <ReviewsCarousel />
       <FAQSection title="Outdoor Living Questions, Answered" items={outdoorFAQ} />
+      <ServiceArea />
       <CTABanner headline="Ready to Transform Your Backyard?" formAnchor="#outdoor-estimate" />
       <LeadForm id="outdoor-estimate" headline="Get Your Free Outdoor Living Estimate" defaultService="Outdoor Living" />
       <MobileStickyBar formAnchor="#outdoor-estimate" />

@@ -10,8 +10,17 @@ import BeforeAfter from "@/components/BeforeAfter";
 import CredentialsGrid from "@/components/CredentialsGrid";
 import OfferBanner from "@/components/OfferBanner";
 import FAQSection from "@/components/FAQSection";
+import ProcessSteps from "@/components/ProcessSteps";
+import ServiceArea from "@/components/ServiceArea";
 import { postToWebhook } from "@/lib/webhook";
 import { buildServiceSchema, jsonLd } from "@/lib/seo";
+
+const roofingSteps = [
+  { number: "01", title: "Free Roof Inspection", description: "We climb the roof, document every detail, and walk you through what's actually needed — no upselling." },
+  { number: "02", title: "Detailed Estimate", description: "Exact quote with material options, financing details, and timeline. No hidden costs." },
+  { number: "03", title: "Roof Replacement", description: "Tear-off, underlayment, ventilation, and Owens Corning shingles installed by our certified crew." },
+  { number: "04", title: "Cleanup & Warranty", description: "We sweep magnetically for nails, leave the property cleaner than we found it, and back it with up to 50-year warranty coverage." },
+];
 
 const roofingFAQ = [
   {
@@ -460,86 +469,10 @@ export default function RoofingPage() {
         </div>
       </Section>
 
-      {/* ════════════════ HOW IT WORKS ════════════════ */}
-      <Section className="py-24 md:py-32 bg-light-bg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <SectionLabel>How It Works</SectionLabel>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
-              Your New Roof in <span className="text-orange">4 Simple Steps</span>
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
-            {/* Dotted connector line (desktop only) */}
-            <div className="hidden lg:block absolute top-10 left-[12.5%] right-[12.5%] h-[2px] border-t-2 border-dashed border-orange/40 z-0" />
-
-            {[
-              {
-                num: "1",
-                title: "Free Inspection",
-                desc: "We come to your home, inspect your roof, and give you an honest assessment — no pressure, no cost.",
-                icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                  </svg>
-                ),
-              },
-              {
-                num: "2",
-                title: "Custom Quote",
-                desc: "Get a detailed quote with clear pricing and pick the payment plan that works for your budget.",
-                icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25" />
-                  </svg>
-                ),
-              },
-              {
-                num: "3",
-                title: "Expert Installation",
-                desc: "Our experienced crew installs your new roof with premium Owens Corning materials. Most jobs done in 1-2 days.",
-                icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17l-5.384-3.19A1.5 1.5 0 015.25 10.7V6.79a1.5 1.5 0 01.786-1.32l5.384-3.19a1.5 1.5 0 011.56 0l5.384 3.19a1.5 1.5 0 01.786 1.32v3.91a1.5 1.5 0 01-.786 1.32l-5.384 3.19a1.5 1.5 0 01-1.56 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 12v6.75M9.75 15l2.25 1.5 2.25-1.5" />
-                  </svg>
-                ),
-              },
-              {
-                num: "4",
-                title: "Enjoy & Relax",
-                desc: "Your home is protected with a beautiful new roof, backed by manufacturer and workmanship warranties.",
-                icon: (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.5 12.75L11 14.25 14.5 10.5" />
-                  </svg>
-                ),
-              },
-            ].map((step) => (
-              <div key={step.num} className="relative text-center z-10">
-                <div className="relative w-20 h-20 rounded-full bg-navy flex flex-col items-center justify-center mx-auto mb-5 shadow-lg">
-                  <span className="text-white/60 mb-0.5">{step.icon}</span>
-                  <span className="text-orange text-lg font-extrabold leading-none">
-                    {step.num}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-navy mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-gray-text text-sm leading-relaxed">
-                  {step.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <CTAButton href="#roofing-estimate">Get Started — It&apos;s Free</CTAButton>
-          </div>
-        </div>
-      </Section>
+      <ProcessSteps
+        subtitle="Most homes fully reroofed in 1-2 days."
+        steps={roofingSteps}
+      />
 
       {/* ════════════════ BEFORE / AFTER ════════════════ */}
       <Section className="py-24 md:py-32 bg-white">
@@ -776,6 +709,7 @@ export default function RoofingPage() {
       </Section>
 
       <FAQSection title="Roofing Questions, Answered" items={roofingFAQ} />
+      <ServiceArea />
 
       {/* ════════════════ CTA BANNER ════════════════ */}
       <Section className="relative py-24 md:py-28 bg-navy-dark noise-overlay overflow-hidden">
