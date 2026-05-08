@@ -270,7 +270,7 @@ export default function HomePage() {
 
             {/* CTAs */}
             <div className="flex flex-wrap gap-4">
-              <CTAButton href="#estimate">Get Free Estimate</CTAButton>
+              <CTAButton href="#estimate-form">Get Free Estimate</CTAButton>
               <CTAButton variant="outline" href="tel:+15592158516">
                 Call (559) 215-8516
               </CTAButton>
@@ -481,7 +481,7 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 6. FINANCING ════════════════ */}
-      <Section className="relative py-24 md:py-32 bg-navy noise-overlay">
+      <Section id="financing" className="relative py-24 md:py-32 bg-navy noise-overlay">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div>
@@ -560,7 +560,7 @@ export default function HomePage() {
           </div>
 
           <div className="text-center">
-            <CTAButton href="#estimate">
+            <CTAButton href="#estimate-form">
               See If You Qualify
             </CTAButton>
             <p className="text-gray-400 text-sm mt-3">
@@ -630,7 +630,7 @@ export default function HomePage() {
             <CTAButton href="tel:+15592158516">
               Call (559) 215-8516
             </CTAButton>
-            <CTAButton variant="outline" href="#estimate">
+            <CTAButton variant="outline" href="#estimate-form">
               Get Free Estimate
             </CTAButton>
           </div>
@@ -638,7 +638,7 @@ export default function HomePage() {
       </Section>
 
       {/* ════════════════ 9. ESTIMATE FORM — Image background ════════════════ */}
-      <section id="estimate" className="relative py-24 md:py-32 overflow-hidden">
+      <section id="estimate-form" className="relative py-24 md:py-32 overflow-hidden">
         {/* Background image */}
         <Image
           src="/images/about/team-photo.png"
@@ -694,7 +694,7 @@ export default function HomePage() {
           Call Now
         </a>
         <a
-          href="#estimate"
+          href="#estimate-form"
           className="flex-1 flex items-center justify-center border-2 border-navy bg-white text-navy py-3 rounded-xl font-bold text-sm cta-press"
         >
           Free Estimate
