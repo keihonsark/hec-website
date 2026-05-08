@@ -4,6 +4,7 @@ import Image from "next/image";
 import Section from "@/components/Section";
 import SectionLabel from "@/components/SectionLabel";
 import CTAButton from "@/components/CTAButton";
+import GoogleG from "@/components/GoogleG";
 import LeadForm from "@/components/LeadForm";
 import CTABanner from "@/components/CTABanner";
 import MobileStickyBar from "@/components/MobileStickyBar";
@@ -54,15 +55,6 @@ const credentials = [
       </svg>
     ),
   },
-  {
-    title: "$15M+ Annual Revenue",
-    desc: "Fleet of trucks and 30+ technicians serving thousands of homes.",
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375M21 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-    ),
-  },
 ];
 
 const cities = [
@@ -85,25 +77,62 @@ const cities = [
 export default function AboutPage() {
   return (
     <>
-      {/* ════════ HERO ════════ */}
-      <section className="relative bg-navy-dark noise-overlay py-24 md:py-32 overflow-hidden">
+      {/* ════════ HERO — Full-bleed background ════════ */}
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <Image
+          src="/images/about/contractor-portrait.png"
+          alt="Home Energy Construction — locally owned Central Valley contractor"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/95 via-navy-dark/80 to-navy-dark/40" />
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange/8 rounded-full blur-[100px] pointer-events-none" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <SectionLabel>About Home Energy Construction</SectionLabel>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-6">
-            20+ Years Upgrading{" "}
-            <span className="text-orange">Central Valley Homes</span>
-          </h1>
-          <p className="text-white/65 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto">
-            We&apos;re not a franchise or a faceless corporation. HEC is a
-            locally owned team that treats every project like it&apos;s our
-            own home.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            <CTAButton href="/#estimate-form">Get Free Estimate</CTAButton>
-            <CTAButton variant="outline" href="tel:+15592158516">
-              Call (559) 215-8516
-            </CTAButton>
+
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+          <div
+            className="hero-glass-float max-w-2xl rounded-3xl p-8 sm:p-10 md:p-12"
+            style={{
+              background: "rgba(15, 29, 51, 0.85)",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
+            }}
+          >
+            {/* Google review badge */}
+            <div className="inline-flex items-center gap-2.5 bg-white/10 border border-white/15 rounded-full px-4 py-2 mb-6">
+              <GoogleG className="w-5 h-5" />
+              <span className="text-orange text-sm font-bold">4.7</span>
+              <span className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-3.5 h-3.5 text-orange" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </span>
+              <span className="text-white/70 text-sm">228+ Reviews</span>
+            </div>
+
+            <SectionLabel>About Home Energy Construction</SectionLabel>
+
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-white leading-[1.08] mb-6">
+              20+ Years Upgrading{" "}
+              <span className="text-orange">Central Valley Homes.</span>
+            </h1>
+
+            <p className="text-white/65 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg">
+              We&apos;re not a franchise or a faceless corporation. HEC is a
+              locally owned team that treats every project like it&apos;s our
+              own home.
+            </p>
+
+            <div className="flex flex-wrap gap-4">
+              <CTAButton href="/#estimate-form">Get Free Estimate</CTAButton>
+              <CTAButton variant="outline" href="tel:+15595765067">
+                Call (559) 576-5067
+              </CTAButton>
+            </div>
           </div>
         </div>
       </section>
@@ -120,26 +149,25 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-5 text-gray-text text-[15px] leading-relaxed">
                 <p>
-                  Home Energy Construction has spent more than two decades
-                  upgrading homes across the Central Valley. What started as a
-                  small Fresno operation has grown into a full-service home
-                  improvement company with $15M+ in annual revenue, a fleet of
-                  trucks, and 30+ trained technicians who live in the
-                  communities they serve.
+                  Home Energy Construction is a locally owned home improvement
+                  company that has spent more than two decades upgrading homes
+                  across the Central Valley. We started as a small Fresno
+                  operation, and we still run like one — close to our
+                  customers, accountable for every job, and committed to doing
+                  the work right the first time.
                 </p>
                 <p>
-                  Founder Alex Alam still owns and runs the day-to-day. That
-                  means when you hire HEC, you&apos;re hiring a team where the
-                  owner picks up the phone, walks the jobsite, and stands
-                  behind every install. No layers of franchise overhead. No
-                  out-of-state call centers. Just neighbors doing right by
-                  neighbors.
+                  Hire HEC and you&apos;re hiring a team that treats your home
+                  the way we&apos;d treat our own. No layers of franchise
+                  overhead. No out-of-state call centers. What we have instead
+                  is a family-style culture built around craftsmanship and
+                  customer service — neighbors doing right by neighbors.
                 </p>
                 <p>
                   We serve the entire Central Valley — from Porterville to
                   Sacramento — across roofing, windows, HVAC, insulation,
                   outdoor living, and exterior paint. One trusted team for
-                  every project on your home.
+                  every project on your home, all under one roof.
                 </p>
               </div>
             </div>
