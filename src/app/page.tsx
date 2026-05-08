@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { AppWindow, Home as HomeIcon, Wind, Layers, Trees, PaintBucket } from "lucide-react";
 import CTAButton from "@/components/CTAButton";
 import SectionLabel from "@/components/SectionLabel";
 import ReviewCard from "@/components/ReviewCard";
@@ -454,26 +453,34 @@ export default function HomePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { Icon: AppWindow, title: "Windows & Doors", desc: "Premium Anlin windows that cut energy costs and quiet the noise.", href: "/windows" },
-              { Icon: HomeIcon, title: "Roofing", desc: "Owens Corning certified roofs built to handle Valley weather.", href: "/roofing" },
-              { Icon: Wind, title: "HVAC", desc: "Energy-efficient cooling and heating engineered for 110° summers.", href: "/hvac" },
-              { Icon: Layers, title: "Insulation", desc: "Better insulation. Lower bills. Year-round comfort in every room.", href: "/insulation" },
-              { Icon: Trees, title: "Outdoor Living", desc: "Custom patios and pergolas that make the backyard the favorite room.", href: "/outdoor" },
-              { Icon: PaintBucket, title: "Paint", desc: "Lifetime Plus exterior coating that protects and beautifies for decades.", href: "/paint" },
-            ].map(({ Icon, title, desc, href }) => (
+              { image: "/images/services/windows.png", title: "Windows & Doors", desc: "Premium Anlin windows that cut energy costs and quiet the noise.", href: "/windows" },
+              { image: "/images/services/roofing.png", title: "Roofing", desc: "Owens Corning certified roofs built to handle Valley weather.", href: "/roofing" },
+              { image: "/images/services/hvac.png", title: "HVAC", desc: "Energy-efficient cooling and heating engineered for 110° summers.", href: "/hvac" },
+              { image: "/images/services/insulation.png", title: "Insulation", desc: "Better insulation. Lower bills. Year-round comfort in every room.", href: "/insulation" },
+              { image: "/images/services/outdoor.png", title: "Outdoor Living", desc: "Custom patios and pergolas that make the backyard the favorite room.", href: "/outdoor" },
+              { image: "/images/services/paint.png", title: "Paint", desc: "Lifetime Plus exterior coating that protects and beautifies for decades.", href: "/paint" },
+            ].map(({ image, title, desc, href }) => (
               <a
                 key={title}
                 href={href}
-                className="group bg-white border border-gray-200 rounded-2xl p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-orange/40 transition-all"
+                className="group bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 hover:border-orange/40 transition-all"
               >
-                <div className="w-14 h-14 rounded-xl bg-orange/10 text-orange flex items-center justify-center mb-5 group-hover:bg-orange group-hover:text-white transition-colors">
-                  <Icon className="w-7 h-7" strokeWidth={1.5} />
+                <div className="relative w-full aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={image}
+                    alt={`${title} by Home Energy Construction`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-                <h3 className="text-xl font-bold text-navy mb-2">{title}</h3>
-                <p className="text-gray-text text-[15px] leading-relaxed mb-4">{desc}</p>
-                <span className="inline-flex items-center gap-1 text-orange font-semibold text-sm group-hover:gap-2 transition-all">
-                  Learn More →
-                </span>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-navy mb-2">{title}</h3>
+                  <p className="text-gray-text text-[15px] leading-relaxed mb-4">{desc}</p>
+                  <span className="inline-flex items-center gap-1 text-orange font-semibold text-sm group-hover:gap-2 transition-all">
+                    Learn More →
+                  </span>
+                </div>
               </a>
             ))}
           </div>
