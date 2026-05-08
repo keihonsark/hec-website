@@ -103,8 +103,8 @@ export default function WindowsPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "95% UV Protection",
-                desc: "Anlin's exclusive Infinit-e Plus glass blocks up to 95% of UV rays, reducing fading and keeping your home cooler.",
+                title: "Blocks Up to 99% of UV Rays",
+                desc: "Anlin's Low-E Infinit-e Plus glass stops UV that fades furniture and overheats rooms — Central Valley homes can see summer cooling bills drop up to 50%.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
@@ -112,8 +112,8 @@ export default function WindowsPage() {
                 ),
               },
               {
-                title: "Noise Reduction",
-                desc: "Sound Suppression Technology creates a noticeably quieter home — perfect for busy streets and neighborhoods.",
+                title: "Significantly Quieter Home",
+                desc: "Triple-sealed frame with Sound Suppression Technology cuts outside noise and eliminates air infiltration — perfect for busy streets and Valley winds.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
@@ -122,7 +122,7 @@ export default function WindowsPage() {
               },
               {
                 title: "Double Lifetime Warranty",
-                desc: "Anlin's transferable double lifetime warranty covers parts and labor. These may be the last windows you ever buy.",
+                desc: "ENERGY STAR®, NFRC, and AAMA Gold Label certified. Anlin's transferable double lifetime warranty covers parts and labor — these may be the last windows you ever buy.",
                 icon: (
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
@@ -154,11 +154,11 @@ export default function WindowsPage() {
             <div>
               <div className="space-y-4">
                 {[
-                  "Dual or triple-pane with argon gas fill",
-                  "Custom-built to your home's exact specifications",
-                  "Made in California — faster lead times",
-                  "Multiple frame colors, grid options, and hardware finishes",
-                  "Blocks up to 95% of UV rays",
+                  "Dual or triple-pane with argon gas insulation",
+                  "Triple-sealed frame — zero air infiltration",
+                  "Low-E glass blocks up to 99% of UV rays",
+                  "Custom-built in California — faster lead times",
+                  "ENERGY STAR®, NFRC, and AAMA Gold Label certified",
                   "Double lifetime transferable warranty",
                 ].map((s) => (
                   <div key={s} className="flex items-center gap-3">
@@ -179,6 +179,27 @@ export default function WindowsPage() {
                 className="object-cover"
               />
             </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════ SATISFACTION GUARANTEE ════════ */}
+      <Section className="py-20 md:py-24 bg-light-bg">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-3xl p-10 md:p-14 shadow-lg border border-gray-100 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-orange/10 text-orange mb-6">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+              </svg>
+            </div>
+            <SectionLabel>Our Promise</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
+              100% Satisfaction Guaranteed
+            </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              If you&apos;re not 100% satisfied with your installation, we&apos;ll come back and make it right — free of charge. No fine print, no run-around.
+            </p>
           </div>
         </div>
       </Section>
@@ -249,6 +270,34 @@ export default function WindowsPage() {
               beforeImage="/images/windows/before-windows.png"
               afterImage="/images/windows/after-windows.png"
             />
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════ FREE ENERGY ASSESSMENT ════════ */}
+      <Section className="py-24 md:py-32 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <SectionLabel>Real Data. Real Numbers.</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-4">
+              Bring Your Last 3 PG&amp;E Bills
+            </h2>
+            <p className="text-gray-text text-lg leading-relaxed">
+              At your free in-home consultation, our energy specialist reviews your actual bills and projects exactly how much your cooling costs could drop. No generic calculators — real numbers from your home.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-5">
+            {[
+              { n: "1", title: "Bring Your Bills", desc: "Pull your last 3 months of PG&E statements so we can see your full usage pattern." },
+              { n: "2", title: "We Analyze Usage", desc: "Our energy specialist reviews your cooling consumption, home size, current windows, and HVAC efficiency." },
+              { n: "3", title: "Get Real Numbers", desc: "We project specific monthly savings for your home — not generic averages. Real dollar amounts before you decide." },
+            ].map((step) => (
+              <div key={step.n} className="bg-light-bg border border-gray-200 rounded-2xl p-6">
+                <div className="text-orange text-4xl font-extrabold leading-none mb-3">{step.n}</div>
+                <h3 className="text-lg font-bold text-navy mb-2">{step.title}</h3>
+                <p className="text-gray-text text-[15px] leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </Section>

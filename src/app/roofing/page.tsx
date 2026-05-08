@@ -18,8 +18,8 @@ import { buildServiceSchema, jsonLd } from "@/lib/seo";
 const roofingSteps = [
   { number: "01", title: "Free Roof Inspection", description: "We climb the roof, document every detail, and walk you through what's actually needed — no upselling." },
   { number: "02", title: "Detailed Estimate", description: "Exact quote with material options, financing details, and timeline. No hidden costs." },
-  { number: "03", title: "Roof Replacement", description: "Tear-off, underlayment, ventilation, and Owens Corning shingles installed by our certified crew." },
-  { number: "04", title: "Cleanup & Warranty", description: "We sweep magnetically for nails, leave the property cleaner than we found it, and back it with up to 50-year warranty coverage." },
+  { number: "03", title: "Full Replacement", description: "Tear-off, underlayment, ventilation, wood rot replacement, and Owens Corning shingles. Solar panel removal and permits handled — no surprise charges." },
+  { number: "04", title: "Cleanup & Warranty", description: "Magnetic nail sweep across the property, debris hauled away, and up to 50-year material warranty + HEC workmanship guarantee in writing." },
 ];
 
 const roofingFAQ = [
@@ -411,6 +411,33 @@ export default function RoofingPage() {
         </div>
       </Section>
 
+      {/* ════════════════ PROBLEM STATEMENT ════════════════ */}
+      <Section className="py-20 md:py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <SectionLabel>The Hidden Cost of Waiting</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
+              An Old Roof Is <span className="text-orange">Costing You</span> Every Month
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { title: "Wasted Energy", desc: "Compromised roofs leak conditioned air. Your HVAC runs harder and your bills climb every summer." },
+              { title: "Hidden Damage", desc: "Small leaks become wood rot, mold, and structural problems. The longer you wait, the more it costs." },
+              { title: "Incomplete Quotes", desc: "Other contractors lowball the bid, then add charges for permits, decking, and cleanup once work starts." },
+            ].map((item) => (
+              <div key={item.title} className="bg-light-bg border-l-4 border-l-orange rounded-xl p-6">
+                <h3 className="text-lg font-bold text-navy mb-2">{item.title}</h3>
+                <p className="text-gray-text text-[15px] leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-navy font-semibold text-lg mt-10 max-w-2xl mx-auto">
+            What if <span className="text-orange">one company</span> handled everything — with zero surprises?
+          </p>
+        </div>
+      </Section>
+
       {/* ════════════════ WHY HOME ENERGY FOR ROOFING ════════════════ */}
       <Section className="py-24 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -465,6 +492,42 @@ export default function RoofingPage() {
                 plan for every credit profile — get approved in minutes.
               </p>
             </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ════════════════ WHY HEC VS COMPETITION ════════════════ */}
+      <Section className="py-24 md:py-32 bg-light-bg">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <SectionLabel>The HEC Difference</SectionLabel>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-navy">
+              Why Homeowners Choose Us Over <span className="text-orange">Other Roofers</span>
+            </h2>
+          </div>
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+            <div className="grid grid-cols-3 bg-navy text-white text-sm sm:text-base font-bold">
+              <div className="p-4">What You Get</div>
+              <div className="p-4 text-center border-l border-white/10">Other Roofers</div>
+              <div className="p-4 text-center border-l border-white/10 bg-orange/20">HEC</div>
+            </div>
+            {[
+              "Owens Corning Preferred Contractor",
+              "Wood rot replacement included",
+              "Permits + inspections included",
+              "Solar panel removal & reinstall",
+              "Magnetic nail sweep + full cleanup",
+              "Up to 50-year material warranty",
+            ].map((label, i) => (
+              <div
+                key={label}
+                className={`grid grid-cols-3 text-sm sm:text-[15px] ${i % 2 ? "bg-light-bg" : "bg-white"}`}
+              >
+                <div className="p-4 text-navy font-medium">{label}</div>
+                <div className="p-4 text-center border-l border-gray-100 text-red-500 font-bold">✕</div>
+                <div className="p-4 text-center border-l border-gray-100 text-green-600 font-bold">✓</div>
+              </div>
+            ))}
           </div>
         </div>
       </Section>
