@@ -3,25 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import confetti from "canvas-confetti";
-import {
-  Home,
-  AppWindow,
-  Wind,
-  Layers,
-  Trees,
-  Paintbrush,
-  LayoutGrid,
-  MoreHorizontal,
-  Loader2,
-  Star,
-  type LucideIcon,
-} from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import {
   submitReviewEnrollment,
   type ReviewEnrollmentChannel,
 } from "@/lib/reviewEnrollmentWebhook";
-
-const ENROLLER_STORAGE_KEY = "hec_enroll_last_user";
 
 const SUCCESS_HEADLINES = [
   "Request sent!",
@@ -60,27 +46,6 @@ function fireConfetti() {
   }
 }
 
-type JobType =
-  | "Roofing"
-  | "Windows & Doors"
-  | "HVAC"
-  | "Home Insulation"
-  | "Outdoor Living"
-  | "Painting"
-  | "Multiple Services"
-  | "Other";
-
-const JOB_TYPES: { label: JobType; Icon: LucideIcon }[] = [
-  { label: "Roofing", Icon: Home },
-  { label: "Windows & Doors", Icon: AppWindow },
-  { label: "HVAC", Icon: Wind },
-  { label: "Home Insulation", Icon: Layers },
-  { label: "Outdoor Living", Icon: Trees },
-  { label: "Painting", Icon: Paintbrush },
-  { label: "Multiple Services", Icon: LayoutGrid },
-  { label: "Other", Icon: MoreHorizontal },
-];
-
 const CHANNELS: ReviewEnrollmentChannel[] = ["SMS", "Email", "SMS+Email"];
 
 function todayISO(): string {
@@ -99,20 +64,14 @@ function formatPhone(raw: string): string {
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 }
 
-function phoneDigits(formatted: string): string {
-  return formatted.replace(/\D/g, "");
-}
-
 const labelClass = "block text-sm font-semibold text-gray-700 mb-2";
 const inputClass =
   "w-full h-14 px-4 text-base text-navy bg-white border border-gray-300 rounded-lg placeholder:text-gray-400 focus:outline-none focus:border-orange focus:ring-2 focus:ring-orange/30 transition";
 
 interface FormState {
-  enrolledBy: string;
   customerName: string;
   customerPhone: string;
   customerEmail: string;
-  jobType: JobType | "";
   jobDate: string;
   channel: ReviewEnrollmentChannel;
   notes: string;
@@ -121,11 +80,9 @@ interface FormState {
 
 function emptyForm(): FormState {
   return {
-    enrolledBy: "",
     customerName: "",
     customerPhone: "",
     customerEmail: "",
-    jobType: "",
     jobDate: todayISO(),
     channel: "SMS",
     notes: "",
@@ -135,7 +92,6 @@ function emptyForm(): FormState {
 
 export default function EnrollPage() {
   const [form, setForm] = useState<FormState>(emptyForm);
-  const [savedEnroller, setSavedEnroller] = useState<string | null>(null);
   const [notesOpen, setNotesOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -146,51 +102,23 @@ export default function EnrollPage() {
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isValid =
-    form.enrolledBy.trim().length > 0 &&
     form.customerName.trim().length > 0 &&
-    phoneDigits(form.customerPhone).length === 10 &&
-    form.jobType !== "" &&
-    form.jobDate !== "";
-
-  const showClearEnroller =
-    savedEnroller !== null && form.enrolledBy === savedEnroller;
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(ENROLLER_STORAGE_KEY);
-      if (stored && stored.trim().length > 0) {
-        setSavedEnroller(stored);
-        setForm((f) => ({ ...f, enrolledBy: stored }));
-      }
-    } catch {
-      /* localStorage blocked — ignore */
-    }
-  }, []);
+    form.customerPhone.trim().length > 0;
 
   useEffect(() => {
     if (!submitted) return;
     resetTimer.current = setTimeout(() => {
-      setForm({ ...emptyForm(), enrolledBy: savedEnroller ?? "" });
+      setForm(emptyForm());
       setSubmitted(null);
       setNotesOpen(false);
     }, 10_000);
     return () => {
       if (resetTimer.current) clearTimeout(resetTimer.current);
     };
-  }, [submitted, savedEnroller]);
+  }, [submitted]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
-  }
-
-  function clearEnroller() {
-    setForm((f) => ({ ...f, enrolledBy: "" }));
-    setSavedEnroller(null);
-    try {
-      localStorage.removeItem(ENROLLER_STORAGE_KEY);
-    } catch {
-      /* ignore */
-    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -207,7 +135,7 @@ export default function EnrollPage() {
     }
 
     if (!isValid) {
-      setError("Please fill in all required fields before enrolling.");
+      setError("Please add a customer name and phone before sending.");
       return;
     }
 
@@ -216,22 +144,15 @@ export default function EnrollPage() {
       customer_name: form.customerName.trim(),
       customer_phone: form.customerPhone.trim(),
       customer_email: form.customerEmail.trim(),
-      job_type: form.jobType,
+      job_type: "Multiple Services",
       job_completion_date: form.jobDate,
       preferred_channel: form.channel,
-      enrolled_by: form.enrolledBy.trim(),
+      enrolled_by: "HEC Team",
       notes: form.notes.trim(),
     });
     setSubmitting(false);
 
     if (res.success) {
-      const enroller = form.enrolledBy.trim();
-      try {
-        localStorage.setItem(ENROLLER_STORAGE_KEY, enroller);
-      } catch {
-        /* ignore */
-      }
-      setSavedEnroller(enroller);
       vibrate(50);
       fireConfetti();
       setSubmitted({
@@ -247,7 +168,7 @@ export default function EnrollPage() {
 
   function handleEnrollAnother() {
     if (resetTimer.current) clearTimeout(resetTimer.current);
-    setForm({ ...emptyForm(), enrolledBy: savedEnroller ?? "" });
+    setForm(emptyForm());
     setSubmitted(null);
     setNotesOpen(false);
     setError(null);
@@ -278,16 +199,8 @@ export default function EnrollPage() {
               style={{ maxHeight: 48, width: "auto" }}
             />
           </div>
-          <div>
-            <span
-              className="inline-block bg-orange text-white text-[11px] font-semibold uppercase rounded-full px-3 py-1"
-              style={{ letterSpacing: "1.5px" }}
-            >
-              Review Campaign
-            </span>
-          </div>
-          <h1 className="text-[32px] leading-tight font-bold mt-3">
-            Request a 5-Star Review
+          <h1 className="text-[32px] leading-tight font-bold">
+            5★ Review Campaign
           </h1>
           <p className="text-base text-white/80 mt-2">
             Let&apos;s add another happy customer to HEC&apos;s Google reviews.
@@ -336,38 +249,6 @@ export default function EnrollPage() {
                 {error}
               </div>
             )}
-
-            <div className="mb-6">
-              <label htmlFor="enrolledBy" className={labelClass}>
-                Your Name
-              </label>
-              <input
-                id="enrolledBy"
-                type="text"
-                required
-                aria-required="true"
-                autoComplete="name"
-                placeholder="e.g. John Smith"
-                className={inputClass}
-                value={form.enrolledBy}
-                onChange={(e) => update("enrolledBy", e.target.value)}
-              />
-              {showClearEnroller ? (
-                <p className="text-xs text-gray-500 mt-1.5">
-                  <button
-                    type="button"
-                    onClick={clearEnroller}
-                    className="underline hover:text-gray-700 focus:outline-none focus:text-gray-700"
-                  >
-                    Not you? Clear
-                  </button>
-                </p>
-              ) : (
-                <p className="text-xs text-gray-500 mt-1.5">
-                  So we know who enrolled this customer.
-                </p>
-              )}
-            </div>
 
             <div className="mb-6">
               <label htmlFor="customerName" className={labelClass}>
@@ -420,54 +301,6 @@ export default function EnrollPage() {
                 onChange={(e) => update("customerEmail", e.target.value)}
               />
             </div>
-
-            <fieldset className="mb-6">
-              <legend className={labelClass}>What did we do?</legend>
-              <div
-                role="radiogroup"
-                aria-required="true"
-                className="grid grid-cols-2 sm:grid-cols-3 gap-2"
-              >
-                {JOB_TYPES.map(({ label, Icon }) => {
-                  const selected = form.jobType === label;
-                  return (
-                    <button
-                      key={label}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => {
-                        vibrate(10);
-                        update("jobType", label);
-                      }}
-                      className="min-h-[88px] rounded-lg p-3 flex flex-col items-center justify-center gap-2 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange/40"
-                      style={{
-                        background: selected ? "#FEF6E7" : "#FFFFFF",
-                        border: selected
-                          ? "2px solid #F5A623"
-                          : "1px solid #E5E7EB",
-                        padding: selected ? "11px" : "12px",
-                      }}
-                    >
-                      <Icon
-                        size={22}
-                        color={selected ? "#F5A623" : "#6B7280"}
-                        strokeWidth={2}
-                      />
-                      <span
-                        className="text-[13px] leading-tight text-center"
-                        style={{
-                          color: selected ? "#1B2D4F" : "#374151",
-                          fontWeight: selected ? 600 : 500,
-                        }}
-                      >
-                        {label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </fieldset>
 
             <div className="mb-6">
               <label htmlFor="jobDate" className={labelClass}>
@@ -572,8 +405,8 @@ export default function EnrollPage() {
 
 function GoogleReviewCard() {
   return (
-    <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(15,29,51,0.08)] p-5 mt-0 mb-4">
-      <div className="flex items-center gap-3">
+    <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(15,29,51,0.08)] px-5 py-3 mt-0 mb-4">
+      <div className="flex items-center justify-center gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -599,17 +432,12 @@ function GoogleReviewCard() {
             fill="#EA4335"
           />
         </svg>
-        <span className="text-sm font-semibold text-navy">
-          Home Energy Construction
-        </span>
-      </div>
 
-      <div
-        className="flex items-center gap-3 mt-3"
-        role="img"
-        aria-label="4.7 out of 5 stars"
-      >
-        <div className="flex items-center gap-0.5" aria-hidden="true">
+        <div
+          className="flex items-center gap-0.5"
+          role="img"
+          aria-label="4.7 out of 5 stars"
+        >
           {[0, 1, 2, 3, 4].map((i) => (
             <Star
               key={i}
@@ -617,18 +445,18 @@ function GoogleReviewCard() {
               fill="#FBBC05"
               stroke="#FBBC05"
               strokeWidth={1.5}
+              aria-hidden="true"
             />
           ))}
         </div>
-        <span className="text-[24px] font-bold text-navy leading-none">
-          4.7
-        </span>
-        <span className="text-base text-gray-400 leading-none">/ 5</span>
-      </div>
 
-      <p className="text-[13px] font-semibold text-navy text-center mt-3 border-t border-gray-100 pt-3">
-        Every enrollment helps us grow.
-      </p>
+        <div className="flex items-baseline gap-1">
+          <span className="text-[24px] font-bold text-navy leading-none">
+            4.7
+          </span>
+          <span className="text-base text-gray-400 leading-none">/ 5</span>
+        </div>
+      </div>
     </div>
   );
 }
