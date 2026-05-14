@@ -629,10 +629,6 @@ function GoogleReviewCard() {
         <span className="text-base text-gray-400 leading-none">/ 5</span>
       </div>
 
-      <p className="text-[13px] text-gray-600 mt-2">
-        Based on 228+ Google reviews
-      </p>
-
       <p className="text-[13px] font-semibold text-navy text-center mt-3 border-t border-gray-100 pt-3">
         Every enrollment helps us grow.
       </p>
