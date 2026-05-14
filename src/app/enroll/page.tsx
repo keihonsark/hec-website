@@ -10,7 +10,6 @@ import {
   Layers,
   Trees,
   Paintbrush,
-  HardHat,
   LayoutGrid,
   MoreHorizontal,
   Loader2,
@@ -25,10 +24,10 @@ import {
 const ENROLLER_STORAGE_KEY = "hec_enroll_last_user";
 
 const SUCCESS_HEADLINES = [
-  "Enrolled!",
+  "Request sent!",
   "Nice work!",
-  "Customer added!",
-  "Review pipeline updated!",
+  "Customer added to the pipeline!",
+  "Another 5-star request out!",
 ] as const;
 
 function pickHeadline(): string {
@@ -68,7 +67,6 @@ type JobType =
   | "Home Insulation"
   | "Outdoor Living"
   | "Painting"
-  | "General Contractor"
   | "Multiple Services"
   | "Other";
 
@@ -79,7 +77,6 @@ const JOB_TYPES: { label: JobType; Icon: LucideIcon }[] = [
   { label: "Home Insulation", Icon: Layers },
   { label: "Outdoor Living", Icon: Trees },
   { label: "Painting", Icon: Paintbrush },
-  { label: "General Contractor", Icon: HardHat },
   { label: "Multiple Services", Icon: LayoutGrid },
   { label: "Other", Icon: MoreHorizontal },
 ];
@@ -290,10 +287,10 @@ export default function EnrollPage() {
             </span>
           </div>
           <h1 className="text-[32px] leading-tight font-bold mt-3">
-            Enroll a Customer
+            Request a 5-Star Review
           </h1>
           <p className="text-base text-white/80 mt-2">
-            Help us grow HEC&apos;s reputation, one customer at a time.
+            Let&apos;s add another happy customer to HEC&apos;s Google reviews.
           </p>
         </div>
       </header>
@@ -556,10 +553,10 @@ export default function EnrollPage() {
               {submitting ? (
                 <>
                   <Loader2 size={20} className="animate-spin" />
-                  Enrolling...
+                  Sending...
                 </>
               ) : (
-                "Enroll Customer"
+                "Send Request"
               )}
             </button>
           </form>
@@ -668,7 +665,7 @@ function SuccessCard({
       </div>
       <h2 className="text-[32px] font-bold text-navy mt-4">{headline}</h2>
       <p className="text-base text-gray-600 mt-2">
-        {customerName} is in the review pipeline.
+        {customerName} is now in line for a 5-star review request.
       </p>
       <div className="flex flex-col gap-3 mt-8">
         <button
