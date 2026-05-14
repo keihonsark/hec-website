@@ -1,0 +1,512 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Home,
+  AppWindow,
+  Wind,
+  Layers,
+  Trees,
+  Paintbrush,
+  HardHat,
+  LayoutGrid,
+  MoreHorizontal,
+  Loader2,
+  type LucideIcon,
+} from "lucide-react";
+import {
+  submitReviewEnrollment,
+  type ReviewEnrollmentChannel,
+} from "@/lib/reviewEnrollmentWebhook";
+
+type JobType =
+  | "Roofing"
+  | "Windows & Doors"
+  | "HVAC"
+  | "Home Insulation"
+  | "Outdoor Living"
+  | "Painting"
+  | "General Contractor"
+  | "Multiple Services"
+  | "Other";
+
+const JOB_TYPES: { label: JobType; Icon: LucideIcon }[] = [
+  { label: "Roofing", Icon: Home },
+  { label: "Windows & Doors", Icon: AppWindow },
+  { label: "HVAC", Icon: Wind },
+  { label: "Home Insulation", Icon: Layers },
+  { label: "Outdoor Living", Icon: Trees },
+  { label: "Painting", Icon: Paintbrush },
+  { label: "General Contractor", Icon: HardHat },
+  { label: "Multiple Services", Icon: LayoutGrid },
+  { label: "Other", Icon: MoreHorizontal },
+];
+
+const CHANNELS: ReviewEnrollmentChannel[] = ["SMS", "Email", "SMS+Email"];
+
+function todayISO(): string {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function formatPhone(raw: string): string {
+  const digits = raw.replace(/\D/g, "").slice(0, 10);
+  if (digits.length === 0) return "";
+  if (digits.length < 4) return `(${digits}`;
+  if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+}
+
+function phoneDigits(formatted: string): string {
+  return formatted.replace(/\D/g, "");
+}
+
+const labelClass = "block text-sm font-semibold text-gray-700 mb-2";
+const inputClass =
+  "w-full h-14 px-4 text-base text-navy bg-white border border-gray-300 rounded-lg placeholder:text-gray-400 focus:outline-none focus:border-orange focus:ring-2 focus:ring-orange/30 transition";
+
+interface FormState {
+  enrolledBy: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+  jobType: JobType | "";
+  jobDate: string;
+  channel: ReviewEnrollmentChannel;
+  notes: string;
+  honeypot: string;
+}
+
+function emptyForm(): FormState {
+  return {
+    enrolledBy: "",
+    customerName: "",
+    customerPhone: "",
+    customerEmail: "",
+    jobType: "",
+    jobDate: todayISO(),
+    channel: "SMS",
+    notes: "",
+    honeypot: "",
+  };
+}
+
+export default function EnrollPage() {
+  const [form, setForm] = useState<FormState>(emptyForm);
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<null | { customerName: string }>(
+    null
+  );
+  const today = useMemo(todayISO, []);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const isValid =
+    form.enrolledBy.trim().length > 0 &&
+    form.customerName.trim().length > 0 &&
+    phoneDigits(form.customerPhone).length === 10 &&
+    form.jobType !== "" &&
+    form.jobDate !== "";
+
+  useEffect(() => {
+    if (!submitted) return;
+    resetTimer.current = setTimeout(() => {
+      setForm(emptyForm());
+      setSubmitted(null);
+      setNotesOpen(false);
+    }, 10_000);
+    return () => {
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+    };
+  }, [submitted]);
+
+  function update<K extends keyof FormState>(key: K, value: FormState[K]) {
+    setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (submitting) return;
+    setError(null);
+
+    if (form.honeypot.trim().length > 0) {
+      setSubmitted({ customerName: form.customerName.trim() || "Customer" });
+      return;
+    }
+
+    if (!isValid) {
+      setError("Please fill in all required fields before enrolling.");
+      return;
+    }
+
+    setSubmitting(true);
+    const res = await submitReviewEnrollment({
+      customer_name: form.customerName.trim(),
+      customer_phone: form.customerPhone.trim(),
+      customer_email: form.customerEmail.trim(),
+      job_type: form.jobType,
+      job_completion_date: form.jobDate,
+      preferred_channel: form.channel,
+      enrolled_by: form.enrolledBy.trim(),
+      notes: form.notes.trim(),
+    });
+    setSubmitting(false);
+
+    if (res.success) {
+      setSubmitted({ customerName: form.customerName.trim() });
+    } else {
+      setError(
+        "Something went wrong. Please try again. If this keeps happening, text Keihon."
+      );
+    }
+  }
+
+  function handleEnrollAnother() {
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+    setForm(emptyForm());
+    setSubmitted(null);
+    setNotesOpen(false);
+    setError(null);
+  }
+
+  function handleDone() {
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+  }
+
+  return (
+    <div className="min-h-screen bg-[#FAFAFA] pb-20">
+      <header
+        className="px-6 py-10 text-white"
+        style={{
+          background:
+            "linear-gradient(135deg, #1B2D4F 0%, #0F1D33 100%)",
+        }}
+      >
+        <div className="max-w-[480px] mx-auto">
+          <span
+            className="inline-block bg-orange text-white text-[11px] font-semibold uppercase rounded-full px-3 py-1"
+            style={{ letterSpacing: "1.5px" }}
+          >
+            Review Campaign
+          </span>
+          <h1 className="text-[32px] leading-tight font-bold mt-3">
+            Enroll a Customer
+          </h1>
+          <p className="text-base text-white/80 mt-2">
+            Help us grow HEC&apos;s reputation, one customer at a time.
+          </p>
+          <p className="text-[11px] text-white/50 mt-6 tracking-wide">
+            Internal HEC Tool · Powered by SARK Agency
+          </p>
+        </div>
+      </header>
+
+      <main className="max-w-[480px] mx-auto px-4 mt-4">
+        {submitted ? (
+          <SuccessCard
+            customerName={submitted.customerName}
+            onEnrollAnother={handleEnrollAnother}
+            onDone={handleDone}
+          />
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            noValidate
+            className="bg-white rounded-xl shadow-[0_4px_20px_rgba(15,29,51,0.08)] p-6"
+          >
+            <input
+              type="text"
+              name="website_url"
+              tabIndex={-1}
+              aria-hidden="true"
+              autoComplete="off"
+              value={form.honeypot}
+              onChange={(e) => update("honeypot", e.target.value)}
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                opacity: 0,
+                height: 0,
+                width: 0,
+              }}
+            />
+
+            {error && (
+              <div
+                role="alert"
+                className="bg-red-50 text-red-700 text-sm rounded-lg px-3 py-3 mb-4"
+              >
+                {error}
+              </div>
+            )}
+
+            <div className="mb-6">
+              <label htmlFor="enrolledBy" className={labelClass}>
+                Your Name
+              </label>
+              <input
+                id="enrolledBy"
+                type="text"
+                required
+                aria-required="true"
+                autoComplete="name"
+                placeholder="e.g. Gisel, Jonathan, Alex"
+                className={inputClass}
+                value={form.enrolledBy}
+                onChange={(e) => update("enrolledBy", e.target.value)}
+              />
+              <p className="text-xs text-gray-500 mt-1.5">
+                So we know who enrolled this customer.
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="customerName" className={labelClass}>
+                Customer Name
+              </label>
+              <input
+                id="customerName"
+                type="text"
+                required
+                aria-required="true"
+                autoComplete="off"
+                placeholder="Maria Garcia"
+                className={inputClass}
+                value={form.customerName}
+                onChange={(e) => update("customerName", e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="customerPhone" className={labelClass}>
+                Customer Phone
+              </label>
+              <input
+                id="customerPhone"
+                type="tel"
+                inputMode="numeric"
+                required
+                aria-required="true"
+                autoComplete="off"
+                placeholder="(559) 555-1234"
+                className={inputClass}
+                value={form.customerPhone}
+                onChange={(e) =>
+                  update("customerPhone", formatPhone(e.target.value))
+                }
+              />
+            </div>
+
+            <div className="mb-6">
+              <label htmlFor="customerEmail" className={labelClass}>
+                Customer Email <span className="text-gray-400 font-normal">(optional)</span>
+              </label>
+              <input
+                id="customerEmail"
+                type="email"
+                autoComplete="off"
+                placeholder="maria@email.com"
+                className={inputClass}
+                value={form.customerEmail}
+                onChange={(e) => update("customerEmail", e.target.value)}
+              />
+            </div>
+
+            <fieldset className="mb-6">
+              <legend className={labelClass}>What did we do?</legend>
+              <div
+                role="radiogroup"
+                aria-required="true"
+                className="grid grid-cols-2 sm:grid-cols-3 gap-2"
+              >
+                {JOB_TYPES.map(({ label, Icon }) => {
+                  const selected = form.jobType === label;
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      onClick={() => update("jobType", label)}
+                      className="min-h-[88px] rounded-lg p-3 flex flex-col items-center justify-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-orange/40"
+                      style={{
+                        background: selected ? "#FEF6E7" : "#FFFFFF",
+                        border: selected
+                          ? "2px solid #F5A623"
+                          : "1px solid #E5E7EB",
+                        padding: selected ? "11px" : "12px",
+                      }}
+                    >
+                      <Icon
+                        size={22}
+                        color={selected ? "#F5A623" : "#6B7280"}
+                        strokeWidth={2}
+                      />
+                      <span
+                        className="text-[13px] leading-tight text-center"
+                        style={{
+                          color: selected ? "#1B2D4F" : "#374151",
+                          fontWeight: selected ? 600 : 500,
+                        }}
+                      >
+                        {label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+
+            <div className="mb-6">
+              <label htmlFor="jobDate" className={labelClass}>
+                When did we finish?
+              </label>
+              <input
+                id="jobDate"
+                type="date"
+                required
+                aria-required="true"
+                max={today}
+                className={inputClass}
+                value={form.jobDate}
+                onChange={(e) => update("jobDate", e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <span className={labelClass}>How should we reach them?</span>
+              <div role="radiogroup" className="flex gap-2">
+                {CHANNELS.map((c) => {
+                  const selected = form.channel === c;
+                  const display = c === "SMS+Email" ? "Both" : c;
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      role="radio"
+                      aria-checked={selected}
+                      onClick={() => update("channel", c)}
+                      className="flex-1 h-12 rounded-lg text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-orange/40"
+                      style={{
+                        background: selected ? "#F5A623" : "#FFFFFF",
+                        color: selected ? "#FFFFFF" : "#374151",
+                        border: selected
+                          ? "1px solid #F5A623"
+                          : "1px solid #D1D5DB",
+                      }}
+                    >
+                      {display}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mb-6">
+              {!notesOpen ? (
+                <button
+                  type="button"
+                  onClick={() => setNotesOpen(true)}
+                  className="text-sm text-gray-500 font-medium hover:text-gray-700 focus:outline-none focus:underline"
+                >
+                  + Add notes (optional)
+                </button>
+              ) : (
+                <>
+                  <label htmlFor="notes" className={labelClass}>
+                    Notes <span className="text-gray-400 font-normal">(optional)</span>
+                  </label>
+                  <textarea
+                    id="notes"
+                    rows={4}
+                    placeholder="e.g. Customer prefers morning texts, job specifics, referral source, etc."
+                    className={`${inputClass} h-auto py-3 leading-relaxed`}
+                    value={form.notes}
+                    onChange={(e) => update("notes", e.target.value)}
+                  />
+                </>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={!isValid || submitting}
+              aria-busy={submitting}
+              className="w-full h-14 rounded-xl text-white text-lg font-bold flex items-center justify-center gap-2 transition disabled:cursor-not-allowed hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-orange/50"
+              style={{
+                background:
+                  !isValid || submitting ? "#9CA3AF" : "#F5A623",
+              }}
+            >
+              {submitting ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Enrolling...
+                </>
+              ) : (
+                "Enroll Customer"
+              )}
+            </button>
+          </form>
+        )}
+      </main>
+    </div>
+  );
+}
+
+function SuccessCard({
+  customerName,
+  onEnrollAnother,
+  onDone,
+}: {
+  customerName: string;
+  onEnrollAnother: () => void;
+  onDone: () => void;
+}) {
+  return (
+    <div className="bg-white rounded-xl shadow-[0_4px_20px_rgba(15,29,51,0.08)] p-8 text-center">
+      <div
+        className="enroll-success-circle w-[60px] h-[60px] mx-auto rounded-full flex items-center justify-center"
+        style={{ background: "#10B981" }}
+      >
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path className="enroll-success-check" d="M5 12.5l4 4 10-10" />
+        </svg>
+      </div>
+      <h2 className="text-[32px] font-bold text-navy mt-4">Enrolled!</h2>
+      <p className="text-base text-gray-600 mt-2">
+        {customerName} is in the review pipeline.
+      </p>
+      <div className="flex flex-col gap-3 mt-8">
+        <button
+          type="button"
+          onClick={onEnrollAnother}
+          className="w-full h-14 rounded-xl text-white text-lg font-bold transition hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-orange/50"
+          style={{ background: "#F5A623" }}
+        >
+          Enroll Another
+        </button>
+        <button
+          type="button"
+          onClick={onDone}
+          className="w-full h-14 rounded-xl text-navy text-lg font-bold border-2 border-navy transition hover:bg-navy hover:text-white focus:outline-none focus:ring-2 focus:ring-navy/30"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  );
+}

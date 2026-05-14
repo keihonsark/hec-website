@@ -124,3 +124,24 @@ h1, h2, h3, h4, h5, h6 {
   from { opacity: 0; transform: translateX(40px); }
   to   { opacity: 1; transform: translateX(0); }
 }
+
+/* ─── Enrollment success checkmark ─── */
+@keyframes enrollPop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes enrollDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.enroll-success-circle {
+  animation: enrollPop 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.enroll-success-check {
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+  animation: enrollDraw 0.4s 0.35s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}

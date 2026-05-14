@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google";
 import Script from "next/script";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import { localBusinessSchema, jsonLd } from "@/lib/seo";
 import "./globals.css";
 
@@ -59,9 +58,7 @@ export default function RootLayout({
           src="//cdn.callrail.com/companies/366024590/b40b77871305f3ae0417/12/swap.js"
           strategy="afterInteractive"
         />
-        <Navbar />
-        <main className="flex-1 pt-[74px]">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
