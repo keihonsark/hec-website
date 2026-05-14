@@ -125,6 +125,14 @@ h1, h2, h3, h4, h5, h6 {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ─── Enrollment: normalize native date input width on iOS/Android ─── */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* ─── Enrollment success checkmark ─── */
 @keyframes enrollPop {
   0%   { transform: scale(0); opacity: 0; }

@@ -15,7 +15,8 @@
       "Bash(grep -iE \"^\\(home|app-window|wind|layers|trees|tree|paintbrush|hard-hat|layout-grid|more-horizontal|loader-2|loader|check\\)\\\\.mjs$\")",
       "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\(['Home','AppWindow','Wind','Layers','Trees','Paintbrush','HardHat','LayoutGrid','MoreHorizontal','Loader2','Check','Plus'].map\\(n => n + ':' + \\(typeof l[n]\\)\\).join\\('\\\\n'\\)\\)\")",
       "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\('LucideIcon:', typeof l.LucideIcon\\); console.log\\('keys with Icon/Type:', Object.keys\\(l\\).filter\\(k => /Icon|Props|Type/.test\\(k\\)\\).slice\\(0, 10\\)\\)\")",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(NODE_OPTIONS=--use-system-ca npm install canvas-confetti @types/canvas-confetti)"
     ]
   }
 }

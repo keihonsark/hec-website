@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import confetti from "canvas-confetti";
 import {
   Home,
   AppWindow,
@@ -18,6 +20,45 @@ import {
   submitReviewEnrollment,
   type ReviewEnrollmentChannel,
 } from "@/lib/reviewEnrollmentWebhook";
+
+const ENROLLER_STORAGE_KEY = "hec_enroll_last_user";
+
+const SUCCESS_HEADLINES = [
+  "Enrolled!",
+  "Nice work!",
+  "Customer added!",
+  "Review pipeline updated!",
+] as const;
+
+function pickHeadline(): string {
+  return SUCCESS_HEADLINES[
+    Math.floor(Math.random() * SUCCESS_HEADLINES.length)
+  ];
+}
+
+function vibrate(ms: number) {
+  try {
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(ms);
+    }
+  } catch {
+    /* silent — unsupported */
+  }
+}
+
+function fireConfetti() {
+  try {
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { x: 0.5, y: 0.2 },
+      colors: ["#1B2D4F", "#F5A623"],
+      ticks: 90,
+    });
+  } catch {
+    /* silent */
+  }
+}
 
 type JobType =
   | "Roofing"
@@ -96,12 +137,13 @@ function emptyForm(): FormState {
 
 export default function EnrollPage() {
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [savedEnroller, setSavedEnroller] = useState<string | null>(null);
   const [notesOpen, setNotesOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState<null | { customerName: string }>(
-    null
-  );
+  const [submitted, setSubmitted] = useState<
+    null | { customerName: string; headline: string }
+  >(null);
   const today = useMemo(todayISO, []);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -112,20 +154,45 @@ export default function EnrollPage() {
     form.jobType !== "" &&
     form.jobDate !== "";
 
+  const showClearEnroller =
+    savedEnroller !== null && form.enrolledBy === savedEnroller;
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(ENROLLER_STORAGE_KEY);
+      if (stored && stored.trim().length > 0) {
+        setSavedEnroller(stored);
+        setForm((f) => ({ ...f, enrolledBy: stored }));
+      }
+    } catch {
+      /* localStorage blocked — ignore */
+    }
+  }, []);
+
   useEffect(() => {
     if (!submitted) return;
     resetTimer.current = setTimeout(() => {
-      setForm(emptyForm());
+      setForm({ ...emptyForm(), enrolledBy: savedEnroller ?? "" });
       setSubmitted(null);
       setNotesOpen(false);
     }, 10_000);
     return () => {
       if (resetTimer.current) clearTimeout(resetTimer.current);
     };
-  }, [submitted]);
+  }, [submitted, savedEnroller]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  function clearEnroller() {
+    setForm((f) => ({ ...f, enrolledBy: "" }));
+    setSavedEnroller(null);
+    try {
+      localStorage.removeItem(ENROLLER_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -134,7 +201,10 @@ export default function EnrollPage() {
     setError(null);
 
     if (form.honeypot.trim().length > 0) {
-      setSubmitted({ customerName: form.customerName.trim() || "Customer" });
+      setSubmitted({
+        customerName: form.customerName.trim() || "Customer",
+        headline: pickHeadline(),
+      });
       return;
     }
 
@@ -157,7 +227,19 @@ export default function EnrollPage() {
     setSubmitting(false);
 
     if (res.success) {
-      setSubmitted({ customerName: form.customerName.trim() });
+      const enroller = form.enrolledBy.trim();
+      try {
+        localStorage.setItem(ENROLLER_STORAGE_KEY, enroller);
+      } catch {
+        /* ignore */
+      }
+      setSavedEnroller(enroller);
+      vibrate(50);
+      fireConfetti();
+      setSubmitted({
+        customerName: form.customerName.trim(),
+        headline: pickHeadline(),
+      });
     } else {
       setError(
         "Something went wrong. Please try again. If this keeps happening, text Keihon."
@@ -167,7 +249,7 @@ export default function EnrollPage() {
 
   function handleEnrollAnother() {
     if (resetTimer.current) clearTimeout(resetTimer.current);
-    setForm(emptyForm());
+    setForm({ ...emptyForm(), enrolledBy: savedEnroller ?? "" });
     setSubmitted(null);
     setNotesOpen(false);
     setError(null);
@@ -187,20 +269,30 @@ export default function EnrollPage() {
         }}
       >
         <div className="max-w-[480px] mx-auto">
-          <span
-            className="inline-block bg-orange text-white text-[11px] font-semibold uppercase rounded-full px-3 py-1"
-            style={{ letterSpacing: "1.5px" }}
-          >
-            Review Campaign
-          </span>
+          <div className="mb-6 inline-flex bg-white rounded-lg px-4 py-2">
+            <Image
+              src="/images/logos/hec-logo.png"
+              alt="Home Energy Construction"
+              width={168}
+              height={48}
+              priority
+              className="h-auto w-auto"
+              style={{ maxHeight: 48, width: "auto" }}
+            />
+          </div>
+          <div>
+            <span
+              className="inline-block bg-orange text-white text-[11px] font-semibold uppercase rounded-full px-3 py-1"
+              style={{ letterSpacing: "1.5px" }}
+            >
+              Review Campaign
+            </span>
+          </div>
           <h1 className="text-[32px] leading-tight font-bold mt-3">
             Enroll a Customer
           </h1>
           <p className="text-base text-white/80 mt-2">
             Help us grow HEC&apos;s reputation, one customer at a time.
-          </p>
-          <p className="text-[11px] text-white/50 mt-6 tracking-wide">
-            Internal HEC Tool · Powered by SARK Agency
           </p>
         </div>
       </header>
@@ -209,6 +301,7 @@ export default function EnrollPage() {
         {submitted ? (
           <SuccessCard
             customerName={submitted.customerName}
+            headline={submitted.headline}
             onEnrollAnother={handleEnrollAnother}
             onDone={handleDone}
           />
@@ -259,9 +352,21 @@ export default function EnrollPage() {
                 value={form.enrolledBy}
                 onChange={(e) => update("enrolledBy", e.target.value)}
               />
-              <p className="text-xs text-gray-500 mt-1.5">
-                So we know who enrolled this customer.
-              </p>
+              {showClearEnroller ? (
+                <p className="text-xs text-gray-500 mt-1.5">
+                  <button
+                    type="button"
+                    onClick={clearEnroller}
+                    className="underline hover:text-gray-700 focus:outline-none focus:text-gray-700"
+                  >
+                    Not you? Clear
+                  </button>
+                </p>
+              ) : (
+                <p className="text-xs text-gray-500 mt-1.5">
+                  So we know who enrolled this customer.
+                </p>
+              )}
             </div>
 
             <div className="mb-6">
@@ -331,8 +436,11 @@ export default function EnrollPage() {
                       type="button"
                       role="radio"
                       aria-checked={selected}
-                      onClick={() => update("jobType", label)}
-                      className="min-h-[88px] rounded-lg p-3 flex flex-col items-center justify-center gap-2 transition focus:outline-none focus:ring-2 focus:ring-orange/40"
+                      onClick={() => {
+                        vibrate(10);
+                        update("jobType", label);
+                      }}
+                      className="min-h-[88px] rounded-lg p-3 flex flex-col items-center justify-center gap-2 transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-orange/40"
                       style={{
                         background: selected ? "#FEF6E7" : "#FFFFFF",
                         border: selected
@@ -371,7 +479,7 @@ export default function EnrollPage() {
                 required
                 aria-required="true"
                 max={today}
-                className={inputClass}
+                className={`${inputClass} appearance-none box-border`}
                 value={form.jobDate}
                 onChange={(e) => update("jobDate", e.target.value)}
               />
@@ -436,11 +544,11 @@ export default function EnrollPage() {
               type="submit"
               disabled={!isValid || submitting}
               aria-busy={submitting}
-              className="w-full h-14 rounded-xl text-white text-lg font-bold flex items-center justify-center gap-2 transition disabled:cursor-not-allowed hover:brightness-95 focus:outline-none focus:ring-2 focus:ring-orange/50"
-              style={{
-                background:
-                  !isValid || submitting ? "#9CA3AF" : "#F5A623",
-              }}
+              className={
+                !isValid || submitting
+                  ? "w-full h-14 rounded-xl text-white text-lg font-bold flex items-center justify-center gap-2 bg-gray-400 cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-orange/50"
+                  : "w-full h-14 rounded-xl text-white text-lg font-bold flex items-center justify-center gap-2 transition shadow-md bg-gradient-to-r from-[#F5A623] to-[#E69820] hover:from-[#E69820] hover:to-[#D88B1A] focus:outline-none focus:ring-2 focus:ring-orange/50"
+              }
             >
               {submitting ? (
                 <>
@@ -453,6 +561,10 @@ export default function EnrollPage() {
             </button>
           </form>
         )}
+
+        <p className="text-center text-xs text-gray-400 mt-12 mb-8">
+          Internal HEC Tool · Powered by SARK Agency
+        </p>
       </main>
     </div>
   );
@@ -460,10 +572,12 @@ export default function EnrollPage() {
 
 function SuccessCard({
   customerName,
+  headline,
   onEnrollAnother,
   onDone,
 }: {
   customerName: string;
+  headline: string;
   onEnrollAnother: () => void;
   onDone: () => void;
 }) {
@@ -486,7 +600,7 @@ function SuccessCard({
           <path className="enroll-success-check" d="M5 12.5l4 4 10-10" />
         </svg>
       </div>
-      <h2 className="text-[32px] font-bold text-navy mt-4">Enrolled!</h2>
+      <h2 className="text-[32px] font-bold text-navy mt-4">{headline}</h2>
       <p className="text-base text-gray-600 mt-2">
         {customerName} is in the review pipeline.
       </p>
