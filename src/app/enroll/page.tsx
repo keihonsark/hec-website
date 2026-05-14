@@ -350,7 +350,7 @@ export default function EnrollPage() {
                 required
                 aria-required="true"
                 autoComplete="name"
-                placeholder="e.g. Gisel, Jonathan, Alex"
+                placeholder="e.g. John Smith"
                 className={inputClass}
                 value={form.enrolledBy}
                 onChange={(e) => update("enrolledBy", e.target.value)}
@@ -382,7 +382,7 @@ export default function EnrollPage() {
                 required
                 aria-required="true"
                 autoComplete="off"
-                placeholder="Maria Garcia"
+                placeholder="Jane Smith"
                 className={inputClass}
                 value={form.customerName}
                 onChange={(e) => update("customerName", e.target.value)}
@@ -417,7 +417,7 @@ export default function EnrollPage() {
                 id="customerEmail"
                 type="email"
                 autoComplete="off"
-                placeholder="maria@email.com"
+                placeholder="jane@email.com"
                 className={inputClass}
                 value={form.customerEmail}
                 onChange={(e) => update("customerEmail", e.target.value)}
