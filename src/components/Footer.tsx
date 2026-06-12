@@ -19,6 +19,15 @@ const resources = [
   { label: "Free Estimate", href: "/windows-offer" },
 ];
 
+const windowCities = [
+  { label: "Fresno", href: "/windows/fresno" },
+  { label: "Clovis", href: "/windows/clovis" },
+  { label: "Visalia", href: "/windows/visalia" },
+  { label: "Hanford", href: "/windows/hanford" },
+  { label: "Madera", href: "/windows/madera" },
+  { label: "Tulare", href: "/windows/tulare" },
+];
+
 function FooterStars() {
   return (
     <span className="inline-flex gap-0.5">
@@ -120,8 +129,26 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Window replacement city links */}
+        <div className="mt-12 pt-6 border-t border-white/10 text-center text-sm">
+          <span className="text-white/40">Window replacement near you: </span>
+          {windowCities.map((c, i) => (
+            <span key={c.label}>
+              <a
+                href={c.href}
+                className="text-white/60 hover:text-orange transition-colors"
+              >
+                {c.label}
+              </a>
+              {i < windowCities.length - 1 && (
+                <span className="text-white/30"> · </span>
+              )}
+            </span>
+          ))}
+        </div>
+
         {/* Partner logos */}
-        <div className="mt-12 pt-8 border-t border-white/10">
+        <div className="mt-8 pt-8 border-t border-white/10">
           <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
             <div className="bg-white/10 rounded-lg px-3 py-2">
               <Image

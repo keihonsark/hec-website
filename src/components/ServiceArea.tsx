@@ -1,6 +1,16 @@
 import Section from "./Section";
 import SectionLabel from "./SectionLabel";
 
+/* Cities with a dedicated windows landing page get a link */
+const cityPages: Record<string, string> = {
+  Fresno: "/windows/fresno",
+  Clovis: "/windows/clovis",
+  Madera: "/windows/madera",
+  Visalia: "/windows/visalia",
+  Hanford: "/windows/hanford",
+  Tulare: "/windows/tulare",
+};
+
 const cities = [
   "Fresno",
   "Clovis",
@@ -39,24 +49,34 @@ export default function ServiceArea() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-w-5xl mx-auto">
-          {cities.map((city) => (
-            <div
-              key={city}
-              className="flex items-center justify-center gap-2 bg-navy-light/50 border border-white/10 rounded-xl px-4 py-3 hover:border-orange/40 transition-colors"
-            >
-              <svg
-                className="w-4 h-4 text-orange flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-              </svg>
-              <span className="text-white text-sm font-medium">{city}</span>
-            </div>
-          ))}
+          {cities.map((city) => {
+            const tileInner = (
+              <>
+                <svg
+                  className="w-4 h-4 text-orange flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                </svg>
+                <span className="text-white text-sm font-medium">{city}</span>
+              </>
+            );
+            const tileCls =
+              "flex items-center justify-center gap-2 bg-navy-light/50 border border-white/10 rounded-xl px-4 py-3 hover:border-orange/40 transition-colors";
+            return cityPages[city] ? (
+              <a key={city} href={cityPages[city]} className={tileCls}>
+                {tileInner}
+              </a>
+            ) : (
+              <div key={city} className={tileCls}>
+                {tileInner}
+              </div>
+            );
+          })}
         </div>
 
         <p className="text-center text-white/70 text-sm sm:text-base mt-10 max-w-xl mx-auto">
