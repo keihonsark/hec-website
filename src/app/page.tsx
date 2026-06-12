@@ -284,7 +284,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-8 text-center md:text-left">
             {[
-              "$200 Off Per Window",
+              "Buy 5 Windows, Get the 6th Free",
               "$1,000 Off Roofing",
               "$0 Down Financing on All Projects",
             ].map((label) => (

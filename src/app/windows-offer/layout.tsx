@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Save $200 Per Window | Home Energy Construction Fresno",
+  title: "Buy 5 Windows, Get the 6th Free | Home Energy Construction Fresno",
   description:
-    "Anlin replacement windows. Save $200 per window and $500 per sliding glass door. Serving Fresno, Visalia, Hanford, Clovis & Sacramento. Free quote — call (559) 272-3992.",
+    "Anlin replacement windows. Buy 5 windows, get the 6th free this June, with $0 down financing. Serving Fresno, Visalia, Hanford, Clovis & Sacramento. Free quote — call (559) 272-3992.",
   robots: {
     index: false,
     follow: false,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Thermometer, VolumeX, ShieldCheck } from "lucide-react";
@@ -10,6 +10,11 @@ import { postToWebhook } from "@/lib/webhook";
 
 const PHONE_DISPLAY = "559-272-3992";
 const PHONE_HREF = "tel:+15592723992";
+
+/* Current promo — keep in sync with the live Meta offer.
+   When the offer rolls over, update these two lines and the FAQ answer. */
+const OFFER_END_DISPLAY = "June 30, 2026";
+const OFFER_END_TS = Date.parse("2026-07-01T07:00:00Z"); // midnight June 30 → July 1, Pacific
 
 /* ──────────────────────────────────────────────
    /windows-offer — focused paid-traffic landing
@@ -26,7 +31,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How does the discount work?",
-    a: "$200 is applied per window installed and $500 per sliding glass door. The more you replace, the more you save. Mention this offer when you book your free in-home consultation. Promotion ends May 31, 2026.",
+    a: "Buy 5 windows and your 6th window is free. Mention this offer when you book your free in-home consultation and it's applied to your quote. Promotion ends June 30, 2026.",
   },
   {
     q: "What financing options do you offer?",
@@ -179,6 +184,24 @@ function LeadForm() {
   );
 }
 
+/* ═══ Offer deadline — hides itself once the promo has expired ═══ */
+function OfferDeadline() {
+  const [expired, setExpired] = useState(false);
+  useEffect(() => {
+    if (Date.now() > OFFER_END_TS) setExpired(true);
+  }, []);
+  if (expired) return null;
+  return (
+    <div className="text-orange text-sm font-semibold flex items-center gap-2">
+      <span className="relative flex h-2 w-2">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
+      </span>
+      Offer ends {OFFER_END_DISPLAY}
+    </div>
+  );
+}
+
 /* ═══ FAQ Accordion ═══ */
 function FAQAccordion() {
   const [open, setOpen] = useState<number | null>(null);
@@ -288,9 +311,9 @@ export default function WindowsOfferPage() {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1]">
-                Save <span className="text-[#F5A623]">$200</span> Per Window.
+                Buy 5 Windows.
                 <br />
-                <span className="text-[#F5A623]">$500</span> Per Sliding Door.
+                Get the <span className="text-[#F5A623]">6th FREE</span>.
               </h1>
 
               <p className="text-lg text-white/85 leading-relaxed max-w-xl">
@@ -313,13 +336,7 @@ export default function WindowsOfferPage() {
                 ))}
               </ul>
 
-              <div className="text-orange text-sm font-semibold flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange" />
-                </span>
-                Offer ends May 31, 2026
-              </div>
+              <OfferDeadline />
             </div>
 
             {/* RIGHT COLUMN — Form card */}
@@ -332,8 +349,8 @@ export default function WindowsOfferPage() {
       </section>
 
       <OfferBanner
-        offerText="$200 Off Per Window + $500 Off Sliding Doors"
-        subtext="Limited time. Stackable with $0 down financing."
+        offerText="Buy 5 Windows, Get the 6th FREE"
+        subtext="June only. Stackable with $0 down financing."
         ctaHref="#quote-form"
       />
 
@@ -775,7 +792,7 @@ export default function WindowsOfferPage() {
               Don&apos;t Forget the Patio
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-navy mb-5 leading-tight">
-              Save $500 On Every Sliding Glass Door
+              Upgrade Your Sliding Glass Door Too
             </h2>
             <p className="text-[#374151] text-base sm:text-lg leading-relaxed mb-7">
               Most Fresno homes lose as much energy through sliding glass doors as they do through three windows combined. Upgrade yours to Anlin and seal the biggest gap in your home&apos;s envelope.
@@ -816,8 +833,7 @@ export default function WindowsOfferPage() {
             {[
               { item: "Free In-Home Consultation", value: "$299 value" },
               { item: "Free PG&E Bill Analysis & Energy Assessment", value: "$199 value" },
-              { item: "$200 Off Per Window Installed", value: "instant savings" },
-              { item: "$500 Off Per Sliding Glass Door", value: "instant savings" },
+              { item: "Buy 5 Windows, Get the 6th Window FREE", value: "June only" },
               { item: "Multiple Financing Options: 6-Month No Interest + 12-Month Same-As-Cash", value: "$0 down" },
               { item: "Anlin Double Lifetime Warranty (Transferable)", value: "$2,000+ value" },
               { item: "Old Windows Hauled Away Free", value: "$200 value" },
@@ -827,7 +843,7 @@ export default function WindowsOfferPage() {
           </div>
 
           <div className="max-w-3xl mx-auto bg-orange text-navy rounded-xl p-6 text-center font-bold text-lg sm:text-xl mb-10 shadow-lg">
-            Total Value: $4,698+ — Yours When You Book This Month
+            $2,698+ In Free Extras — Plus Your 6th Window FREE When You Book by June 30
           </div>
 
           <div className="text-center">

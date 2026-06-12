@@ -85,8 +85,8 @@ export default function WindowsPage() {
       <TrustStrip />
 
       <OfferBanner
-        offerText="$200 Off Per Window + $500 Off Sliding Doors"
-        subtext="Limited time. Stackable with $0 down financing."
+        offerText="Buy 5 Windows, Get the 6th FREE"
+        subtext="June only. Stackable with $0 down financing."
         ctaHref="#windows-estimate"
       />
 
