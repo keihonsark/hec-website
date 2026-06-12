@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react'] || 'not installed'\\)\")",
+      "Bash(node -e \"console.log\\(require\\('./package.json'\\).dependencies['lucide-react']\\)\")",
+      "Bash(npm ls *)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/lucide-react/package.json'\\).version\\)\")",
+      "Bash(node -e \"const lr = require\\('./node_modules/lucide-react'\\); const keys = Object.keys\\(lr\\); console.log\\('Total exports:', keys.length\\); console.log\\('Has AppWindow:', 'AppWindow' in lr\\); console.log\\('Has Home:', 'Home' in lr\\); console.log\\('Has Wind:', 'Wind' in lr\\); console.log\\('Has Layers:', 'Layers' in lr\\); console.log\\('Has Trees:', 'Trees' in lr\\); console.log\\('Has PaintBucket:', 'PaintBucket' in lr\\);\")",
+      "Bash(node -e \"const pj = require\\('./node_modules/lucide-react/package.json'\\); console.log\\('name:', pj.name\\); console.log\\('version:', pj.version\\); console.log\\('description:', pj.description\\);\")",
+      "Bash(git mv *)",
+      "Bash(node -e \"console.log\\('Has Smile:', 'Smile' in require\\('./node_modules/lucide-react'\\)\\)\")",
+      "Bash(grep -iE \"^\\(home|app-window|wind|layers|trees|tree|paintbrush|hard-hat|layout-grid|more-horizontal|loader-2|loader|check\\)\\\\.mjs$\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\(['Home','AppWindow','Wind','Layers','Trees','Paintbrush','HardHat','LayoutGrid','MoreHorizontal','Loader2','Check','Plus'].map\\(n => n + ':' + \\(typeof l[n]\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\('LucideIcon:', typeof l.LucideIcon\\); console.log\\('keys with Icon/Type:', Object.keys\\(l\\).filter\\(k => /Icon|Props|Type/.test\\(k\\)\\).slice\\(0, 10\\)\\)\")",
+      "Bash(npx next *)",
+      "Bash(NODE_OPTIONS=--use-system-ca npm install canvas-confetti @types/canvas-confetti)"
+    ]
+  }
+}
